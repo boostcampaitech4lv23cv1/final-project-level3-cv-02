@@ -79,7 +79,7 @@
         align-items: center;
         margin: auto;
       }
-      .upload-box .drag-file {
+      .upload-box .upload-file {
         width: 100%;
         height: 750px;
         display: flex;
@@ -88,14 +88,8 @@
         align-items: center;
         border: 3px dashed #dbdbdb;
       }
-      .upload-box .drag-file.highlight {
-        border: 3px dashed red;
-      }
-      .upload-box .drag-file .image {
+      .upload-box .upload-file .image {
         width: 40px;
-      }
-      .upload-box .drag-file .message {
-        margin-bottom: 0;
       }
     </style>
 
@@ -142,9 +136,9 @@
 <main>
   <div class="upload">
     <div class="upload-box" onclick="document.getElementById('chooseFile').click();">
-      <div id="drop-file" class="drag-file">
+      <div class="upload-file">
         <label><img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image"></label>
-        <label>Drag files or click here to upload</label>
+        <label>Click here to upload images</label>
         <input class="file" id="chooseFile" type="file" accept="image/*" multiple style="display:none">
       </div>
     </div>
