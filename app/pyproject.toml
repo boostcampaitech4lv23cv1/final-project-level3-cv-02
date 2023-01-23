@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "maestro"
+version = "0.1.0"
+description = "Final Project"
+authors = ["yjlee <yjlee.k94@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.80.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
