@@ -1,1 +1,13 @@
-app/__pycache__
+!.github
+!.gitignore
+
+__pycache__
+
+.*
+
+*.xml
+*.png
+data/output/*
+
+!metric/*
+!MusicXML2Audio/data/.xml
