@@ -5,7 +5,5 @@ music21
 requests
 scipy
 argparse
-subprocess
-fnmatch
 pydub
 wave
