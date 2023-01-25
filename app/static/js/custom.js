@@ -1,8 +1,3 @@
-//TODO: 테스트 코드. 추후 삭제
-function hello(){
-    alert('dd')
-}
-
 const images = new DataTransfer();
 const chooseFile = document.getElementById('chooseFile');
 
@@ -41,7 +36,10 @@ function moveImages(cur, next) {
     if(cur > -1) slideImg[cur].hidden=true;
     slideImg[next].hidden=false;
     curIdx = next;
-    
+    buttonDisable()
+}
+
+function buttonDisable(){
     if(curIdx == 0) prev_btn.disabled = true;
     else prev_btn.disabled = false;
 
@@ -83,7 +81,6 @@ function delButton() {
 
 /* 이미지 li에 추가하는 함수 */
 async function addImages(files){
-    debugger;
     slideImg[slideCnt-1].remove();
     
     await Promise.all([...files].map(file => new Promise(resolve =>{
@@ -97,15 +94,18 @@ async function addImages(files){
     })))
 
     /* 이미지 추가 후처리 */
+    debugger;
+    console.log("이미지 추가 후처리")
     slides.appendChild(uploadPage);
     slideImg = document.querySelectorAll('.slides li'); //변경된 리스트
     slideCnt = slideImg.length;
-    for(var i=1;i<slideCnt;i++){
+    curIdx = slideCnt - files.length - 1;
+    if(curIdx+1==slideCnt) curIdx=0;
+    for(var i=0;i<slideCnt;i++){
         slideImg[i].hidden = true;
     }
-    slideImg[0].hidden = false;
-    next_btn.disabled = false;
-    del_btn.disabled = false;
+    slideImg[curIdx].hidden = false;
+    buttonDisable();
 }
 
 function createElement(e, file) {
