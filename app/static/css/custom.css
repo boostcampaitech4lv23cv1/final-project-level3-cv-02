@@ -1,0 +1,16 @@
+li {
+    list-style-type: none;
+}
+
+.image-files {
+    border: 1.5px solid black;
+}
+
+.slides {
+    position:relative;
+    left: 0;
+    top: 0;
+    width: 100%; /* 슬라이드할 사진과 마진 총 넓이 */
+    transition: left 0.5s ease-out; 
+    /*ease-out: 처음에는 느렸다가 점점 빨라짐*/  
+}
