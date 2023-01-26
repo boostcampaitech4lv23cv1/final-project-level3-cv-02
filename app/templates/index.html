@@ -142,11 +142,12 @@
       </div>
     </header>
 <main>
+  <form name="submitFrm" action="/play" enctype="multipart/form-data" method="post" onSubmit='return false;'>
   <div class="upload">
     <button type="button" class="top-button" disabled id="prev_btn" onclick="prevButton()">
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16"><path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/></svg>
     </button>
-    <button type="submit" class="top-button" disabled id="submit_btn">
+    <button type="submit" class="top-button" id="submit_btn" onclick="submitConfirm(event)">
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-earmark-music-fill" viewBox="0 0 16 16"><path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM11 6.64v1.75l-2 .5v3.61c0 .495-.301.883-.662 1.123C7.974 13.866 7.499 14 7 14c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 11.134 6.501 11 7 11c.356 0 .7.068 1 .196V6.89a1 1 0 0 1 .757-.97l1-.25A1 1 0 0 1 11 6.64z"/></svg>
     </button>
     <button type="button" class="top-button" disabled id="del_btn" onclick="delButton()">
@@ -161,12 +162,13 @@
         <li>
           <div class="upload-file" onclick="uploadBoxOnclick()">
             <label><img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image"><br/>Click here to upload images</label>
-            <input class="file" id="chooseFile" type="file" accept="image/*" multiple style="display:none">
+            <input name="images" class="file" id="chooseFile" type="file" accept="image/*" multiple style="display:none">
           </div>
         </li>
       </ul>
     </div>
   </div>
+  </form>
 </main>
 
 

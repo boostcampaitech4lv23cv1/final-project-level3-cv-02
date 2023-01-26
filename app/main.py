@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, File
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from typing import List
 import uvicorn
 
 app = FastAPI()
@@ -11,8 +12,9 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def file_form(request: Request): 
     return templates.TemplateResponse('index.html', context={'request': request})
 
-@app.get('/play')
-def play_form(request:Request) :
+@app.post('/play')
+def play_form(request:Request, images: List[bytes] = File(...)):
+    print({"file_sizes": [len(image) for image in images]})
     return templates.TemplateResponse('play.html', context = {'request': request})
 
 if __name__ == '__main__':
