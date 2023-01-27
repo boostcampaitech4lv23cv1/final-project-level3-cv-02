@@ -1,0 +1,42 @@
+li {
+    list-style-type: none;
+}
+
+.image-files {
+    border: 1.5px solid black;
+}
+
+.slides {
+    position:relative;
+    left: 0;
+    top: 0;
+    width: 100%; /* 슬라이드할 사진과 마진 총 넓이 */
+    transition: left 0.5s ease-out; 
+    /*ease-out: 처음에는 느렸다가 점점 빨라짐*/  
+}
+
+.sign{
+    display: flex;
+    justify-content: right;
+}
+
+.text-button{
+    display: flex;
+    justify-content: right;
+    color: white;
+    text-decoration : none;
+    margin-right:20px;
+    margin-top:5px;
+}
+
+.text-button:hover{
+    color: silver;
+}
+
+.white-text{
+    display: flex;
+    justify-content: right;
+    color: white;
+    text-decoration : none;
+    margin-right:20px;
+}
