@@ -138,7 +138,9 @@
       <button type="button" class="top-button" disabled id="next_btn" onclick="nextButton()">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg>
       </button>
-      <button type="button" class="download-button" disabled id="download_btn" onclick="">
+      <!-- downloadButton 미구현 -->
+      <!-- 시나리오: downloadButton 클릭하면 다운 받을 format 지정하는 팝업창이 뜨고... -->
+      <button type="button" class="download-button" disabled id="download_btn" onclick="downloadButton()">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30" fill="currentColor" viewBox="0 0 43.329 43.329" xml:space="preserve">
         <path d="M18.689,30.359c1.645,1.639,4.305,1.639,5.951,0l14.082-14.014c0.91-0.906,1.186-2.287,0.695-3.474
           s-1.646-1.976-2.932-1.976h-5.879V3.196C30.606,1.445,29.17,0,27.419,0H15.908C14.156,0,12.7,1.444,12.7,3.196v7.698H6.842
@@ -158,9 +160,12 @@
         <li><a href="/" target="_blank" class="text">
           Is there anything wrong?</a></li>
       </div>
+      <!-- 편의상 다운로드도 바로 가능하게 해둠, 나중에 download button onclick으로 추가하면 제거할 것-->
       <div class="music-player">
-        <midi-player
-          src="https://bitmidi.com/uploads/98248.mid" sound-font visualizer="#myStaffVisualizer"></midi-player>
+        <audio controls> 
+          <source src="https://blogattach.naver.net/3faa239081dddb072bcaa895a3413c43e6b040acf3/20160209_252_blogfile/jewel5202_1455021499659_8Et5Ed_mp3/%EB%86%80%EB%9F%AC%EC%98%A4%EC%84%B8%EC%9A%94%20%EB%8F%99%EB%AC%BC%EC%9D%98%EC%88%B2-Main%20Theme.mp3"
+          type="audio/mpeg"/>
+        </audio>
       </div>
     </div>
   </div>
