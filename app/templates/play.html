@@ -12,74 +12,32 @@
     <link href="{{url_for('static', path='/css/custom.css')}}" rel="stylesheet">
 
   <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+
 
     <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .b-example-divider {
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
-
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
-
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
+      .sheets {
+        margin-top: 15px;
         text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
       }
 
-      .upload {
-        margin-top: 25px;
+      .sheets .top-button{
+        background-color: #fff;
+        border: none;
       }
 
-      .upload-box {
-        width: calc(50% - 15px);
+      .sheets-box {
+        width: 50%;
         box-sizing: border-box;
-        margin-right: 30px;
+        /* margin-right: 30px; */
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         margin: auto;
       }
-      .upload-box .drag-file {
+      .sheets-box .sheets-file {
         width: 100%;
         height: 750px;
         display: flex;
@@ -88,15 +46,34 @@
         align-items: center;
         border: 3px dashed #dbdbdb;
       }
-      .upload-box .drag-file.highlight {
-        border: 3px dashed red;
-      }
-      .upload-box .drag-file .image {
+      .sheets-box .sheets-file .image {
         width: 40px;
       }
-      .upload-box .drag-file .message {
-        margin-bottom: 0;
+
+      .music-player {
+        display: flex;
+        justify-content: right;
       }
+
+      footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: whitesmoke;
+      }
+
+      main {
+        margin-bottom: 90px;
+      }
+
+      .download-button{
+        text-align: right;
+          background-color: #fff;
+          border: none;
+      }
+      
+
     </style>
 
   </head>
@@ -105,7 +82,7 @@
     <header>
       <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
-          <a href="#" class="navbar-brand d-flex align-items-center">
+          <a href="/" class="navbar-brand d-flex align-items-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-music" viewBox="0 0 16 16"><path d="M10.304 3.13a1 1 0 0 1 1.196.98v1.8l-2.5.5v5.09c0 .495-.301.883-.662 1.123C7.974 12.866 7.499 13 7 13c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 10.134 6.501 10 7 10c.356 0 .7.068 1 .196V4.41a1 1 0 0 1 .804-.98l1.5-.3z"/><path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/></svg>
               <strong>Maestro</strong>
           </a>
@@ -139,19 +116,55 @@
         </div>
       </div>
     </header>
+
 <main>
-  <div class="play music">
-    <div class="play music-box" onclick="document.getElementById('chooseFile').click();">
-      <div id="drop-file" class="drag-file">
+  <form name="submitFrm" action="/play" enctype="multipart/form-data" method="post" onSubmit='return false;'>
+  <div class="sheets">
+    <div class="sheets-box">
+      <ul class="slides">
+        <!-- <li><img src="{{url_for('static', path='images/arirang.jpg')}}" width="100%" height="100%" class="image-files"></li> -->
+        <li>
+          <div class="sheets-file">
+            <label>visualize music sheets</label>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="image button">
+      <button type="button" class="top-button" disabled id="prev_btn" onclick="prevButton()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16"><path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/></svg>
+      </button>
+      <button type="button" class="top-button" disabled id="next_btn" onclick="nextButton()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg>
+      </button>
+      <button type="button" class="download-button" disabled id="download_btn" onclick="">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30" fill="currentColor" viewBox="0 0 43.329 43.329" xml:space="preserve">
+        <path d="M18.689,30.359c1.645,1.639,4.305,1.639,5.951,0l14.082-14.014c0.91-0.906,1.186-2.287,0.695-3.474
+          s-1.646-1.976-2.932-1.976h-5.879V3.196C30.606,1.445,29.17,0,27.419,0H15.908C14.156,0,12.7,1.444,12.7,3.196v7.698H6.842
+          c-1.284,0-2.441,0.79-2.931,1.976c-0.49,1.187-0.216,2.561,0.694,3.466L18.689,30.359z"/>
+        <path d="M42.657,37.547c0-1.75-1.419-3.171-3.172-3.171H3.842c-1.751,0-3.171,1.419-3.171,3.171v2.611
+          c0,1.751,1.42,3.171,3.171,3.171h35.645c1.751,0,3.171-1.42,3.171-3.171L42.657,37.547L42.657,37.547z"/>
+        </svg>
+      </button>
+    </div>
+  </form>
+</main>
+
+<footer>
+  <div class="navbar">
+    <div class="container">
+      <div class="error">
+        <li><a href="/" target="_blank" class="text">
+          Is there anything wrong?</a></li>
+      </div>
+      <div class="music-player">
         <midi-player
-            src="https://bitmidi.com/uploads/98248.mid" sound-font visualizer="#myStaffVisualizer"></midi-player>
-        <midi-visualizer
-            type="staff" id="myStaffVisualizer" src="https://bitmidi.com/uploads/98248.mid"></midi-visualizer>
-        <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+          src="https://bitmidi.com/uploads/98248.mid" sound-font visualizer="#myStaffVisualizer"></midi-player>
       </div>
     </div>
   </div>
-</main>
+</footer>
 
     <script src="{{url_for('static', path='/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{url_for('static', path='/js/custom.js')}}"></script>

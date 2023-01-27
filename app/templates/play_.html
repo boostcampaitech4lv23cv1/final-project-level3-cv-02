@@ -14,90 +14,48 @@
   <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .b-example-divider {
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
-
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
-
-      .nav-scroller .nav {
+      footer{
+        position: fixed; 
         display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
+        justify-content: right;
+        
+        padding-top: 10px;
       }
 
-      .upload {
-        margin-top: 15px;
-        text-align: center;
+      .contents {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
       }
 
-      .upload .top-button{
+      .contents .top-button{
         background-color: #fff;
         border: none;
       }
 
-      .upload-box {
-        width: 50%;
+      .contents-box {
+        width: calc(50% - 15px);
         box-sizing: border-box;
-        /* margin-right: 30px; */
+        margin-right: 30px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         margin: auto;
       }
-      .upload-box .upload-file {
-        width: 100%;
-        height: 750px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: 3px dashed #dbdbdb;
-      }
-      .upload-box .upload-file .image {
+
+      .contents-box .image {
         width: 40px;
       }
-      
+
+      .contents-box .message {
+        margin-bottom: 0;
+      }
+
+      .image-button {
+        flex-direction: row;
+      }
 
     </style>
 
@@ -107,7 +65,7 @@
     <header>
       <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
-          <a href="#" class="navbar-brand d-flex align-items-center">
+          <a href="/" class="navbar-brand d-flex align-items-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-music" viewBox="0 0 16 16"><path d="M10.304 3.13a1 1 0 0 1 1.196.98v1.8l-2.5.5v5.09c0 .495-.301.883-.662 1.123C7.974 12.866 7.499 13 7 13c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 10.134 6.501 10 7 10c.356 0 .7.068 1 .196V4.41a1 1 0 0 1 .804-.98l1.5-.3z"/><path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/></svg>
               <strong>Maestro</strong>
           </a>
@@ -141,36 +99,51 @@
         </div>
       </div>
     </header>
+
 <main>
-  <form name="submitFrm" action="/play" enctype="multipart/form-data" method="post" onSubmit='return false;'>
-  <div class="upload">
-    <button type="button" class="top-button" disabled id="prev_btn" onclick="prevButton()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16"><path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/></svg>
-    </button>
-    <button type="submit" class="top-button" id="submit_btn" onclick="submitConfirm(event)">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-earmark-music-fill" viewBox="0 0 16 16"><path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM11 6.64v1.75l-2 .5v3.61c0 .495-.301.883-.662 1.123C7.974 13.866 7.499 14 7 14c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 11.134 6.501 11 7 11c.356 0 .7.068 1 .196V6.89a1 1 0 0 1 .757-.97l1-.25A1 1 0 0 1 11 6.64z"/></svg>
-    </button>
-    <button type="button" class="top-button" disabled id="del_btn" onclick="delButton()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16"><path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/></svg>
-    </button>
-    <button type="button" class="top-button" disabled id="next_btn" onclick="nextButton()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg>
-    </button>
-    <div class="upload-box">
+
+  <form>
+  <div class="contents">
+    <div class="contents-box">
       <ul class="slides">
         <!-- <li><img src="{{url_for('static', path='images/arirang.jpg')}}" width="100%" height="100%" class="image-files"></li> -->
         <li>
-          <div class="upload-file" onclick="uploadBoxOnclick()">
-            <label><img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image"><br/>Click here to upload images</label>
-            <input name="images" class="file" id="chooseFile" type="file" accept="image/*" multiple style="display:none">
+          <div class="contents-file" onclick="contentsBoxOnclick()">
+            <label><img src="https://img.icons8.com/pastel-glyph/2x/image-file.png" alt="파일 아이콘" class="image"><br/>Click here to contents images</label>
+            <input name="images" class="file" id="chooseFile" type="file" accept="image/" multiple style="display:none">
           </div>
         </li>
       </ul>
     </div>
+
+    <div class="image-button">
+      <button type="button" class="top-button" disabled id="prev_btn" onclick="prevButton()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16"><path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/></svg>
+      </button>
+      <button type="button" class="top-button" disabled id="next_btn" onclick="nextButton()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="play music">
+    <div class="play music-box" onclick="document.getElementById('chooseFile').click();">
+      <div id="drop-file" class="drag-file">
+        <midi-visualizer
+            type="staff" id="myStaffVisualizer" src="https://bitmidi.com/uploads/98248.mid"></midi-visualizer>
+        <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+      </div>
+    </div>
   </div>
   </form>
+
 </main>
 
+<footer>
+  <midi-player
+    src="https://bitmidi.com/uploads/98248.mid" sound-font visualizer="#myStaffVisualizer"></midi-player>
+</footer>
 
     <script src="{{url_for('static', path='/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{url_for('static', path='/js/custom.js')}}"></script>
