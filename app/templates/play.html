@@ -9,7 +9,7 @@
     <title>Maestro::Musical Score to Sound</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbars/">
-    <link href="{{url_for('static', path='/css/custom.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', path='/css/index.css')}}" rel="stylesheet">
 
   <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
 
@@ -139,6 +139,7 @@
         </div>
       </div>
     </header>
+
 <main>
   <div class="play music">
     <div class="play music-box" onclick="document.getElementById('chooseFile').click();">
@@ -153,8 +154,237 @@
   </div>
 </main>
 
+<div class="controlbar-wrapper">
+    <div id="title-and-progress" class="title-and-progress">
+        <div id="progressbar" class="progress-bar">
+            <div id="progressmarker" class="progress-marker" style="width: 49.9969%;">
+                <div id="progressnib" class="progress-nib">
+                    <div id="progresstip" class="ui-tooltip ui-tooltip-no-arrow jsfliptip text-center">
+                        <p class="time-count"><span id="currenttime1">0:00</span> / <span class="totaltime">0:54</span></p>
+                        
+                        <p class="measure-count onlynotation">Measure <span id="currentmeasure"></span> / <span id="nummeasures">32</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="controlbar" class="controlbar noselect">
+
+        <div class="play-and-progress">
+            
+            <div class="playcontainer">
+                <button class="playbutton">
+                    <svg class="playloadspin"><use xlink:href="#shape-loading"></use></svg>
+                    <svg class="playicon playcountinoff" aria-label="Play"><use xlink:href="#shape-play"></use></svg>
+                    <svg class="playicon playcountinon" aria-label="Play with count-in"><use xlink:href="#shape-play-123"></use></svg>
+                    <svg class="pauseicon" aria-label="Pause"><use xlink:href="#shape-pause"></use></svg>
+                </button>
+            </div>
+
+            
+            <div class="title-and-time">
+                <div class="artist-info">Uploaded file</div>
+                <div class="slice-time"><span id="currenttime2">0:27</span> / <span id="totaltime2">0:54</span></div>
+            </div>
+        </div>
+        
+        <div id="speedui-footer" class="ui-tooltip-wrapper is-bpm">
+
+                <div class="speed-controls">
+                    <div style="display: none;" class="speedlabel controlbar-label">BPM</div>
+                    <div class="speedbuttons">
+
+                        <span class="speedvalue">
+                            <svg class="svg-icon svg-icon-speed-training"><use xlink:href="#shape-arrow-ne"></use></svg>
+                            <span class="speedvaluetext">140</span>
+                            <span class="bpm-text">BPM</span>
+                            <svg class="controlbar-caret"><use xlink:href="#shape-dropdown"></use></svg>
+                        </span>
+
+                        <button class="speedbut speedbut-minus action-button" data-dir="0" aria-label="Slow down playback"><svg><use xlink:href="#shape-minus"></use></svg></button>
+                        <button class="speedbut speedbut-plus action-button" data-dir="1" aria-label="Speed up playback"><svg><use xlink:href="#shape-plus"></use></svg></button>
+
+                    </div>
+                </div>
+
+                <div class="ui-tooltip ui-tooltip-no-delay speed-tooltip jsfliptip">
+                    <div class="input-group">
+                        <input type="text" class="speedinp" maxlength="3" pattern="[0-9]*" inputmode="numeric">
+                        <div class="input-group-end"><span class="input-group-text">%</span></div>
+                    </div>
+
+                    <hr class="divider divider-20">
+
+                    <ul id="speedpresets" class="list-style-none">
+                        <li><button class="jspreset ui-tooltip-button active" data-val="100">100% <span id="speedpreset100bpm">(140 BPM)</span></button></li>
+                        <li><button class="jspreset ui-tooltip-button" data-val="75">75%</button></li>
+                        <li><button class="jspreset ui-tooltip-button" data-val="50">50%</button></li>
+                        <li><button class="jspreset ui-tooltip-button" data-val="25">25%</button></li>
+                        <li><button class="jspreset ui-tooltip-button" data-val="train">Speed training…</button></li>
+                    </ul>
+
+                    <form action="" class="enhanced-slowdown-form hiddenflexelement">
+                        <label class="enhanced-slowdown">
+                            <input id="improved-slowdown" type="checkbox"> Enhanced slowdown
+                        </label>
+                        <div class="ui-tooltip-wraper-hover ui-tooltip-wraper-slowdown">
+                            <div class="slowdown-tip"><div class="slowdown-tip-text">?</div></div>
+                            <div class="ui-tooltip ui-tooltip-slowdown ui-tooltip-dark">Disable enhanced MP3 slowdown if you’re experiencing issues with playback. Note: this is set automatically based on your device performance.</div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+        
+        <div id="toggle-container" class="rec-toggle disabled">
+            <button id="realrectoggle" class="real-rec-toggle ui-tooltip-wrapper">
+                <div class="midi-toggle" id="midi-toggle">
+                    <span id="realrecimage" class="recording-image"></span>
+                    <span class="recording-name"><span id="realrecname"></span></span>
+                    <svg class="controlbar-caret"><use xlink:href="#shape-dropdown"></use></svg>
+                </div>
+
+                <div class="ui-tooltip jsfliptip" id="synth-toggle-tooltip">
+                    <h4 class="tooltip-label">Recordings</h4>
+                    <div id="recordings-tooltip"><label id="synthlistitem" class="visible" data-backend="0"><div class="ui-tooltip-button link-text-center active"><input type="radio" name="audiotype" class="invisible-radio"><svg class="svg-icon ui-tooltip-icon"><use xlink:href="#shape-digital-sound"></use></svg><span class="truncate-text reset-lh" title="Synthetic">Synthetic</span></div></label></div>
+                </div>
+            </button>
+
+            <button id="usesynth" class="synth-button toggle-active">Synth</button>
+        </div>
+        
+        <div id="instbuttons" class="ui-tooltip-wrapper controlbar-menu">
+            <div class="loopcontainer instrument-button">
+                
+                <button class="loopbutton control-icon-text">
+                    <svg class="loopicon svg-icon loopicon-repeat">
+                        <title>Loop</title>
+                        <use xlink:href="#shape-loop"></use>
+                    </svg>
+                    <svg class="loopicon svg-icon loopicon-once">
+                        <title>Loop (plays only once)</title>
+                        <use xlink:href="#shape-loop-once"></use>
+                    </svg>
+                    <div class="control-icon-text-content">Loop</div>
+                </button>
+            </div>
+
+            <button id="primvizbut" class="control-icon-text hideable visible" data-inst="1">
+                <svg id="primvizsvg" class="svg-icon"><use xlink:href="#shape-keyboard"></use></svg>
+                <div id="primvizname" class="control-icon-text-content">Keyboard</div>
+            </button>
+
+            <hr class="controlbar-divider">
+
+            
+            <button id="toggle-mixer" class="control-icon instrument-button hideable visible" data-inst="5">
+                <svg class="svg-icon">
+                    <title>Volume</title>
+                    <use xlink:href="#shape-volume"></use>
+                </svg>
+            </button>
+
+            <div class="ui-tooltip-wrapper">
+                <button id="metronome-tooltip-button" class="control-icon instrument-button">
+                    <svg class="svg-icon">
+                        <title>Metronome and count-in</title>
+                        <use xlink:href="#shape-metronome"></use>
+                    </svg>
+                </button>
+                <div id="metronome-tooltip" class="ui-tooltip ui-tooltip-right ui-tooltip-no-arrow jsfliptip">
+                    <label class="checkbox-toggle">
+                        <input id="toggle-metronome" type="checkbox" class="visible">
+                        <div class="checkbox-toggle-element"></div>
+                        <span class="checkbox-toggle-name">Metronome</span>
+                    </label>
+
+                    <div id="metronome-options">
+                        <div class="select-wrapper select-wrapper-compact">
+                            <select id="metronome-every-beat" class="select-list">
+                                <option value="1">On every beat</option>
+                                <option value="0">Only on downbeats</option>
+                            </select>
+                            <div class="select-caret" aria-hidden="true" role="presentation"><svg class="svg-icon"><use xlink:href="#shape-dropdown"></use></svg></div>
+                        </div>
+                    </div>
+
+                    <hr class="divider divider-12">
+                    <label class="checkbox-toggle">
+                        <input id="countin-toggle" type="checkbox">
+                        <div class="checkbox-toggle-element"></div>
+                        <span class="checkbox-toggle-name">Count-in</span>
+                    </label>
+
+                    <div id="countin-options">
+                        <div class="select-wrapper select-wrapper-compact margin-bottom-10">
+                            <select id="metronome-loop-countin" class="select-list">
+                                <option value="1">Before each loop</option>
+                                <option value="0">Only at start</option>
+                            </select>
+                            <div class="select-caret" aria-hidden="true" role="presentation"><svg class="svg-icon"><use xlink:href="#shape-dropdown"></use></svg></div>
+                        </div>
+                        <div class="select-wrapper select-wrapper-compact">
+                            <select id="countinlen" class="select-list">
+                                <option value="1">1 bar long</option>
+                                <option value="2">2 bars long</option>
+                                <option value="3">3 bars long</option>
+                            </select>
+                            <div class="select-caret" aria-hidden="true" role="presentation"><svg class="svg-icon"><use xlink:href="#shape-dropdown"></use></svg></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="toggle-violinboard" class="control-icon instrument-button hideable" data-inst="3">
+                <svg class="svg-icon">
+                    <title>Violin fingerboard visualization</title>
+                    <use xlink:href="#shape-violin"></use>
+                </svg>
+            </button>
+            <button id="toggle-trombone" class="control-icon instrument-button hideable" data-inst="7">
+                <svg class="svg-icon">
+                    <title>Trombone visualization</title>
+                    <use xlink:href="#shape-trombone"></use>
+                </svg>
+            </button>
+            <button id="toggle-trumpet" class="control-icon instrument-button hideable" data-inst="6">
+                <svg class="svg-icon">
+                    <title>Trumpet visualization</title>
+                    <use xlink:href="#shape-trumpet"></use>
+                </svg>
+            </button>
+            <button id="toggle-fretboard" class="control-icon instrument-button hideable" data-inst="2">
+                <svg class="svg-icon">
+                    <title>Fretboard visualization</title>
+                    <use xlink:href="#shape-fretboard"></use>
+                </svg>
+            </button>
+            <button id="toggle-keyboard" class="control-icon instrument-button hideable" data-inst="1">
+                <svg class="svg-icon">
+                    <title>Piano keyboard visualization</title>
+                    <use xlink:href="#shape-keyboard"></use>
+                </svg>
+            </button>
+            <button id="toggle-lyricsonly" class="control-icon instrument-button hideable">
+                <svg class="svg-icon">
+                    <title>Lyrics-only view</title>
+                    <use xlink:href="#shape-microphone"></use>
+                </svg>
+            </button>
+
+            <button id="toggle-settings" class="control-icon instrument-button visible">
+                <svg class="svg-icon">
+                    <title>More settings</title>
+                    <use xlink:href="#shape-more-icon"></use>
+                </svg>
+            </button>
+        </div>
+        
+    </footer>
+</div>
+
     <script src="{{url_for('static', path='/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static', path='/js/custom.js')}}"></script>
+    <script src="{{url_for('static', path='/js/index.js')}}"></script>
 
   </body>
 </html>

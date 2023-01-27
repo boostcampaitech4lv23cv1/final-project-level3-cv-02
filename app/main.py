@@ -12,6 +12,14 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def file_form(request: Request): 
     return templates.TemplateResponse('index.html', context={'request': request})
 
+@app.get("/sign-in")
+def file_form(request: Request): 
+    return templates.TemplateResponse('sign-in.html', context={'request': request})
+
+@app.get("/sign-up")
+def file_form(request: Request): 
+    return templates.TemplateResponse('sign-up.html', context={'request': request})
+
 @app.post('/play')
 def play_form(request:Request, images: List[bytes] = File(...)):
     print({"file_sizes": [len(image) for image in images]})
