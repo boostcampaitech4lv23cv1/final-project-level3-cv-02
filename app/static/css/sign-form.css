@@ -32,13 +32,13 @@ body {
   z-index: 2;
 }
 
-.standard-form input[type="email"] {
+.standard-form input[name="top"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.standard-form input[type="Username"] {
+.standard-form input[name="middle"] {
   margin-bottom: -1px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -46,7 +46,7 @@ body {
   border-bottom-left-radius: 0;
 }
 
-.standard-form input[type="password"] {
+.standard-form input[name="bottom"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;

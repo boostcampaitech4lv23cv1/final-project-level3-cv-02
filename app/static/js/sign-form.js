@@ -1,19 +1,14 @@
-
-function back() {
-    history.go(-1);
-}
+const email = document.querySelector('form')
 
 // sign up
 function signUp() {
-    var email = document.querySelector('#email')
-    var username = document.querySelector("username")
-    var password = document.querySelector('#password')
-
+    if (password !== password_check) {
+        alert('패스워드가 일치하지 않습니다.');
+        return false;
+    }
 }
 
 // sign in
 function signIn() {
-    var email = document.querySelector('#email')
-    var password = document.querySelector('#password')
 
 }
