@@ -64,6 +64,16 @@
           <!-- <input name="files" type="file" multiple> -->
           <button type="play_btn" class="play_page_btn" id="play_page_btn" hidden>play!</button>
       </form>
+
+
+      <form id = "predict_model" action="/predict_model" enctype="multipart/form-data" method="get" onsubmit="return false;">
+        <button type="submit" id="predict_model_btn" hidden></button>
+      </form>
+
+    </header>
+
+<main>
+  <div class= "loading">
   </div>
 </main>
 
@@ -72,6 +82,8 @@
 
     <script>
       window.onload = function(){
+        debugger
+        document.getElementById("predict_model").submit();
         setTimeout(function(){
           document.getElementById('play_page_btn').hidden=false;
         }, 3000);
