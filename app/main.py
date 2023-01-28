@@ -20,6 +20,10 @@ def loading_form(request: Request) :
 def play_formdef(request: Request): 
     return templates.TemplateResponse('play.html', context={'request': request})
 
+@app.post('/play')
+def play_formdef(request: Request): 
+    return templates.TemplateResponse('play.html', context={'request': request})
+
 # @app.post('/play')
 # def play_form(request:Request, images: List[bytes] = File(...)):
 #     print({"file_sizes": [len(image) for image in images]})
