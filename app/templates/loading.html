@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta http-equiv="refresh" content="3; url=play">
 
     <title>Maestro::loading</title>
 
@@ -17,6 +16,10 @@
     
     <header>
         <h4 class="display2">loading...</h4>
+        <form action="/play" enctype="multipart/form-data" method="post">
+          <!-- <input name="files" type="file" multiple> -->
+          <button type="submit" id="play_page_btn" hidden>play!</button>
+      </form>
     </header>
 
 <main>
@@ -26,6 +29,12 @@
 
     <script src="{{url_for('static', path='/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{url_for('static', path='/js/custom.js')}}"></script>
-
+    <script>
+      window.onload = function(){
+        setTimeout(function(){
+          document.getElementById('play_page_btn').hidden=false;
+        }, 3000);
+      }
+    </script>
   </body>
 </html>
