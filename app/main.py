@@ -33,9 +33,7 @@ def predict_model(request: Request):
     try:
         results = service.predict_model()
     except:
-        print("Error: 에러 발생으로 인해 1.5초 뒤 메인페이지로 돌아갑니다.")
-        time.sleep(1.5)
-        return RedirectResponse("/")
+        return RedirectResponse("/error")
     return templates.TemplateResponse('play.html', context={'request': request, "results:" : results})
 
 
@@ -45,6 +43,14 @@ def predict_model(request: Request):
 def loading_form(request: Request, images: List[bytes] = File(...)) :
     fpaths = service.loading_form(images)
     return templates.TemplateResponse('loading.html', context={'request': request, "file_path": fpaths})
+
+@app.post("/error")
+def error_form(request: Request) :
+    return templates.TemplateResponse('error.html', context={'request': request})
+
+@app.get("/error")
+def error_form(request: Request) :
+    return templates.TemplateResponse('error.html', context={'request': request})
 
 if __name__ == '__main__':
     uvicorn.run("main:app", host="0.0.0.0", port=8001, reload=True)

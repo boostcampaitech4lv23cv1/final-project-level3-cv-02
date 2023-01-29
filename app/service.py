@@ -12,13 +12,13 @@ from oemer.ete import extract
 def loading_form(images):
     for order, image_byte in enumerate(images):
         image = Image.open(io.BytesIO(image_byte))
-        image.save(f"/Users/yj/Projects/maestro/images/file_{order}.png")
+        image.save(f"/opt/ml/tmp/file_{order}.png")
         print(f"Image {order} 저장되었습니다.")
-    IMG_PATH = "/Users/yj/Projects/maestro/images"
-    return [f"/Users/yj/Projects/maestro/images/{fname}" for fname in os.listdir(IMG_PATH)]
+    IMG_PATH = "/opt/ml/tmp"
+    return [f"/opt/ml/tmp/{fname}" for fname in os.listdir(IMG_PATH)]
 
 def predict_model():
-    img_path = "/Users/yj/Projects/maestro/images"
+    img_path = "/opt/ml/tmp"
     results=[]
     for fpath in os.listdir(img_path):
         fname = os.path.join(img_path, fpath)
