@@ -7,7 +7,6 @@ import sys
 sys.path.append("..")
 
 from starlette.responses import RedirectResponse
-import time
 import service
 
 app = FastAPI()
@@ -32,8 +31,10 @@ def predict_model(request: Request):
     #(BETTER_WAY) img_path = request[...] 이런 느낌으로 가져오는 것이 좋다.
     try:
         results = service.predict_model()
-    except:
+    except Exception as e:
+        print(e)
         return RedirectResponse("/error")
+    print(results)
     return templates.TemplateResponse('play.html', context={'request': request, "results:" : results})
 
 
