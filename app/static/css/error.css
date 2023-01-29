@@ -1,0 +1,82 @@
+.Maestro-logo {
+    color: black;
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    text-decoration : none;
+  }
+
+  .Maestro-logo:hover{
+    color: black;
+  }
+
+.error_btn {
+  animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  -webkit-animation: fadein 2s;
+  -o-animation: fadein 2s;
+  width:100px;
+  margin: auto;
+  display: block;
+  color: darkolivegreen;
+  background-color: #f5f5f5;
+  text-align: center;
+  border:none;
+  margin-top:10px;
+}
+
+.display1 {
+  animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  -webkit-animation: fadein 2s;
+  -o-animation: fadein 2s;
+}
+
+.display2 {
+  margin: 10px;
+  animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  -webkit-animation: fadein 2s;
+  -o-animation: fadein 2s;
+}
+
+.display2 .text{
+  font-size: medium;
+}
+
+.error {
+    margin: 40px;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

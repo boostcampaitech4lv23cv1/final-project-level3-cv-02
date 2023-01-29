@@ -10,51 +10,10 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbars/">
     <link href="{{url_for('static', path='/css/custom.css')}}" rel="stylesheet">
-
-  <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
-
+    <link href="{{url_for('static', path='/css/play.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <style>
-
-      .sheets {
-        margin-top: 15px;
-        text-align: center;
-      }
-
-      .sheets .top-button{
-        background-color: #fff;
-        border: none;
-      }
-
-      .sheets-box {
-        width: 50%;
-        box-sizing: border-box;
-        /* margin-right: 30px; */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: auto;
-      }
-      .sheets-box .sheets-file {
-        width: 100%;
-        height: 750px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: 3px dashed #dbdbdb;
-      }
-      .sheets-box .sheets-file .image {
-        width: 40px;
-      }
-
-      .music-player {
-        display: flex;
-        justify-content: right;
-      }
-
       footer {
         position: fixed;
         left: 0;
@@ -66,15 +25,9 @@
       main {
         margin-bottom: 90px;
       }
-
-      .download-button{
-        text-align: right;
-          background-color: #fff;
-          border: none;
-      }
-      
-
     </style>
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
 
   </head>
   <body>

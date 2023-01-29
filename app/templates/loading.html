@@ -9,21 +9,10 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbars/">
     <link href="{{url_for('static', path='/css/custom.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', path='/css/loading.css')}}" rel="stylesheet">
     <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <style>
-      .Maestro-logo {
-          color: black;
-          display: flex;
-          justify-content: center;
-          padding: 15px;
-          text-decoration : none;
-        }
-
-        .Maestro-logo:hover{
-          color: black;
-        }
-
       body {
         display: flex;
         align-items: center;
@@ -31,24 +20,11 @@
         padding-bottom: 40px;
         background-color: #f5f5f5;
       }
-
-      .play_page_btn {
-        width:100px;
-        margin: auto;
-        display: block;
-        color: darkolivegreen;
-        background-color: #f5f5f5;
-        text-align: center;
-        border:none;
-        margin-top:5px;
-      }
-
     </style>
 
   </head>
 
 <body class="text-center">
-    
     <header>
     </header>
 
@@ -58,9 +34,14 @@
     <strong>Maestro</strong>
   </a>
 
-  <div class= "loading">
-    <h4 class="display2">loading...</h4>
-        <form action="/play" enctype="multipart/form-data" method="post">
+  <div class= "contents1">
+    <div class="loading-container">
+      <div class="loading"></div>
+      <div id="loading-text">loading</div>
+      <h6 class="loading-script" id="loadingScript">print loading script...</h6>
+    </div>
+
+      <form action="/play" enctype="multipart/form-data" method="post">
           <!-- <input name="files" type="file" multiple> -->
           <button type="play_btn" class="play_page_btn" id="play_page_btn" hidden>play!</button>
       </form>
@@ -73,7 +54,7 @@
     </header>
 
 <main>
-  <div class= "loading">
+  <div class= "contents3">
   </div>
 </main>
 
@@ -81,13 +62,23 @@
     <script src="{{url_for('static', path='/js/custom.js')}}"></script>
 
     <script>
+
+      var loadingScript = document.getElementById('loadingScript');
+      var arr = [
+        { loadingScript: "test0" } ,
+        { loadingScript: "test1" } ,
+        { loadingScript: "test2" }
+      ];
+      var tmp = 0;
+      
       window.onload = function(){
-        debugger
+        setInterval(function(){
+          var random = Math.floor(Math.random()*arr.length);
+          loadingScript.textContent = arr[random].loadingScript;
+        }, 5000);
         document.getElementById("predict_model").submit();
-        setTimeout(function(){
-          document.getElementById('play_page_btn').hidden=false;
-        }, 3000);
       }
+      
     </script>
 
   </body>
