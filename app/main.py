@@ -5,15 +5,10 @@ from typing import List
 import uvicorn 
 import sys 
 sys.path.append("..")
-from oemer.ete import main as predict 
-from oemer.ete import extract
-from PIL import Image 
-import io
-from argparse import Namespace
+
 from starlette.responses import RedirectResponse
-import os
 import time
-from constant import fast_dict, slow_dict
+import service
 
 app = FastAPI()
 templates = Jinja2Templates(directory='templates')
@@ -34,17 +29,9 @@ def play_form(request:Request):
 @app.get("/predict_model")
 def predict_model(request: Request):
     #(TODO) img_path를 제대로 넘길 법 고민하기
-    results = []
-    
     #(BETTER_WAY) img_path = request[...] 이런 느낌으로 가져오는 것이 좋다.
-    img_path = "/opt/ml/tmp"
     try:
-        for fpath in os.listdir(img_path):
-            fname = os.path.join(img_path, fpath)
-            fast_dict["img_path"] = fname
-            dict_args = Namespace(**fast_dict)
-            result_xml = extract(dict_args)  
-            results.append(result_xml)
+        results = service.predict_model()
     except:
         print("Error: 에러 발생으로 인해 1.5초 뒤 메인페이지로 돌아갑니다.")
         time.sleep(1.5)
@@ -56,13 +43,7 @@ def predict_model(request: Request):
 #(TODO 2) print문 등을 logging으로 대체하기
 @app.post("/loading")
 def loading_form(request: Request, images: List[bytes] = File(...)) :
-    for order, image_byte in enumerate(images):
-        image = Image.open(io.BytesIO(image_byte))
-        image.save(f"/opt/ml/tmp/file_{order}.png")
-        print(f"Image {order} 저장되었습니다.")
-    IMG_PATH = "/opt/ml/tmp"
-    fpaths = [f"/opt/ml/tmp/{fname}" for fname in os.listdir(IMG_PATH)]
-
+    fpaths = service.loading_form(images)
     return templates.TemplateResponse('loading.html', context={'request': request, "file_path": fpaths})
 
 if __name__ == '__main__':
