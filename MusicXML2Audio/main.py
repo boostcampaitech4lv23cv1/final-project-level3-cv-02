@@ -3,7 +3,7 @@ from converter.midi2wav import MIDI2WAV
 from converter.wav2sound import WAV2MP3, WAV2FLAC
 
 #handle
-NAME = 'chopin'
+NAME = 'file'
 XML_PATH = './data/.xml'
 OUTPUT_PATH = './data/output'
 

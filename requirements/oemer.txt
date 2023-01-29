@@ -1,6 +1,8 @@
-onnxruntime
+onnxruntime==1.8.0
+onnxruntime-gpu==1.8
 opencv-python>=4.5.3.56
 matplotlib
 pillow
 scipy
 scikit-learn>=1.2
+numpy<=1.24
