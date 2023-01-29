@@ -16,3 +16,5 @@ data/output/*
 *.h5
 *.onnx
 *.musicxml
+
+sound
