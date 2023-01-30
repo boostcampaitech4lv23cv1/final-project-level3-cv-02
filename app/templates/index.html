@@ -48,6 +48,20 @@
     .upload-box .upload-file .image {
       width: 40px;
     }
+
+    .sign-btn {
+      margin-right: 12.5%;
+    }
+
+    input[type=button] {
+      margin: 3px;
+      font-size: small;
+      background-color: #212529;
+      color: #fff;
+      border: 0;
+      font-style: inherit;
+    }
+
   </style>
 
 </head>
@@ -57,10 +71,10 @@
   <header>
 
     <div class="sign bg-dark">
-      <a href="/sign-up" target="_blank" class="text-button">
-        sign-up
-        <a href="/sign-in" target="_blank" class="text-button">
-          sign-in</a>
+      <div class="sign-btn">
+        <input type="button" value="sign up" onclick="location.href='/sign-up'"/>
+        <input type="button" value="sign in" onclick="location.href='/sign-in'"/>
+      </div>
     </div>
 
     <div class="navbar navbar-dark bg-dark shadow-sm">
