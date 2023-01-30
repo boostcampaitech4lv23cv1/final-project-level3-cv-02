@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+
+    <title>Maestro::loading</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbars/">
+    <link href="{{url_for('static', path='/css/custom.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', path='/css/loading.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+    </style>
+
+  </head>
+
+<body class="text-center">
+    <header>
+    </header>
+
+<main class="standard-form w-100 m-auto">
+  <a class="Maestro-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-music" viewBox="0 0 16 16"><path d="M10.304 3.13a1 1 0 0 1 1.196.98v1.8l-2.5.5v5.09c0 .495-.301.883-.662 1.123C7.974 12.866 7.499 13 7 13c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 10.134 6.501 10 7 10c.356 0 .7.068 1 .196V4.41a1 1 0 0 1 .804-.98l1.5-.3z"></path><path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"></path></svg>
+    <strong>Maestro</strong>
+  </a>
+
+  <div class= "contents1">
+    <div class="loading-container">
+      <div class="loading"></div>
+      <div id="loading-text">loading</div>
+      <h6 class="loading-script" id="loadingScript">print loading script...</h6>
+    </div>
+
+      <form action="/play" enctype="multipart/form-data" method="post">
+          <!-- <input name="files" type="file" multiple> -->
+          <button type="play_btn" class="play_page_btn" id="play_page_btn" hidden>play!</button>
+      </form>
+      <form id = "predict_model" action="/predict_model" enctype="multipart/form-data" method="get" onsubmit="return false;"></form>
+
+    </header>
+
+<main>
+  <div class= "contents3">
+  </div>
+</main>
+
+    <script src="{{url_for('static', path='/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static', path='/js/custom.js')}}"></script>
+
+    <script>
+
+      var loadingScript = document.getElementById('loadingScript');
+      var arr = [
+        { loadingScript: "test0" } ,
+        { loadingScript: "test1" } ,
+        { loadingScript: "test2" }
+      ];
+      var tmp = 0;
+      
+      window.onload = function(){
+        setInterval(function(){
+          var random = Math.floor(Math.random()*arr.length);
+          loadingScript.textContent = arr[random].loadingScript;
+        }, 5000);
+        document.getElementById("predict_model").submit();
+      }
+      
+    </script>
+
+  </body>
+</html>
