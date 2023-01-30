@@ -52,6 +52,7 @@ def error_form(request: Request) :
 @app.get("/error")
 def error_form(request: Request) :
     return templates.TemplateResponse('error.html', context={'request': request})
+    
 @app.get("/sign-in")
 def file_form(request: Request): 
     return templates.TemplateResponse('sign-in.html', context={'request': request})
@@ -59,6 +60,10 @@ def file_form(request: Request):
 @app.get("/sign-up")
 def file_form(request: Request): 
     return templates.TemplateResponse('sign-up.html', context={'request': request})
+
+@app.get("/sign-check")
+def check_form(request: Request): 
+    return templates.TemplateResponse('sign-check.html', context={'request': request})
 
 @app.post('/play')
 def play_form(request:Request, images: List[bytes] = File(...)):

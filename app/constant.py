@@ -11,6 +11,6 @@ slow_only_dict = dict(thresh = 1024,step_size = 128)
 fast_dict = {**default_dict, **fast_only_dict}
 slow_dict = {**default_dict, **slow_only_dict}
 
-paths = {'img_path': '/Users/yj/Projects/maestro/images',
-         'xml_path': '/Users/yj/Projects/maestro/xml',
-         'mp3_path': '/Users/yj/Projects/maestro/sound'}
+paths = {'img_path': '/opt/ml/tmp',
+         'xml_path': '/opt/ml/MusicXML2Audio/data/.xml',
+         'mp3_path': '/opt/ml/MusicXML2Audio/data/output'}

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+
+  <title>Maestro::check your e-mail</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbars/">
+  <link href="{{url_for('static', path='/css/custom.css')}}" rel="stylesheet">
+  <link href="{{url_for('static', path='/css/error.css')}}" rel="stylesheet">
+  <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
+
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      padding-top: 40px;
+      padding-bottom: 40px;
+      background-color: #f5f5f5;
+    }
+
+    .error_btn:hover {
+      color: darkgray;
+    }
+  </style>
+
+</head>
+
+<body class="text-center">
+
+  <header>
+  </header>
+
+  <main class="standard-form w-100 m-auto">
+    <a href="/" class="Maestro-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-music"
+        viewBox="0 0 16 16">
+        <path
+          d="M10.304 3.13a1 1 0 0 1 1.196.98v1.8l-2.5.5v5.09c0 .495-.301.883-.662 1.123C7.974 12.866 7.499 13 7 13c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 10.134 6.501 10 7 10c.356 0 .7.068 1 .196V4.41a1 1 0 0 1 .804-.98l1.5-.3z">
+        </path>
+        <path
+          d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z">
+        </path>
+      </svg>
+      <strong>Maestro</strong>
+    </a>
+
+    <div class="error">
+      <h2 class="display1">Check your e-mail</h2>
+      <div class="display2">
+        <h4 class="text">가입하신 메일 주소로 이메일 인증 코드를 전송했습니다.</h4>
+        <h4 class="text">5분 내로 메일이 도착하지 않는다면, 인증코드 재전송 버튼을 눌러주세요.</h4>
+      </div>
+      <div class="p-refreshed_page">
+        <form class="p-get_started_confirmation_code">
+          <div class="p-get_started_confirmation_code__input_container">
+            <fieldset class="p-get_started_confirmation_code__input_fieldset">
+              <legend class="offscreen">6자 확인 코드</legend>
+              <div class="display_flex align_items_center margin_bottom_50" data-qa="confirmation_code_input"
+                data-state="">
+                <div class="display_flex">
+                  <div class="split_input_item"><input type="text" maxlength="1" aria-label="6의 숫자 1"
+                      aria-disabled="false" aria-invalid="false" value=""></div>
+                  <div class="split_input_item"><input type="text" maxlength="1" aria-label="6의 숫자 2"
+                      aria-disabled="false" aria-invalid="false" value=""></div>
+                  <div class="split_input_item"><input type="text" maxlength="1" aria-label="6의 숫자 3"
+                      aria-disabled="false" aria-invalid="false" value=""></div>
+                </div>
+                <div class="confirmation_code_span_cell margin_50">—</div>
+                <div class="display_flex">
+                  <div class="split_input_item"><input type="text" maxlength="1" aria-label="6의 숫자 4"
+                      aria-disabled="false" aria-invalid="false" value=""></div>
+                  <div class="split_input_item"><input type="text" maxlength="1" aria-label="6의 숫자 5"
+                      aria-disabled="false" aria-invalid="false" value=""></div>
+                  <div class="split_input_item"><input type="text" maxlength="1" aria-label="6의 숫자 6"
+                      aria-disabled="false" aria-invalid="false" value=""></div>
+                </div>
+              </div>
+            </fieldset>
+            <div class="confirmation_code_checker" data-state="empty-status">
+              <p
+                class="c-alert confirmation_code_state_message c-alert--boxed invisible c-alert--level_default c-alert--align_center empty-status">
+                <i aria-hidden="true" class="c-alert__icon c-icon c-icon--warning c-icon--inline"></i><span
+                  class="c-alert__message">&nbsp;</span>
+              </p>
+            </div>
+          </div>
+        </form>
+        <div class="p-get_started_confirmation_code__hint">고객님의 코드를 찾을 수 없나요? 스팸 폴더를 확인해 보세요!</div>
+      </div>
+
+      <form action="/" enctype="multipart/form-data" method="get">
+        <!-- <input name="files" type="file" multiple> -->
+        <button type="error_btn" class="error_btn" id="main_page_btn" hidden>go to main</button>
+      </form>
+
+      </header>
+
+      <main>
+        <div class="error">
+        </div>
+      </main>
+
+      <script src="{{url_for('static', path='/js/bootstrap.bundle.min.js')}}"></script>
+      <script src="{{url_for('static', path='/js/custom.js')}}"></script>
+
+      <script>
+        window.onload = function () {
+          setTimeout(function () {
+            document.getElementById('main_page_btn').hidden = false;
+          }, 1000);
+        }
+      </script>
+
+</body>
+
+</html>

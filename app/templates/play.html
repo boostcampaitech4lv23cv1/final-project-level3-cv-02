@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -12,581 +13,154 @@
     <link href="{{url_for('static', path='/css/custom.css')}}" rel="stylesheet">
     <link href="{{url_for('static', path='/css/play.css')}}" rel="stylesheet">
     <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{url_for('static', path='/css/index.css')}}" rel="stylesheet">
-
-  <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <style>
-      footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: whitesmoke;
-      }
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: whitesmoke;
+        }
 
-      main {
-        margin-bottom: 90px;
-      }
+        main {
+            margin-bottom: 90px;
+        }
     </style>
 
-  <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+    <script
+        src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
 
-  </head>
-  <body>
-    
+</head>
+
+<body>
+
     <header>
-      <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container">
-          <a href="/" class="navbar-brand d-flex align-items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-music" viewBox="0 0 16 16"><path d="M10.304 3.13a1 1 0 0 1 1.196.98v1.8l-2.5.5v5.09c0 .495-.301.883-.662 1.123C7.974 12.866 7.499 13 7 13c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 10.134 6.501 10 7 10c.356 0 .7.068 1 .196V4.41a1 1 0 0 1 .804-.98l1.5-.3z"/><path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/></svg>
-              <strong>Maestro</strong>
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-      </div>
-      <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-8 col-md-7 py-4">
-              <h4 class="text-white">How to use</h4>
-              <p class="text-muted">악보를 넣으면 노래로 만들어드립니다 같은 설명 넣기</p>
+        <div class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <a href="/" class="navbar-brand d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-file-music" viewBox="0 0 16 16">
+                        <path
+                            d="M10.304 3.13a1 1 0 0 1 1.196.98v1.8l-2.5.5v5.09c0 .495-.301.883-.662 1.123C7.974 12.866 7.499 13 7 13c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 10.134 6.501 10 7 10c.356 0 .7.068 1 .196V4.41a1 1 0 0 1 .804-.98l1.5-.3z" />
+                        <path
+                            d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                    </svg>
+                    <strong>Maestro</strong>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
             </div>
-            <div class="col-sm-4 offset-md-1 py-4">
-              <h4 class="text-white">About us</h4>
-              <ul class="list-unstyled">
-                <li><a href="https://github.com/boostcampaitech4lv23cv1/level3_productserving-level3-cv-02" target="_blank" class="text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-                  Github</a></li>
-                <li><a href="https://www.notion.so/Final-Project-9fc2b15e5a634d96b1cb64b2b2966e0d?p=9ca2069b376e4e5eab95e512a86673c3&pm=s" target="_blank" class="text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" style="vertical-align: -0.125em;" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514c-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233l4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>
-                  Notion</a></li>
-                <li><a href="#" target="_blank" class="text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" style="vertical-align: -0.125em;" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M20 18h-2V9.25L12 13L6 9.25V18H4V6h1.2l6.8 4.25L18.8 6H20m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/></svg>
-                  Email</a></li>
-              </ul>
-            </div>
-          </div>
         </div>
-      </div>
+        <div class="collapse bg-dark" id="navbarHeader">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-md-7 py-4">
+                        <h4 class="text-white">How to use</h4>
+                        <p class="text-muted">악보를 넣으면 노래로 만들어드립니다 같은 설명 넣기</p>
+                    </div>
+                    <div class="col-sm-4 offset-md-1 py-4">
+                        <h4 class="text-white">About us</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="https://github.com/boostcampaitech4lv23cv1/level3_productserving-level3-cv-02"
+                                    target="_blank" class="text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-github" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                                    </svg>
+                                    Github</a></li>
+                            <li><a href="https://www.notion.so/Final-Project-9fc2b15e5a634d96b1cb64b2b2966e0d?p=9ca2069b376e4e5eab95e512a86673c3&pm=s"
+                                    target="_blank" class="text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="vertical-align: -0.125em;"
+                                        width="1em" height="1em" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514c-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233l4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z" />
+                                    </svg>
+                                    Notion</a></li>
+                            <li><a href="#" target="_blank" class="text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="vertical-align: -0.125em;"
+                                        width="1em" height="1em" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M20 18h-2V9.25L12 13L6 9.25V18H4V6h1.2l6.8 4.25L18.8 6H20m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z" />
+                                    </svg>
+                                    Email</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
 
-<main>
-  <form name="submitFrm" action="/play" enctype="multipart/form-data" method="post" onSubmit='return false;'>
-  <div class="sheets">
-    <div class="sheets-box">
-      <ul class="slides">
-        <!-- <li><img src="{{url_for('static', path='images/arirang.jpg')}}" width="100%" height="100%" class="image-files"></li> -->
-        <li>
-          <div class="sheets-file">
-            <label>visualize music sheets</label>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <main>
+        <form name="submitFrm" action="/play" enctype="multipart/form-data" method="post" onSubmit='return false;'>
+            <div class="sheets">
+                <div class="sheets-box">
+                    <ul class="slides">
+                        <!-- <li><img src="{{url_for('static', path='images/arirang.jpg')}}" width="100%" height="100%" class="image-files"></li> -->
+                        <li>
+                            <div class="sheets-file">
+                                <label>visualize music sheets</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-    <div class="image button">
-      <button type="button" class="top-button" disabled id="prev_btn" onclick="prevButton()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16"><path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/></svg>
-      </button>
-      <button type="button" class="top-button" disabled id="next_btn" onclick="nextButton()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg>
-      </button>
-      <!-- downloadButton 미구현 -->
-      <!-- 시나리오: downloadButton 클릭하면 다운 받을 format 지정하는 팝업창이 뜨고... -->
-      <button type="button" class="download-button" disabled id="download_btn" onclick="downloadButton()">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30" fill="currentColor" viewBox="0 0 43.329 43.329" xml:space="preserve">
-        <path d="M18.689,30.359c1.645,1.639,4.305,1.639,5.951,0l14.082-14.014c0.91-0.906,1.186-2.287,0.695-3.474
+                <div class="image button">
+                    <button type="button" class="top-button" disabled id="prev_btn" onclick="prevButton()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                            class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                            <path
+                                d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+                        </svg>
+                    </button>
+                    <button type="button" class="top-button" disabled id="next_btn" onclick="nextButton()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                            class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                            <path
+                                d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                        </svg>
+                    </button>
+                    <!-- downloadButton 미구현 -->
+                    <!-- 시나리오: downloadButton 클릭하면 다운 받을 format 지정하는 팝업창이 뜨고... -->
+                    <button type="button" class="download-button" disabled id="download_btn" onclick="downloadButton()">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30"
+                            height="30" fill="currentColor" viewBox="0 0 43.329 43.329" xml:space="preserve">
+                            <path d="M18.689,30.359c1.645,1.639,4.305,1.639,5.951,0l14.082-14.014c0.91-0.906,1.186-2.287,0.695-3.474
           s-1.646-1.976-2.932-1.976h-5.879V3.196C30.606,1.445,29.17,0,27.419,0H15.908C14.156,0,12.7,1.444,12.7,3.196v7.698H6.842
-          c-1.284,0-2.441,0.79-2.931,1.976c-0.49,1.187-0.216,2.561,0.694,3.466L18.689,30.359z"/>
-        <path d="M42.657,37.547c0-1.75-1.419-3.171-3.172-3.171H3.842c-1.751,0-3.171,1.419-3.171,3.171v2.611
-          c0,1.751,1.42,3.171,3.171,3.171h35.645c1.751,0,3.171-1.42,3.171-3.171L42.657,37.547L42.657,37.547z"/>
-        </svg>
-      </button>
-    </div>
-  </form>
-</main>
+          c-1.284,0-2.441,0.79-2.931,1.976c-0.49,1.187-0.216,2.561,0.694,3.466L18.689,30.359z" />
+                            <path d="M42.657,37.547c0-1.75-1.419-3.171-3.172-3.171H3.842c-1.751,0-3.171,1.419-3.171,3.171v2.611
+          c0,1.751,1.42,3.171,3.171,3.171h35.645c1.751,0,3.171-1.42,3.171-3.171L42.657,37.547L42.657,37.547z" />
+                        </svg>
+                    </button>
+                </div>
+        </form>
+    </main>
 
-<footer>
-  <div class="navbar">
-    <div class="container">
-      <div class="error">
-        <li><a href="/" target="_blank" class="text">
-          Is there anything wrong?</a></li>
-      </div>
-      <!-- 편의상 다운로드도 바로 가능하게 해둠, 나중에 download button onclick으로 추가하면 제거할 것-->
-      <div class="music-player">
-        <audio controls> 
-          <source src="https://blogattach.naver.net/3faa239081dddb072bcaa895a3413c43e6b040acf3/20160209_252_blogfile/jewel5202_1455021499659_8Et5Ed_mp3/%EB%86%80%EB%9F%AC%EC%98%A4%EC%84%B8%EC%9A%94%20%EB%8F%99%EB%AC%BC%EC%9D%98%EC%88%B2-Main%20Theme.mp3"
-          type="audio/mpeg"/>
-        </audio>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<div class="controlbar-wrapper">
-    <div id="title-and-progress" class="title-and-progress">
-        <div id="progressbar" class="progress-bar">
-            <div id="progressmarker" class="progress-marker" style="width: 49.9969%;">
-                <div id="progressnib" class="progress-nib">
-                    <div id="progresstip" class="ui-tooltip ui-tooltip-no-arrow jsfliptip text-center">
-                        <p class="time-count"><span id="currenttime1">0:00</span> / <span class="totaltime">0:54</span></p>
-                        
-                        <p class="measure-count onlynotation">Measure <span id="currentmeasure"></span> / <span id="nummeasures">32</span></p>
-                    </div>
+    <footer>
+        <div class="navbar">
+            <div class="container">
+                <div class="error">
+                    <li><a href="/" target="_blank" class="text">
+                            Is there anything wrong?</a></li>
+                </div>
+                <!-- 편의상 다운로드도 바로 가능하게 해둠, 나중에 download button onclick으로 추가하면 제거할 것-->
+                <div class="music-player">
+                    <audio controls>
+                        <source
+                            src="https://blogattach.naver.net/3faa239081dddb072bcaa895a3413c43e6b040acf3/20160209_252_blogfile/jewel5202_1455021499659_8Et5Ed_mp3/%EB%86%80%EB%9F%AC%EC%98%A4%EC%84%B8%EC%9A%94%20%EB%8F%99%EB%AC%BC%EC%9D%98%EC%88%B2-Main%20Theme.mp3"
+                            type="audio/mpeg" />
+                    </audio>
                 </div>
             </div>
         </div>
-    </div>
-
-    <footer id="controlbar" class="controlbar noselect">
-
-        <div class="play-and-progress">
-            
-            <div class="playcontainer">
-                <button class="playbutton">
-                    <svg class="playloadspin"><use xlink:href="#shape-loading"></use></svg>
-                    <svg class="playicon playcountinoff" aria-label="Play"><use xlink:href="#shape-play"></use></svg>
-                    <svg class="playicon playcountinon" aria-label="Play with count-in"><use xlink:href="#shape-play-123"></use></svg>
-                    <svg class="pauseicon" aria-label="Pause"><use xlink:href="#shape-pause"></use></svg>
-                </button>
-            </div>
-
-            
-            <div class="title-and-time">
-                <div class="artist-info">Uploaded file</div>
-                <div class="slice-time"><span id="currenttime2">0:27</span> / <span id="totaltime2">0:54</span></div>
-            </div>
-        </div>
-        
-        <div id="speedui-footer" class="ui-tooltip-wrapper is-bpm">
-
-                <div class="speed-controls">
-                    <div style="display: none;" class="speedlabel controlbar-label">BPM</div>
-                    <div class="speedbuttons">
-
-                        <span class="speedvalue">
-                            <svg class="svg-icon svg-icon-speed-training"><use xlink:href="#shape-arrow-ne"></use></svg>
-                            <span class="speedvaluetext">140</span>
-                            <span class="bpm-text">BPM</span>
-                            <svg class="controlbar-caret"><use xlink:href="#shape-dropdown"></use></svg>
-                        </span>
-
-                        <button class="speedbut speedbut-minus action-button" data-dir="0" aria-label="Slow down playback"><svg><use xlink:href="#shape-minus"></use></svg></button>
-                        <button class="speedbut speedbut-plus action-button" data-dir="1" aria-label="Speed up playback"><svg><use xlink:href="#shape-plus"></use></svg></button>
-
-                    </div>
-                </div>
-
-                <div class="ui-tooltip ui-tooltip-no-delay speed-tooltip jsfliptip">
-                    <div class="input-group">
-                        <input type="text" class="speedinp" maxlength="3" pattern="[0-9]*" inputmode="numeric">
-                        <div class="input-group-end"><span class="input-group-text">%</span></div>
-                    </div>
-
-                    <hr class="divider divider-20">
-
-                    <ul id="speedpresets" class="list-style-none">
-                        <li><button class="jspreset ui-tooltip-button active" data-val="100">100% <span id="speedpreset100bpm">(140 BPM)</span></button></li>
-                        <li><button class="jspreset ui-tooltip-button" data-val="75">75%</button></li>
-                        <li><button class="jspreset ui-tooltip-button" data-val="50">50%</button></li>
-                        <li><button class="jspreset ui-tooltip-button" data-val="25">25%</button></li>
-                        <li><button class="jspreset ui-tooltip-button" data-val="train">Speed training…</button></li>
-                    </ul>
-
-                    <form action="" class="enhanced-slowdown-form hiddenflexelement">
-                        <label class="enhanced-slowdown">
-                            <input id="improved-slowdown" type="checkbox"> Enhanced slowdown
-                        </label>
-                        <div class="ui-tooltip-wraper-hover ui-tooltip-wraper-slowdown">
-                            <div class="slowdown-tip"><div class="slowdown-tip-text">?</div></div>
-                            <div class="ui-tooltip ui-tooltip-slowdown ui-tooltip-dark">Disable enhanced MP3 slowdown if you’re experiencing issues with playback. Note: this is set automatically based on your device performance.</div>
-                        </div>
-                    </form>
-                </div>
-        </div>
-        
-        <div id="toggle-container" class="rec-toggle disabled">
-            <button id="realrectoggle" class="real-rec-toggle ui-tooltip-wrapper">
-                <div class="midi-toggle" id="midi-toggle">
-                    <span id="realrecimage" class="recording-image"></span>
-                    <span class="recording-name"><span id="realrecname"></span></span>
-                    <svg class="controlbar-caret"><use xlink:href="#shape-dropdown"></use></svg>
-                </div>
-
-                <div class="ui-tooltip jsfliptip" id="synth-toggle-tooltip">
-                    <h4 class="tooltip-label">Recordings</h4>
-                    <div id="recordings-tooltip"><label id="synthlistitem" class="visible" data-backend="0"><div class="ui-tooltip-button link-text-center active"><input type="radio" name="audiotype" class="invisible-radio"><svg class="svg-icon ui-tooltip-icon"><use xlink:href="#shape-digital-sound"></use></svg><span class="truncate-text reset-lh" title="Synthetic">Synthetic</span></div></label></div>
-                </div>
-            </button>
-
-            <button id="usesynth" class="synth-button toggle-active">Synth</button>
-        </div>
-        
-        <div id="instbuttons" class="ui-tooltip-wrapper controlbar-menu">
-            <div class="loopcontainer instrument-button">
-                
-                <button class="loopbutton control-icon-text">
-                    <svg class="loopicon svg-icon loopicon-repeat">
-                        <title>Loop</title>
-                        <use xlink:href="#shape-loop"></use>
-                    </svg>
-                    <svg class="loopicon svg-icon loopicon-once">
-                        <title>Loop (plays only once)</title>
-                        <use xlink:href="#shape-loop-once"></use>
-                    </svg>
-                    <div class="control-icon-text-content">Loop</div>
-                </button>
-            </div>
-
-            <button id="primvizbut" class="control-icon-text hideable visible" data-inst="1">
-                <svg id="primvizsvg" class="svg-icon"><use xlink:href="#shape-keyboard"></use></svg>
-                <div id="primvizname" class="control-icon-text-content">Keyboard</div>
-            </button>
-
-            <hr class="controlbar-divider">
-
-            
-            <button id="toggle-mixer" class="control-icon instrument-button hideable visible" data-inst="5">
-                <svg class="svg-icon">
-                    <title>Volume</title>
-                    <use xlink:href="#shape-volume"></use>
-                </svg>
-            </button>
-
-            <div class="ui-tooltip-wrapper">
-                <button id="metronome-tooltip-button" class="control-icon instrument-button">
-                    <svg class="svg-icon">
-                        <title>Metronome and count-in</title>
-                        <use xlink:href="#shape-metronome"></use>
-                    </svg>
-                </button>
-                <div id="metronome-tooltip" class="ui-tooltip ui-tooltip-right ui-tooltip-no-arrow jsfliptip">
-                    <label class="checkbox-toggle">
-                        <input id="toggle-metronome" type="checkbox" class="visible">
-                        <div class="checkbox-toggle-element"></div>
-                        <span class="checkbox-toggle-name">Metronome</span>
-                    </label>
-
-                    <div id="metronome-options">
-                        <div class="select-wrapper select-wrapper-compact">
-                            <select id="metronome-every-beat" class="select-list">
-                                <option value="1">On every beat</option>
-                                <option value="0">Only on downbeats</option>
-                            </select>
-                            <div class="select-caret" aria-hidden="true" role="presentation"><svg class="svg-icon"><use xlink:href="#shape-dropdown"></use></svg></div>
-                        </div>
-                    </div>
-
-                    <hr class="divider divider-12">
-                    <label class="checkbox-toggle">
-                        <input id="countin-toggle" type="checkbox">
-                        <div class="checkbox-toggle-element"></div>
-                        <span class="checkbox-toggle-name">Count-in</span>
-                    </label>
-
-                    <div id="countin-options">
-                        <div class="select-wrapper select-wrapper-compact margin-bottom-10">
-                            <select id="metronome-loop-countin" class="select-list">
-                                <option value="1">Before each loop</option>
-                                <option value="0">Only at start</option>
-                            </select>
-                            <div class="select-caret" aria-hidden="true" role="presentation"><svg class="svg-icon"><use xlink:href="#shape-dropdown"></use></svg></div>
-                        </div>
-                        <div class="select-wrapper select-wrapper-compact">
-                            <select id="countinlen" class="select-list">
-                                <option value="1">1 bar long</option>
-                                <option value="2">2 bars long</option>
-                                <option value="3">3 bars long</option>
-                            </select>
-                            <div class="select-caret" aria-hidden="true" role="presentation"><svg class="svg-icon"><use xlink:href="#shape-dropdown"></use></svg></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button id="toggle-violinboard" class="control-icon instrument-button hideable" data-inst="3">
-                <svg class="svg-icon">
-                    <title>Violin fingerboard visualization</title>
-                    <use xlink:href="#shape-violin"></use>
-                </svg>
-            </button>
-            <button id="toggle-trombone" class="control-icon instrument-button hideable" data-inst="7">
-                <svg class="svg-icon">
-                    <title>Trombone visualization</title>
-                    <use xlink:href="#shape-trombone"></use>
-                </svg>
-            </button>
-            <button id="toggle-trumpet" class="control-icon instrument-button hideable" data-inst="6">
-                <svg class="svg-icon">
-                    <title>Trumpet visualization</title>
-                    <use xlink:href="#shape-trumpet"></use>
-                </svg>
-            </button>
-            <button id="toggle-fretboard" class="control-icon instrument-button hideable" data-inst="2">
-                <svg class="svg-icon">
-                    <title>Fretboard visualization</title>
-                    <use xlink:href="#shape-fretboard"></use>
-                </svg>
-            </button>
-            <button id="toggle-keyboard" class="control-icon instrument-button hideable" data-inst="1">
-                <svg class="svg-icon">
-                    <title>Piano keyboard visualization</title>
-                    <use xlink:href="#shape-keyboard"></use>
-                </svg>
-            </button>
-            <button id="toggle-lyricsonly" class="control-icon instrument-button hideable">
-                <svg class="svg-icon">
-                    <title>Lyrics-only view</title>
-                    <use xlink:href="#shape-microphone"></use>
-                </svg>
-            </button>
-
-            <button id="toggle-settings" class="control-icon instrument-button visible">
-                <svg class="svg-icon">
-                    <title>More settings</title>
-                    <use xlink:href="#shape-more-icon"></use>
-                </svg>
-            </button>
-        </div>
-        
     </footer>
-</div>
-
-<div class="controlbar-wrapper">
-    <div id="title-and-progress" class="title-and-progress">
-        <div id="progressbar" class="progress-bar">
-            <div id="progressmarker" class="progress-marker" style="width: 49.9969%;">
-                <div id="progressnib" class="progress-nib">
-                    <div id="progresstip" class="ui-tooltip ui-tooltip-no-arrow jsfliptip text-center">
-                        <p class="time-count"><span id="currenttime1">0:00</span> / <span class="totaltime">0:54</span></p>
-                        
-                        <p class="measure-count onlynotation">Measure <span id="currentmeasure"></span> / <span id="nummeasures">32</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer id="controlbar" class="controlbar noselect">
-
-        <div class="play-and-progress">
-            
-            <div class="playcontainer">
-                <button class="playbutton">
-                    <svg class="playloadspin"><use xlink:href="#shape-loading"></use></svg>
-                    <svg class="playicon playcountinoff" aria-label="Play"><use xlink:href="#shape-play"></use></svg>
-                    <svg class="playicon playcountinon" aria-label="Play with count-in"><use xlink:href="#shape-play-123"></use></svg>
-                    <svg class="pauseicon" aria-label="Pause"><use xlink:href="#shape-pause"></use></svg>
-                </button>
-            </div>
-
-            
-            <div class="title-and-time">
-                <div class="artist-info">Uploaded file</div>
-                <div class="slice-time"><span id="currenttime2">0:27</span> / <span id="totaltime2">0:54</span></div>
-            </div>
-        </div>
-        
-        <div id="speedui-footer" class="ui-tooltip-wrapper is-bpm">
-
-                <div class="speed-controls">
-                    <div style="display: none;" class="speedlabel controlbar-label">BPM</div>
-                    <div class="speedbuttons">
-
-                        <span class="speedvalue">
-                            <svg class="svg-icon svg-icon-speed-training"><use xlink:href="#shape-arrow-ne"></use></svg>
-                            <span class="speedvaluetext">140</span>
-                            <span class="bpm-text">BPM</span>
-                            <svg class="controlbar-caret"><use xlink:href="#shape-dropdown"></use></svg>
-                        </span>
-
-                        <button class="speedbut speedbut-minus action-button" data-dir="0" aria-label="Slow down playback"><svg><use xlink:href="#shape-minus"></use></svg></button>
-                        <button class="speedbut speedbut-plus action-button" data-dir="1" aria-label="Speed up playback"><svg><use xlink:href="#shape-plus"></use></svg></button>
-
-                    </div>
-                </div>
-
-                <div class="ui-tooltip ui-tooltip-no-delay speed-tooltip jsfliptip">
-                    <div class="input-group">
-                        <input type="text" class="speedinp" maxlength="3" pattern="[0-9]*" inputmode="numeric">
-                        <div class="input-group-end"><span class="input-group-text">%</span></div>
-                    </div>
-
-                    <hr class="divider divider-20">
-
-                    <ul id="speedpresets" class="list-style-none">
-                        <li><button class="jspreset ui-tooltip-button active" data-val="100">100% <span id="speedpreset100bpm">(140 BPM)</span></button></li>
-                        <li><button class="jspreset ui-tooltip-button" data-val="75">75%</button></li>
-                        <li><button class="jspreset ui-tooltip-button" data-val="50">50%</button></li>
-                        <li><button class="jspreset ui-tooltip-button" data-val="25">25%</button></li>
-                        <li><button class="jspreset ui-tooltip-button" data-val="train">Speed training…</button></li>
-                    </ul>
-
-                    <form action="" class="enhanced-slowdown-form hiddenflexelement">
-                        <label class="enhanced-slowdown">
-                            <input id="improved-slowdown" type="checkbox"> Enhanced slowdown
-                        </label>
-                        <div class="ui-tooltip-wraper-hover ui-tooltip-wraper-slowdown">
-                            <div class="slowdown-tip"><div class="slowdown-tip-text">?</div></div>
-                            <div class="ui-tooltip ui-tooltip-slowdown ui-tooltip-dark">Disable enhanced MP3 slowdown if you’re experiencing issues with playback. Note: this is set automatically based on your device performance.</div>
-                        </div>
-                    </form>
-                </div>
-        </div>
-        
-        <div id="toggle-container" class="rec-toggle disabled">
-            <button id="realrectoggle" class="real-rec-toggle ui-tooltip-wrapper">
-                <div class="midi-toggle" id="midi-toggle">
-                    <span id="realrecimage" class="recording-image"></span>
-                    <span class="recording-name"><span id="realrecname"></span></span>
-                    <svg class="controlbar-caret"><use xlink:href="#shape-dropdown"></use></svg>
-                </div>
-
-                <div class="ui-tooltip jsfliptip" id="synth-toggle-tooltip">
-                    <h4 class="tooltip-label">Recordings</h4>
-                    <div id="recordings-tooltip"><label id="synthlistitem" class="visible" data-backend="0"><div class="ui-tooltip-button link-text-center active"><input type="radio" name="audiotype" class="invisible-radio"><svg class="svg-icon ui-tooltip-icon"><use xlink:href="#shape-digital-sound"></use></svg><span class="truncate-text reset-lh" title="Synthetic">Synthetic</span></div></label></div>
-                </div>
-            </button>
-
-            <button id="usesynth" class="synth-button toggle-active">Synth</button>
-        </div>
-        
-        <div id="instbuttons" class="ui-tooltip-wrapper controlbar-menu">
-            <div class="loopcontainer instrument-button">
-                
-                <button class="loopbutton control-icon-text">
-                    <svg class="loopicon svg-icon loopicon-repeat">
-                        <title>Loop</title>
-                        <use xlink:href="#shape-loop"></use>
-                    </svg>
-                    <svg class="loopicon svg-icon loopicon-once">
-                        <title>Loop (plays only once)</title>
-                        <use xlink:href="#shape-loop-once"></use>
-                    </svg>
-                    <div class="control-icon-text-content">Loop</div>
-                </button>
-            </div>
-
-            <button id="primvizbut" class="control-icon-text hideable visible" data-inst="1">
-                <svg id="primvizsvg" class="svg-icon"><use xlink:href="#shape-keyboard"></use></svg>
-                <div id="primvizname" class="control-icon-text-content">Keyboard</div>
-            </button>
-
-            <hr class="controlbar-divider">
-
-            
-            <button id="toggle-mixer" class="control-icon instrument-button hideable visible" data-inst="5">
-                <svg class="svg-icon">
-                    <title>Volume</title>
-                    <use xlink:href="#shape-volume"></use>
-                </svg>
-            </button>
-
-            <div class="ui-tooltip-wrapper">
-                <button id="metronome-tooltip-button" class="control-icon instrument-button">
-                    <svg class="svg-icon">
-                        <title>Metronome and count-in</title>
-                        <use xlink:href="#shape-metronome"></use>
-                    </svg>
-                </button>
-                <div id="metronome-tooltip" class="ui-tooltip ui-tooltip-right ui-tooltip-no-arrow jsfliptip">
-                    <label class="checkbox-toggle">
-                        <input id="toggle-metronome" type="checkbox" class="visible">
-                        <div class="checkbox-toggle-element"></div>
-                        <span class="checkbox-toggle-name">Metronome</span>
-                    </label>
-
-                    <div id="metronome-options">
-                        <div class="select-wrapper select-wrapper-compact">
-                            <select id="metronome-every-beat" class="select-list">
-                                <option value="1">On every beat</option>
-                                <option value="0">Only on downbeats</option>
-                            </select>
-                            <div class="select-caret" aria-hidden="true" role="presentation"><svg class="svg-icon"><use xlink:href="#shape-dropdown"></use></svg></div>
-                        </div>
-                    </div>
-
-                    <hr class="divider divider-12">
-                    <label class="checkbox-toggle">
-                        <input id="countin-toggle" type="checkbox">
-                        <div class="checkbox-toggle-element"></div>
-                        <span class="checkbox-toggle-name">Count-in</span>
-                    </label>
-
-                    <div id="countin-options">
-                        <div class="select-wrapper select-wrapper-compact margin-bottom-10">
-                            <select id="metronome-loop-countin" class="select-list">
-                                <option value="1">Before each loop</option>
-                                <option value="0">Only at start</option>
-                            </select>
-                            <div class="select-caret" aria-hidden="true" role="presentation"><svg class="svg-icon"><use xlink:href="#shape-dropdown"></use></svg></div>
-                        </div>
-                        <div class="select-wrapper select-wrapper-compact">
-                            <select id="countinlen" class="select-list">
-                                <option value="1">1 bar long</option>
-                                <option value="2">2 bars long</option>
-                                <option value="3">3 bars long</option>
-                            </select>
-                            <div class="select-caret" aria-hidden="true" role="presentation"><svg class="svg-icon"><use xlink:href="#shape-dropdown"></use></svg></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button id="toggle-violinboard" class="control-icon instrument-button hideable" data-inst="3">
-                <svg class="svg-icon">
-                    <title>Violin fingerboard visualization</title>
-                    <use xlink:href="#shape-violin"></use>
-                </svg>
-            </button>
-            <button id="toggle-trombone" class="control-icon instrument-button hideable" data-inst="7">
-                <svg class="svg-icon">
-                    <title>Trombone visualization</title>
-                    <use xlink:href="#shape-trombone"></use>
-                </svg>
-            </button>
-            <button id="toggle-trumpet" class="control-icon instrument-button hideable" data-inst="6">
-                <svg class="svg-icon">
-                    <title>Trumpet visualization</title>
-                    <use xlink:href="#shape-trumpet"></use>
-                </svg>
-            </button>
-            <button id="toggle-fretboard" class="control-icon instrument-button hideable" data-inst="2">
-                <svg class="svg-icon">
-                    <title>Fretboard visualization</title>
-                    <use xlink:href="#shape-fretboard"></use>
-                </svg>
-            </button>
-            <button id="toggle-keyboard" class="control-icon instrument-button hideable" data-inst="1">
-                <svg class="svg-icon">
-                    <title>Piano keyboard visualization</title>
-                    <use xlink:href="#shape-keyboard"></use>
-                </svg>
-            </button>
-            <button id="toggle-lyricsonly" class="control-icon instrument-button hideable">
-                <svg class="svg-icon">
-                    <title>Lyrics-only view</title>
-                    <use xlink:href="#shape-microphone"></use>
-                </svg>
-            </button>
-
-            <button id="toggle-settings" class="control-icon instrument-button visible">
-                <svg class="svg-icon">
-                    <title>More settings</title>
-                    <use xlink:href="#shape-more-icon"></use>
-                </svg>
-            </button>
-        </div>
-        
-    </footer>
-</div>
 
     <script src="{{url_for('static', path='/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static', path='/js/index.js')}}"></script>
+    <script src="{{url_for('static', path='/js/custom.js')}}"></script>
 
-  </body>
+</body>
+
 </html>
