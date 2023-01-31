@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+
 default_dict = dict(
     output_path = "./",
     use_tf = False,
@@ -5,12 +8,21 @@ default_dict = dict(
     save_cache = False
 )
 
-fast_only_dict = dict(thresh = 512, step_size = 256)
+fast_only_dict = dict(thresh = 768, step_size = 256)
 slow_only_dict = dict(thresh = 1024,step_size = 128)
 
 fast_dict = {**default_dict, **fast_only_dict}
 slow_dict = {**default_dict, **slow_only_dict}
 
-paths = {'img_path': '/Users/yj/Projects/maestro/images',
-         'xml_path': '/Users/yj/Projects/maestro/xml',
-         'mp3_path': '/Users/yj/Projects/maestro/sound'}
+#(TODO) DB로 바꿔야함.
+MODULE_PATH = "/opt/ml/oemer"
+
+paths = {'img_path': '/opt/ml/results/images',
+         'xml_path': '/opt/ml/results/xml',
+         'mp3_path': '/opt/ml/results/sound'}
+
+
+for k,v in paths.items():
+    if not os.path.exists(v):
+        os.makedirs(v, exist_ok = True)
+

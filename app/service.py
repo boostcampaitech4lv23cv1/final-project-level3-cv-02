@@ -3,11 +3,12 @@ import io
 import os
 from argparse import Namespace
 from constant import fast_dict, slow_dict, paths
-from MusicXML2Audio.main import main as xml2mp3
-
 import sys 
 sys.path.append("..")
+sys.path.append(".")
+from MusicXML2Audio.main import main as xml2mp3
 
+import urllib
 from oemer.ete import extract
 
 def loading_form(images):

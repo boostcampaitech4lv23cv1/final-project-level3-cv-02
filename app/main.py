@@ -4,8 +4,10 @@ from fastapi.staticfiles import StaticFiles
 from typing import List
 import uvicorn 
 import sys 
+import urllib
 sys.path.append("..")
 
+import __init__
 from starlette.responses import RedirectResponse
 import service
 

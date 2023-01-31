@@ -4,7 +4,7 @@ import subprocess
 
 __all__ = ['FluidSynth']
 
-DEFAULT_SOUND_FONT = './data/.fluidsynth/FluidR3Mono_GM.sf3'
+DEFAULT_SOUND_FONT = '/opt/ml/MusicXML2Audio/data/.fluidsynth/FluidR3Mono_GM.sf3'
 DEFAULT_SAMPLE_RATE = 44100
 DEFAULT_GAIN = 0.2
 
