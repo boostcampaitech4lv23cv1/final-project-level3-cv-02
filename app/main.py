@@ -45,6 +45,15 @@ def loading_form(request: Request, images: List[bytes] = File(...)) :
     fpaths = service.loading_form(images)
     return templates.TemplateResponse('loading.html', context={'request': request, "file_path": fpaths})
 
+# @app.post("/hard-loading")
+# def loading_form2(request: Request, images: List[bytes] = File(...)) :
+#     fpaths = service.loading_form(images)
+#     return templates.TemplateResponse('hard-loading.html', context={'request': request, "file_path": fpaths})
+
+@app.get("/hard-loading")
+def loading_form2(request: Request) :
+    return templates.TemplateResponse('hard-loading.html', context={'request': request})
+
 @app.post("/error")
 def error_form(request: Request) :
     return templates.TemplateResponse('error.html', context={'request': request})
