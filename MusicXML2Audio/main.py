@@ -1,14 +1,17 @@
 import sys 
 sys.path.append("../MusicXML2Audio")
 
+import os
+from constant import MODULE_PATH
 from converter.MXL2midi import MXL2MIDI
 from converter.midi2wav import MIDI2WAV
 from converter.wav2sound import WAV2MP3, WAV2FLAC
 
 #handle
+
 NAME = 'file'
-XML_PATH = './data/.xml'
-OUTPUT_PATH = './data/output'
+XML_PATH = os.path.join(MODULE_PATH, 'data/.xml')
+OUTPUT_PATH = os.path.join(MODULE_PATH, "data/output")
 
 MERGE = True
 MP3 = True

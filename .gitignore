@@ -12,7 +12,7 @@ data/output/*
 !metric/*
 !MusicXML2Audio/data/.xml
 
-*.pkl
+# *.pkl
 *.h5
 *.onnx
 *.musicxml
