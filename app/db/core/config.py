@@ -12,6 +12,5 @@ class Settings:
     DB_DATABASE : str = os.getenv("DB_DATABASE")
 	
     DATABASE_URL = f"mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}"
-    print(DATABASE_URL)
-    
+
 settings = Settings()
