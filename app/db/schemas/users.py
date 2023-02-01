@@ -1,6 +1,5 @@
 from typing import Optional, List
 from pydantic import BaseModel
-from db.models.image_bundle import Image_bundle
 
 class UserBase(BaseModel):
     user_email: str
@@ -9,7 +8,7 @@ class Users(UserBase):
     user_id: int
     user_password: str
     auth_yn: bool
-    image_bundle: List[Image_bundle] = []
+    image_bundle: List
 
 class UserCreate(UserBase):
     user_password: str

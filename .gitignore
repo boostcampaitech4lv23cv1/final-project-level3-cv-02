@@ -17,4 +17,4 @@ data/output/*
 *.onnx
 *.musicxml
 
-sound
+app/env.sh
