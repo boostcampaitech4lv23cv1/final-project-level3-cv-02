@@ -4,12 +4,19 @@ from fastapi.staticfiles import StaticFiles
 from typing import List
 import uvicorn 
 import sys 
+from  db.routes import image, image_bundle, sound, users
 sys.path.append("..")
 
 from starlette.responses import RedirectResponse
 import service
 
 app = FastAPI()
+#crud router 추가
+app.include_router(users.router)
+app.include_router(image_bundle.router)
+app.include_router(image.router)
+app.include_router(sound.router)
+
 templates = Jinja2Templates(directory='templates')
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
