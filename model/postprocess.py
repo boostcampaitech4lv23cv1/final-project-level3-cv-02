@@ -57,6 +57,15 @@ for s, f, n in zip(sharp, flat, natural):
 # duration = duration_detection(note_pos, symbol)
 
 pitches = pitch_detection_only_G(note_pos, staff_line, original)
-pitches_sfn = sfn_detection(sharp, flat, natural, pitches, note_pos)
+pitches_sfn = sfn_detection(sharp, flat, natural, pitches, note_pos, original)
+
+for p in pitches_sfn: 
+    which, head, pitch, key_sign = p 
+    m.pitch = pitch 
+    if key_sign == 'sharp': 
+        m.sharp = True 
+    elif key_sign == 'flat': 
+        m.sharp = True 
+
 
 
