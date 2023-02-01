@@ -9,4 +9,8 @@ class ImageBundle(ImageBundleBase):
     user_id: int
     convert_time: str
     convert_yn: bool
-    image: List[Image] = []
+    images: List[Image] = []
+
+class ImageBundleCreate(ImageBundleBase):
+    user_id: int
+    images: List[Image] = []

@@ -7,7 +7,7 @@ class Users(Base):
 
     user_id = Column(Integer, primary_key=True, index=True)
     user_email = Column(String, unique=True, index=True)
-    password = Column(String)
+    user_password = Column(String)
     auth_yn = Column(Boolean)
 
     image_bundle = relationship("Image_bundle", back_populates="USERS")
