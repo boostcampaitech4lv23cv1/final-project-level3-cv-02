@@ -21,8 +21,10 @@ def file_form(request: Request):
 # ex. /play?user_id=sangmo
 @app.post('/play')
 def play_form(request:Request, images: List[bytes] = File(...)):
+    fpaths = service.loading_form(images)
+    print(fpaths)
     print({"file_sizes": [len(image) for image in images]})
-    return templates.TemplateResponse('play.html', context = {'request': request})
+    return templates.TemplateResponse('play.html', context = {'request': request, "file_path": fpaths})
 
 #(TODO 1) /opt/ml/tmp/file(로컬 저장)을 전제로 하고 있는데, DB 저장 혹은 버킷 저장 시 경로를 인자로 받기
 #(TODO 2) print문 등을 logging으로 대체하기
