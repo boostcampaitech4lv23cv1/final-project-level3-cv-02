@@ -5,7 +5,7 @@ def threshold(image_path):
     image = cv2.imread(image_path)
     if 'png' in image_path: 
         image = cv2.cvtColor(image, cv2.COLOR_BGRA2GRAY)
-    elif 'jpg' in image_path: 
+    elif 'jpg' or 'jpeg' in image_path: 
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     ret, image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
