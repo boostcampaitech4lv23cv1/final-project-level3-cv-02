@@ -124,7 +124,7 @@ function createElement(e, file) {
   }
 
   /* 파일 제출 시 확인 코드 */
-  function submitConfirm(e){
+  function submitConfirm(str){
     debugger;
     let fileCnt = images.files.length;
     if(fileCnt==0){
@@ -132,6 +132,11 @@ function createElement(e, file) {
         return false;
     }
     if(confirm(`${fileCnt}개의 이미지를 변환하시겠습니까?`)){
-        document.submitFrm.submit();
+        if (str=='hard') {
+            submitFrm.action="/hard-loading";
+            document.submitFrm.submit();
+        } else {
+            document.submitFrm.submit();
+        }
     }
   }
