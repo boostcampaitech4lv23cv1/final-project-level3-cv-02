@@ -27,7 +27,7 @@ def remove_noise(image_path):
 
 
 
-def remove_staves(image):
+def remove_staves(image, original):
     height, width = image.shape
     staves = []  # 오선의 좌표들이 저장될 리스트
 
@@ -48,8 +48,60 @@ def remove_staves(image):
             if image[top_pixel - 1][col] == 0 and image[bot_pixel + 1][col] == 0:  # 오선 위, 아래로 픽셀이 있는지 탐색
                 for row in range(top_pixel, bot_pixel + 1):
                     image[row][col] = 0  # 오선을 지움
+    
+    staff_lines = detect_staffline(original)
 
-    return image, [x[0] for x in staves]
+    # return image, [x[0] for x in staves]
+    return image, staff_lines 
+
+
+def detect_staffline(image): 
+    canny = cv2.Canny(image, 150, 200)
+    theta = np.pi / 180
+    lines = cv2.HoughLines(canny, rho=1, theta=theta, threshold=350)
+
+    stafflines = []
+    if lines is not None:
+        for i, line in enumerate(lines):
+
+            ## HoughLines
+            rho, theta = line[0] 
+            a = np.cos(theta)
+            b = np.sin(theta) 
+            x0 = a * rho 
+            y0 = b * rho 
+            x1 = int(x0 + image.shape[1]*(-b))
+            y1 = int(y0 + image.shape[1]*(a))
+            x2 = int(x0 - image.shape[1]*(-b))
+            y2 = int(y0 - image.shape[1]*(a))
+            
+            
+            ## HoughLines
+            if theta == np.float32(np.pi / 2):
+                cv2.line(image, (x1, y1), (x2, y2), (255, 0, 0), 1, cv2.LINE_AA)
+                stafflines.append(y1) 
+            
+    stafflines = sorted(stafflines)
+    stafflines = merge_staffline(stafflines)
+                     
+    return stafflines
+
+def merge_staffline(staff): 
+    thresh = 2
+
+    new = []
+    flag = 0 
+    for i in range(len(staff)-1): 
+        if flag: 
+            flag = 0 
+            continue 
+        if staff[i+1] - staff[i] <= thresh: 
+            new.append(int((staff[i+1]+staff[i]) / 2))
+            flag = 1
+        else: 
+            new.append(int(staff[i]))
+
+    return new
 
 
 
@@ -72,7 +124,7 @@ def normalization(image, staves, standard):
     ret, image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)  # 이미지 이진화
     # staves = [x * weight for x in staves]  # 오선 좌표에도 가중치를 곱해줌
     
-    f = open('/opt/ml/yolov7/staves.txt', 'w')
+    f = open('/opt/ml/model/staves.txt', 'w')
     for i in range(len(staves)): 
         f.write('{}\n'.format(staves[i]))
     f.close() 

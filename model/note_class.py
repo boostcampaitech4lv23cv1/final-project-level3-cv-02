@@ -6,4 +6,5 @@ class info():
         self.pitch: str = ''
         self.sharp: bool = False 
         self.flat: bool = False
+        self.natural: bool = False 
         self.duration: int = None 

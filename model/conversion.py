@@ -1,5 +1,6 @@
 import numpy as np 
 import cv2 
+from pitch_detection_only_G import pitch_detection_only_G
 
 # head = '/opt/ml/yolov7/runs/notehead/exp/labels/school_bell_processed.txt'
 # symbols = '/opt/ml/yolov7/runs/symbols/exp/labels/school_bell_processed.txt'
@@ -18,7 +19,6 @@ def conversion(mode, label_file, img_path, staff_line):
             line = file.readline() 
             if not line: 
                 break
-
             label, x, y, w, h = convert(line, H, W)
 
             if label == '0' or label == '1' or label == '2' or label == '3': 
@@ -46,27 +46,26 @@ def conversion(mode, label_file, img_path, staff_line):
             label, x, y, w, h = convert(line, H, W)
 
             if label == '24' or label == '25' or label == '26' or label == '27': 
-                label, x, y, w, h = convert(line, H, W)
                 sharp.append([label, x, y, w, h])
             elif label == '20' or label == '21': 
-                label, x, y, w, h = convert(line, H, W)
                 flat.append([label, x, y, w, h])
             elif label == '22' or label == '23': 
-                label, x, y, w, h = convert(line, H, W)
                 natural.append([label, x, y, w, h])
+            else: 
+                continue 
         
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
             cv2.putText(img, label, (x+15, y+10), 
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
         cv2.imwrite('conversion_symbol.jpg', img)
 
-        if len(sharp) > 1: 
-            sharp = sort_head_pos(sharp, staff_line)
-        if len(flat) > 1: 
-            flat = sort_head_pos(flat, staff_line)
-        if len(natural) > 1: 
-            natural = sort_head_pos(natural, staff_line)
-
+        if len(sharp) > 0: 
+            sharp = check_rep(sharp, staff_line) 
+        if len(flat) > 0: 
+            flat = check_rep(flat, staff_line) 
+        if len(natural) > 0: 
+            natural = check_rep(natural, staff_line) 
+         
         return sharp, flat, natural
 
 
@@ -107,7 +106,7 @@ def sort_head_pos(head_pos, staff_line):
 
     for head in head_pos: 
         label, xmin, ymin, w, h = head
-        margin = h / 2
+        margin = h 
         if h < head_h - margin or head_h + margin < h: 
             continue 
 
@@ -118,3 +117,23 @@ def sort_head_pos(head_pos, staff_line):
         sorted_pos.sort(key=lambda x: (x[0], x[1][1])) ## 우선순위: staff line -> x좌표 
     
     return sorted_pos
+
+
+def check_rep(sfn, staff_line):
+    new_dict = {}
+    new_arr = []
+    for sig in sfn:  
+        _, x, y, w, h = sig
+        cen_y = y + h/2
+        which = which_staff(cen_y, staff_line)
+        s = [[which, sig]]
+
+        closest = pitch_detection_only_G(s, staff_line)
+
+        if closest[0][0][1] not in new_dict: 
+            new_dict[closest[0][0][1]] = sig 
+            new_arr.append([s, closest[0][0][1]]) 
+    
+    return new_arr 
+
+        

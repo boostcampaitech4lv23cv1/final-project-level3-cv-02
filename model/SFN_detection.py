@@ -1,16 +1,21 @@
 import numpy as np 
 import cv2 
+import copy
+import constant as pitch 
 
-def sfn_detection(sharp, flat, natural, head_pos, original): 
+def sfn_detection(sharp, flat, natural, pitches, original): 
     # sharp, flat, natural을 다 구별해서 input으로 들어온다고 가정 
+
+    original_copy = copy.deepcopy(original)
+    sfn_pitch_array = []
     
-    for i in range(len(head_pos)): 
-        head_pos[i].append('')
+    for i in range(len(pitches)): 
+        pitches[i].append('') # key value 추가, default로 key 없음 
 
     if len(sharp) > 0: 
-        sfn_pitch_array = sharp_flat_check(sharp, 'sharp', natural, head_pos, original)
-    elif len(flat) > 0: 
-        sfn_pitch_array = sharp_flat_check(flat, 'flat', natural, head_pos, original)
+        sfn_pitch_array = sharp_flat_check(sharp, 'sharp', natural, pitches, original_copy)
+    if len(flat) > 0:
+        sfn_pitch_array = sharp_flat_check(flat, 'flat', natural, pitches, original_copy)
 
     return sfn_pitch_array 
 
@@ -32,47 +37,57 @@ def natural_check(natural_pos, head_pos, margin):
         return False 
 
 
-def sharp_flat_check(array, s_or_f, natural, pitches, head_pos, original): 
-    # 모르겠음 바꿀수도 
-    margin_x = w / 2
-    margin_y = h / 2
-    natural_margin = w / 2 
-
+def sharp_flat_check(array, s_or_f, natural, pitches, original_copy): 
     if array is not None:
         for s in array: 
-            s_which, pos = s 
-            label_s, s_x, s_y, s_w, s_h = pos[0], pos[1], pos[2], pos[3], pos[4]
-            sharp_cen = s_y + s_h
+            s_whichpos, s_pitch = s 
+            s_which, s_pos = s_whichpos[0][0], s_whichpos[0][1]  
+            label_s, s_x, s_y, s_w, s_h = s_pos[0], s_pos[1], s_pos[2], s_pos[3], s_pos[4]
 
-            if label_s == 24: # 모든 노트헤드에 적용되는 sharp 
-                for i, head in enumerate(head_pos):
-                    which, pos = head 
-                    _, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
+            if label_s == '24' or label_s == '20': # 모든 노트헤드에 적용되는 sharp / flat
+                flag = 0 
+                for i, pit in enumerate(pitches):
+                    head_pitch, key = pit 
+                    lab_pos, pitch = head_pitch[0], head_pitch[1]
+                    which, pos = lab_pos[0], lab_pos[1]
+                    label, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
+
+                    # 모르겠음 바꿀수도 
+                    margin_x = w / 2
+                    margin_y = h / 2
+                    natural_margin = w / 2 
                         
                     if len(natural) > 0: # natural이 있고 
-                        if natural_check(natural, head, natural_margin): 
+                        if natural_check(natural, [x, y, w, h], natural_margin): 
                             # 해당 note head에 해당이 되는 경우 
-                            pitches[i][-1] = ''
+                            pitches[i][0][1] = ''
 
-                    if s_which == which:
-                        pitches[i][-1] = s_or_f
+                    if s_pitch == pitch:
+                        pitches[i][0][1] = s_or_f
+                        flag = 1
                     
-                    cv2.rectangle(original, (x, y), (x+w, y+h), (0, 0, 255), 1, cv2.LINE_AA)
+                    if flag:
+                        cv2.rectangle(original_copy, (x, y), (x+w, y+h), (0, 0, 255), 1, cv2.LINE_AA)
 
 
             else: # 특정 노트헤드에만 적용되는 sharp 
-                for i, head in enumerate(head_pos[s_which]):
-                    which, pos = head 
-                    _, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
+                for i, pit in enumerate(pitches):
+                    head_pitch, key = pit 
+                    lab_pos, pitch = head_pitch[0], head_pitch[1]
+                    which, pos = lab_pos[0], lab_pos[1]
+                    if which != s_which: 
+                        continue 
+                     
+                    label, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
                         
                     if len(natural) > 0:
-                        if natural_check(natural, head, natural_margin):
-                            pitches[i][-1] = ''
+                        if natural_check(natural, [x, y, w, h], natural_margin):
+                            pitches[i][0][1] = ''
 
                     if s_x < abs(x - margin_x) and s_y < abs(y - margin_y) : 
-                        pitches[i][-1] = s_or_f
+                        pitches[i][0][1] = s_or_f
                         break 
                 
-            cv2.imwrite('pitch_sfn_detection_test.jpg', original)
+    cv2.imwrite('pitch_sfn_detection_test.jpg', original_copy)
             
     return pitches

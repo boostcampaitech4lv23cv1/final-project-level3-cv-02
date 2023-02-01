@@ -1,10 +1,13 @@
 import numpy as np 
 import cv2 
+import copy
 
 def merge_bbox(head_pos, viz, img): 
+    original_copy = copy.deepcopy(img)
+
     merged_bbox = [] 
     head = 0 
-    while head < len(head_pos) - 1: 
+    while head < len(head_pos): 
         which1, pos1 = head_pos[head]
         label1, x1, y1, w1, h1 = pos1[0], pos1[1], pos1[2], pos1[3], pos1[4]
         margin = ( w1 + h1 ) / 2 
@@ -42,9 +45,9 @@ def merge_bbox(head_pos, viz, img):
         for box in merged_bbox: 
             which, pos = box
             label, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
-            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
+            cv2.rectangle(original_copy, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
         
-        cv2.imwrite('merged_label.jpg', img)
+        cv2.imwrite('merged_label.jpg', original_copy)
 
     return merged_bbox 
 

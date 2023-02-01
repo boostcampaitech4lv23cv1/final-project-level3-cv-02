@@ -18,7 +18,7 @@ image_1 = remove_noise(opt.resource_path)
 # cv2.imwrite('image1.jpg', image_1)
 
 # 2. 오선 제거
-image_2, staves = remove_staves(image_1)
+image_2, staves = remove_staves(image_1, original)
 # cv2.imwrite('image2.jpg', image_2)
 
 # 3. 악보 이미지 정규화

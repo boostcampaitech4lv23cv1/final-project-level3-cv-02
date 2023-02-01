@@ -23,11 +23,13 @@ while True:
     line = staves.readline() 
     if not line: 
         break
-    staff_line.append(int(line)) 
+    staff_line.append(int(line.replace('\n', ''))) 
 staves.close() 
 
 note_pos, staff_line = conversion('note', opt.note_label_file, opt.img_path, staff_line)
+# note pos = [which, [label, x, y, w, h]]
 # merged_note_pos = merge_bbox(note_pos, viz=True, img=original)
+# merged_note pos = [which, [label, x, y, w, h]]
 
 n = []
 for note in note_pos: 
@@ -37,31 +39,20 @@ for note in note_pos:
     m.bbox = note_pos[1][1:]
     n.append(m) 
 
-sharp, flat, natural = conversion('symbol', opt.symbol_label_file, opt.img_path, staff_line)
-
-for s, f, n in zip(sharp, flat, natural): 
-    m.sharp = True if len(s) > 0 else False 
-    m.flat = True if len(f) > 0 else False 
-    m.natural = True if len(n) > 0 else False 
-    if m.sharp: 
-        m.staff = s[0]
-        m.bbox = s[1]
-    if m.flat: 
-        m.staff = f[0]
-        m.bbox = f[1]
-    if m.natural: 
-        m.staff = n[0]
-        m.bbox = n[1]
-    n.append(m) 
+sharp, flat, natural = conversion('symbol', opt.symbol_label_file, opt.img_path, staff_line) 
+# sharp = [note, [label, x, y, w, h]]
+# print(sharp)
+# print(flat)
 
 # duration = duration_detection(note_pos, symbol)
-
-pitches = pitch_detection_only_G(note_pos, staff_line, original)
-pitches_sfn = sfn_detection(sharp, flat, natural, pitches, note_pos, original)
+pitches = pitch_detection_only_G(note_pos, staff_line, original, viz=True) # 여기서 note head를 조금 filtering함 
+# pitches = [which, [label, x, y, w, h]]
+pitches_sfn = sfn_detection(sharp, flat, natural, pitches, original)
+# pitches_sfn = [which, [label, x, y, w, h], sig여부]
 
 for p in pitches_sfn: 
-    which, head, pitch, key_sign = p 
-    m.pitch = pitch 
+    pos_pitch, key_sign = p 
+    m.pitch = pos_pitch[1]
     if key_sign == 'sharp': 
         m.sharp = True 
     elif key_sign == 'flat': 
