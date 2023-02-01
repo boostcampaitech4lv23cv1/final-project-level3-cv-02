@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
 
-  <title>Maestro::error</title>
+  <title>Maestro::loading</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbars/">
   <link href="{{url_for('static', path='/css/custom.css')}}" rel="stylesheet">
-  <link href="{{url_for('static', path='/css/error.css')}}" rel="stylesheet">
+  <link href="{{url_for('static', path='/css/hard-loading.css')}}" rel="stylesheet">
   <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
 
   <style>
@@ -22,20 +22,16 @@
       background-color: #f5f5f5;
     }
 
-    .error_btn:hover {
-      color: darkgray;
-    }
   </style>
 
 </head>
 
 <body class="text-center">
-
   <header>
   </header>
 
   <main class="standard-form w-100 m-auto">
-    <a href="/" class="Maestro-logo">
+    <a class="Maestro-logo">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-music"
         viewBox="0 0 16 16">
         <path
@@ -48,21 +44,23 @@
       <strong>Maestro</strong>
     </a>
 
-    <div class="error">
-      <h2 class="display1">ERROR!</h2>
-      <div class="display2">
-        <h4 class="text">에러가 발생했습니다.</h4>
-        <h4 class="text">처음부터 다시 시작해주세요.</h4>
+    <div class="contents1">
+      <div class="loading-container">
+        <div class="loading-text" id="loading-text">Maestro를 이용해주셔서 감사합니다!</div>
+        <h6 class="loading-script" id="loadingScript1">결과물은 가입하신 e-mail로 전송될 예정입니다.</h6>
+        <h6 class="loading-script" id="loadingScript2">소요 시간은 대략 1시간 가량으로, 보다 정확도 높은 결과를 받아보실 수 있습니다.</h6>
+        <h6 class="loading-script" id="loadingScript3">만약 e-mail이 전송되지 않았다면 다시 시도해주세요.</h6>
       </div>
+
       <form action="/" enctype="multipart/form-data" method="get">
         <!-- <input name="files" type="file" multiple> -->
-        <button type="error_btn" class="error_btn" id="main_page_btn" hidden>go to main</button>
+        <button type="main_btn" class="main_page_btn" id="main_page_btn">go to main</button>
       </form>
 
       </header>
 
       <main>
-        <div class="error">
+        <div class="contents3">
         </div>
       </main>
 
@@ -71,9 +69,7 @@
 
       <script>
         window.onload = function () {
-          setTimeout(function () {
-            document.getElementById('main_page_btn').hidden = false;
-          }, 1000);
+          document.getElementById("predict_model_hard").submit();
         }
       </script>
 

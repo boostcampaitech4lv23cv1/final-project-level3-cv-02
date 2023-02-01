@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Maestro-sign-up">
+  <meta name="author" content="BSH">
+  <title>Maestro::sign-up</title>
+
+  <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
+  <link href="{{url_for('static', path='/css/sign-form.css')}}" rel="stylesheet">
+
+  <meta name="theme-color" content="#82c96b">
+
+  <link href="{{url_for('static', path='/css/sign-in.css')}}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+
+  <main class="standard-form w-100 m-auto">
+
+    <a href="/" class="Maestro-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-music"
+        viewBox="0 0 16 16">
+        <path
+          d="M10.304 3.13a1 1 0 0 1 1.196.98v1.8l-2.5.5v5.09c0 .495-.301.883-.662 1.123C7.974 12.866 7.499 13 7 13c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 10.134 6.501 10 7 10c.356 0 .7.068 1 .196V4.41a1 1 0 0 1 .804-.98l1.5-.3z">
+        </path>
+        <path
+          d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z">
+        </path>
+      </svg>
+      <strong>Maestro</strong>
+    </a>
+
+    <h3 class="display2">Create Your Account</h2>
+
+      <form class="margin-top-20" action="" method="post">
+
+        <div class="form-floating">
+          <input type="email" name="top" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">Email address</label>
+        </div>
+
+        <div class="form-floating">
+          <input type="username" name="middle" class="form-control" id="floatingUsername" placeholder="Username">
+          <label for="floatingUsername">Username</label>
+        </div>
+
+        <div class="form-floating">
+          <input type="password" name="middle" class="form-control" id="floatingpassword" placeholder="password">
+          <label for="floatingpassword">Password</label>
+        </div>
+
+        <div class="form-floating">
+          <input type="password" name="bottom" class="form-control" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Password check</label>
+        </div>
+
+        <p><input type="button" value="Create Account" onclick="location.href = '/sign-check'" class="w-100 btn btn-lg btn-primary"></p>
+
+        <p class="text-4 text-muted">Already have an account? <a href="/sign-in">sign in</a>.</p>
+
+      </form>
+
+  </main>
+
+  <script src="{{url_for('static', path='/js/sign-form.js')}}"></script>
+
+</body>
+
+</html>

@@ -17,9 +17,9 @@ slow_dict = {**default_dict, **slow_only_dict}
 #(TODO) DB로 바꿔야함.
 MODULE_PATH = "/opt/ml/oemer"
 
-paths = {'img_path': '/opt/ml/results/images',
-         'xml_path': '/opt/ml/results/xml',
-         'mp3_path': '/opt/ml/results/sound'}
+paths = {'img_path': '/opt/ml/tmp',
+         'xml_path': '/opt/ml/MusicXML2Audio/data/.xml',
+         'mp3_path': '/opt/ml/MusicXML2Audio/data/output'}
 
 
 for k,v in paths.items():

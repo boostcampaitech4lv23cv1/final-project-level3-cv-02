@@ -36,3 +36,21 @@ def predict_model(img_path = paths['img_path'], img_bundle_id = ''):
 
     xml2mp3(filename, xml_path, mp3_path, True, True, False)
     return os.path.join(mp3_path, f"{filename}_0.mp3")
+
+def predict_model_hard(img_path = paths['img_path'], img_bundle_id = ''):
+    img_path = os.path.join(img_path, img_bundle_id)
+    xml_path = os.path.join(paths['xml_path'], img_bundle_id)
+    mp3_path = os.path.join(paths['mp3_path'], img_bundle_id)
+    filename='result'
+
+    results=[]
+    for fpath in os.listdir(img_path):
+        fname = os.path.join(img_path, fpath)
+        slow_dict["img_path"] = fname
+        slow_dict["output_path"] = paths["xml_path"]
+        dict_args = Namespace(**slow_dict)
+        result_path = extract(dict_args)  
+        results.append(result_path)
+
+    xml2mp3(filename, xml_path, mp3_path, True, True, False)
+    return os.path.join(mp3_path, f"{filename}_0.mp3")
