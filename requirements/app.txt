@@ -2,3 +2,7 @@ fastapi
 uvicorn
 python-multipart
 jinja2
+sqlalchemy
+python-dotenv
+pymysql
+bcrypt
