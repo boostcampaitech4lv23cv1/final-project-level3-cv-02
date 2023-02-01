@@ -42,6 +42,8 @@ CHECKPOINTS_URL = {
 
 
 
+
+
 def clear_data():
     lls = layers.list_layers()
     for l in lls:
@@ -230,6 +232,11 @@ def extract(args):
 
     duration = time.time() - start_time 
     print("Total time:", duration)
+    
+    img = teaser()
+    img.save(out_path.replace(".musicxml", "_teaser.png"))
+    
+    
     return out_path, xml
 
 
