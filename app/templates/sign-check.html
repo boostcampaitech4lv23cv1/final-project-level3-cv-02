@@ -25,7 +25,6 @@
     .check_btn:hover {
       color: darkgray;
     }
-    
   </style>
 
 </head>
@@ -85,19 +84,19 @@
       </div>
 
       <div class="btns">
-        
-      <!-- action 변경 -->
-      <form action="/" enctype="multipart/form-data" method="get">
-        <button type="check_btn" class="check_btn" id="check_btn1" >인증 번호 재전송</button>
-      </form>
 
-      <form action="/" enctype="multipart/form-data" method="get">
-        <button type="check_btn" class="check_btn" id="check_btn2" >인증 번호 확인</button>
-      </form>
+        <!-- action 변경 -->
+        <form action="/" enctype="multipart/form-data" method="get">
+          <button type="submit" class="check_btn" id="check_btn1">인증 번호 재전송</button>
+        </form>
+
+        <form action="/" enctype="multipart/form-data" method="get">
+          <button type="submit" class="check_btn" id="check_btn2">인증 번호 확인</button>
+        </form>
 
       </div>
       <form action="/" enctype="multipart/form-data" method="get">
-        <button type="main_btn" class="main_btn" id="main_page_btn" >go to main</button>
+        <button type="main_btn" class="main_btn" id="main_page_btn">go to main</button>
       </form>
 
       </header>
@@ -111,7 +110,7 @@
       <script src="{{url_for('static', path='/js/custom.js')}}"></script>
 
       <script>
-        
+
       </script>
 
 </body>
