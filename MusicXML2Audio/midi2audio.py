@@ -1,10 +1,9 @@
 import argparse
 import os
 import subprocess
-from constant import MODULE_PATH
 __all__ = ['FluidSynth']
 
-DEFAULT_SOUND_FONT = os.path.join(MODULE_PATH, 'data/.fluidsynth/FluidR3Mono_GM.sf3')
+DEFAULT_SOUND_FONT = os.path.join('../MusicXML2Audio/data/.fluidsynth/FluidR3Mono_GM.sf3')
 DEFAULT_SAMPLE_RATE = 44100
 DEFAULT_GAIN = 0.2
 
