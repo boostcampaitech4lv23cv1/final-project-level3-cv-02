@@ -6,7 +6,7 @@
 RESOURCE_PATH='/opt/ml/model/source/bear.png'
 SAVE_NAME='/opt/ml/model/source/bear_processed.jpg'
 S_NAME='bear_processed.txt'
-NAME='0201_4'
+NAME='0202_3'
 
 # read -p RESOURCE_PATH
 # read -p SAVE_NAME
@@ -23,7 +23,7 @@ python /opt/ml/yolov7/detect.py \
     --img-size 1024 \
     --no-trace \
     --project runs/notehead \
-    --conf-thres 0.6 \
+    --conf-thres 0.25 \
     --name $NAME\
     --source $SAVE_NAME \
 
@@ -33,7 +33,7 @@ python /opt/ml/yolov7/detect.py \
     --img-size 1024 \
     --no-trace \
     --project runs/symbols \
-    --conf-thres 0.6 \
+    --conf-thres 0.25 \
     --name $NAME\
     --source $SAVE_NAME \
 

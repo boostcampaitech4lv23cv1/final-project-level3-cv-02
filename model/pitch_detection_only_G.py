@@ -2,13 +2,14 @@ import constant as pitch
 import numpy as np 
 import cv2 
 import copy 
+import math 
 
 G_above = [pitch.C2, pitch.B2, pitch.A2, pitch.G2, pitch.F2]
 G_on = [pitch.F2, pitch.D2, pitch.B1, pitch.G1, pitch.E1]
 G_btw = [pitch.E2, pitch.C1, pitch.A1, pitch.F1]
 G_below = [pitch.D1, pitch.C1, pitch.B0, pitch.A0, pitch.G0]
 
-def pitch_detection_only_G(head_pos, staff_line, original=None, viz=False):
+def pitch_detection_only_G(head_pos, staff_line, flat=False, original=None, viz=False):
     # head pos 순서대로 주어졌다고 가정 
     # staff line만 주어졌다고 가정 
 
@@ -24,10 +25,10 @@ def pitch_detection_only_G(head_pos, staff_line, original=None, viz=False):
         notes = []
         which, pos = head
         label, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
-        
-        notes = choose_note(staff_line, which, head)
+ 
+        notes = choose_note(staff_line, which, head, flat=flat)
         if len(notes) == 0:  
-            notes = choose_note(staff_line, which, head, 10) # 빈 음표 방지 
+            notes = choose_note(staff_line, which, head, _margin=10) # 빈 음표 방지 
         
         pitches.append(notes)
 
@@ -54,11 +55,14 @@ def cal_margin(closest_len, closest, staff_line, which):
 
     return margin, head_h 
 
-def choose_note(staff_line, which, head, _margin=None):
-    flag = 0 
+def choose_note(staff_line, which, head, flat=False, _margin=None):
     result = []
     which, pos = head
     label, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
+
+    if flat: 
+        y += 5
+        h -= 5 
 
     cen_y = y + h/2
         
@@ -68,7 +72,7 @@ def choose_note(staff_line, which, head, _margin=None):
     d = min(dist[0])
     closest = np.where(dist[0] == dist[0].min())
     closest_len = (closest[0] >= 0).sum()
-    mul = d / (h/2) # 거리가 head의 몇 배인지 
+    mul = d / (h/2) 
 
     # print('margin', margin)
     # print('d', d)
@@ -81,44 +85,55 @@ def choose_note(staff_line, which, head, _margin=None):
         margin = _margin 
 
     ## on & between 
-    if closest_len == 1 and d <= margin: 
-        s1 = np.where(dist[0] == dist[0].min())[0][0]
+    if closest_len == 1 and d <= margin / 2: 
+        s1 = closest[0][0]
         dist[0][s1] = 10000
         s2 = np.where(dist[0] == dist[0].min())[0][0]
-
+        
         margin, _ = cal_margin(2, [[s1, s2]], staff_line, which)
-            # print('s1, s2, margin', s1, s2, margin)
-
-        if d <= margin / 2: 
+        d1 = d
+        d2 = dist[0][s2]
+        dist1 = None
+        if d1 <= margin and d2 <= margin * 1.75: 
+            # dist1 = min(abs(staff_line[which*5 + s1] + margin / 2 - cen_y), \
+            #             abs(staff_line[which*5 + s2] - margin / 2 - cen_y))
+            dist1 = min(d1, d2)
+            dist2 = d
+        
+        if dist1 is not None and dist1 <= dist2: 
             # print('between\n')
             p = s2 if s2 > s1 else s1
             result.append([head, G_btw[p-1]])
-            flag = 1
-
-        if flag == 0: 
+        elif dist1 is None or dist1 > dist2: 
             # print('on\n')
             result.append([head, G_on[closest[0][0]]])
-            flag = 1
 
     ## btw
-    elif closest_len >= 2 and d <= margin / 2: 
+    elif closest_len >= 2 and d <= margin * 1.5: 
         # print('btw\n')
         p = closest[0][0] if closest[0][0] > closest[0][1] else closest[0][1]
         result.append([head, G_btw[p-1]])
-        flag = 1
 
     # below 
     elif closest_len == 1 and closest[0][0] == 4 and d >= margin: 
         # print('below\n')
-        p = max(0, round(mul) - 1 )
+        if mul > margin: 
+            mul = math.ceil(mul) 
+        else: 
+            mul = math.floor(mul) 
+
+        p = max(0, mul - 1 )
         result.append([head, G_below[p]])
-        flag = 1
 
     # above 
     elif closest_len == 1 and closest[0][0] == 0 and d >= margin: 
         # print('above\n')
-        p = max(0, round(mul) - 1 )
+        if mul > margin: 
+            mul = math.ceil(mul) 
+        else: 
+            mul = math.floor(mul) 
+
+        p = max(0, mul - 1 )
         result.append([head, G_above[p]])
-        flag = 1
     
     return result 

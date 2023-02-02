@@ -6,7 +6,11 @@ from pitch_detection_only_G import pitch_detection_only_G
 # symbols = '/opt/ml/yolov7/runs/symbols/exp/labels/school_bell_processed.txt'
 # img_path = '/opt/ml/yolov7/source/school_bell.jpg'
 
-def conversion(mode, label_file, img_path, staff_line): 
+key_sharp = ['f', 'c', 'g', 'd', 'a', 'e', 'b']
+key_flat = ['b', 'e', 'a', 'd', 'g', 'c', 'f']
+key_natural = ['c', 'd', 'e', 'f', 'g', 'a', 'b', 'c']
+
+def conversion_oneline(mode, label_file, img_path, staff_line): 
     ## label file 읽어오기 
     file = open(label_file, 'r') 
     img = cv2.imread(img_path)
@@ -44,12 +48,15 @@ def conversion(mode, label_file, img_path, staff_line):
                 break   
 
             label, x, y, w, h = convert(line, H, W)
+            closest = which_staff(y+h/2, staff_line) 
+            if closest > 0: 
+                continue 
 
-            if label == '24' or label == '25' or label == '26' or label == '27': 
+            if label == '24': 
                 sharp.append([label, x, y, w, h])
-            elif label == '20' or label == '21': 
+            elif label == '20': 
                 flat.append([label, x, y, w, h])
-            elif label == '22' or label == '23': 
+            elif label == '22': 
                 natural.append([label, x, y, w, h])
             else: 
                 continue 
@@ -60,11 +67,12 @@ def conversion(mode, label_file, img_path, staff_line):
         cv2.imwrite('conversion_symbol.jpg', img)
 
         if len(sharp) > 0: 
-            sharp = check_rep(sharp, staff_line) 
+            sharp = check_rep(sharp, key_sharp, staff_line) 
         if len(flat) > 0: 
-            flat = check_rep(flat, staff_line, flat=True) 
-        if len(natural) > 0: 
-            natural = check_rep(natural, staff_line) 
+            flat = check_rep(flat, key_flat, staff_line) 
+        ## natural check_rep 임시 
+        if len(flat) > 0: 
+            natural = check_rep(natural, key_natural, staff_line) 
          
         return sharp, flat, natural
 
@@ -119,21 +127,17 @@ def sort_head_pos(head_pos, staff_line):
     return sorted_pos
 
 
-def check_rep(sfn, staff_line, flat=False):
-    new_dict = {}
-    new_arr = []
-    for sig in sfn:  
-        _, x, y, w, h = sig
+def check_rep(sfn, s_or_f, staff_line, flat=False):
+    new_arr = [] 
+    for i, sig in enumerate(sfn): 
+        _, x, y, w, h = sig 
+
         cen_y = y + h/2
         which = which_staff(cen_y, staff_line)
-        s = [[which, sig]]
+        s = [which, sig]
+        
+        new_arr.append([s_or_f[i], s])
 
-        closest = pitch_detection_only_G(s, staff_line, flat=flat)
-
-        if closest[0][0][1] not in new_dict: 
-            new_dict[closest[0][0][1]] = sig 
-            new_arr.append([s, closest[0][0][1]]) 
-    
     return new_arr 
 
         

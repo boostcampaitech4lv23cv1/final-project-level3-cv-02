@@ -40,8 +40,8 @@ def natural_check(natural_pos, head_pos, margin):
 def sharp_flat_check(array, s_or_f, natural, pitches, original_copy): 
     if array is not None:
         for s in array: 
-            s_whichpos, s_pitch = s 
-            s_which, s_pos = s_whichpos[0][0], s_whichpos[0][1]  
+            s_pitch, s_whichpos  = s 
+            s_which, s_pos = s_whichpos[0], s_whichpos[1]  
             label_s, s_x, s_y, s_w, s_h = s_pos[0], s_pos[1], s_pos[2], s_pos[3], s_pos[4]
 
             if label_s == '24' or label_s == '20': # 모든 노트헤드에 적용되는 sharp / flat
@@ -62,15 +62,15 @@ def sharp_flat_check(array, s_or_f, natural, pitches, original_copy):
                             # 해당 note head에 해당이 되는 경우 
                             pitches[i][0][1] = ''
 
-                    if s_pitch == pitch:
+                    if s_pitch in pitch:
                         pitches[i][0][1] = s_or_f
-                        flag = 1
                     
-                    if flag:
                         cv2.rectangle(original_copy, (x, y), (x+w, y+h), (0, 0, 255), 1, cv2.LINE_AA)
 
 
             else: # 특정 노트헤드에만 적용되는 sharp 
+                ## 현재 accidental SFN은 안 가져옴 
+
                 for i, pit in enumerate(pitches):
                     head_pitch, key = pit 
                     lab_pos, pitch = head_pitch[0], head_pitch[1]
