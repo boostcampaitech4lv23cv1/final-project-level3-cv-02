@@ -7,7 +7,6 @@ from utils import hashpw, checkpw
 def create_user(db: Session, user:users_schemas.UserCreate):
     new_user = users_model.Users(user_email=user.user_email, user_password=user.user_password, auth_yn=False)
     db.add(new_user)
-    print(new_user)
     db.commit()
     db.refresh(new_user)
     return new_user

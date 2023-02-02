@@ -11,6 +11,7 @@ router = APIRouter(
 '''
 유저 신규 생성
 이메일, 패스워드 필요
+생성 후 인증메일 발송
 '''
 @router.post("/")
 def create_user(db: Session = Depends(get_db), user:users_schema.UserCreate=None):
