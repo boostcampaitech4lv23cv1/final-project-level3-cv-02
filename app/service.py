@@ -33,9 +33,9 @@ def predict_model(db, image_bundle_id):
         results.append(result_path)
 
     xml2mp3(filename, xml_path, mp3_path, True, True, False)
-    sound_service.upload_sound(db, image_bundle_id)
+    mp3_url = sound_service.upload_sound(db, image_bundle_id)
     
-    return os.path.join(mp3_path, f"{filename}_0.mp3")
+    return mp3_url
 
 def predict_model_hard(img_path = paths['img_path'], img_bundle_id = ''):
     img_path = os.path.join(img_path, img_bundle_id)

@@ -37,13 +37,12 @@ def loading_form2(request: Request, images: List[bytes] = File(...)) :
 def predict_model(request: Request, image_bundle_id, db: Session = Depends(get_db)):
 
     try:
-        results = service.predict_model(db, image_bundle_id)
+        mp3_url = service.predict_model(db, image_bundle_id)
     except Exception as e:
         print(e)
         return RedirectResponse("/error")
-    print(results)
-    return templates.TemplateResponse('play.html', context={'request': request, "results:" : results})
-
+    print(mp3_url)
+    return templates.TemplateResponse('play.html', context={'request': request, "mp3_url" : mp3_url})
 
 #(TODO) E-mail 연결
 @app.get("/predict_model_hard")
