@@ -10,6 +10,7 @@
 
   <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
   <link href="{{url_for('static', path='/css/sign-form.css')}}" rel="stylesheet">
+  <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 
   <meta name="theme-color" content="#82c96b">
 
@@ -36,12 +37,17 @@
       <h3 class="display2">Sign in</h2>
 
         <div class="form-floating">
-          <input type="email" name="top" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <input type="email" name="top" class="form-control" id="floatingInput" placeholder="name@example.com"
+            maxlength="50">
           <label for="floatingInput">Email address</label>
         </div>
         <div class="form-floating">
-          <input type="password" name="bottom" class="form-control" id="floatingPassword" placeholder="Password">
+          <input type="password" name="bottom" class="form-control" id="floatingPassword" placeholder="Password"
+            maxlength="20">
           <label for="floatingPassword">Password</label>
+          <div class="eyes">
+            <i class="fa fa-eye fa-lg"></i>
+          </div>
         </div>
 
         <p><input type="submit" value="Sign in" onclick="signIn();" class="w-100 btn btn-lg btn-primary"></p>
@@ -52,6 +58,22 @@
   </main>
 
   <script src="{{url_for('static', path='/js/sign-form.js')}}"></script>
+  <script>
+    $(function () {
+      // 눈표시 클릭 시 패스워드 보이기
+      $('.eyes').on('click', function () {
+        $('.form-floating.password').toggleClass('active');
+
+        if ($('.form-floating.password').hasClass('active') == true) {
+          $(this).find('.fa-eye').attr('class', "fa fa-eye-slash fa-lg").parents('.form-floating').find('#password').attr('type', "text");
+          // i 클래스                // 텍스트 보이기 i 클래스
+        }
+        else {
+          $(this).find('.fa-eye-slash').attr('class', "fa fa-eye fa-lg").parents('.form-floating').find('#password').attr('type', 'password');
+        }
+      });
+    });
+  </script>
 
 </body>
 
