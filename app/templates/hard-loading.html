@@ -10,7 +10,7 @@
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbars/">
   <link href="{{url_for('static', path='/css/custom.css')}}" rel="stylesheet">
-  <link href="{{url_for('static', path='/css/loading.css')}}" rel="stylesheet">
+  <link href="{{url_for('static', path='/css/hard-loading.css')}}" rel="stylesheet">
   <link href="{{url_for('static', path='/css/bootstrap.min.css')}}" rel="stylesheet">
 
   <style>
@@ -22,9 +22,6 @@
       background-color: #f5f5f5;
     }
 
-    .upload-box {
-      padding-top: 5px;
-    }
   </style>
 
 </head>
@@ -49,13 +46,16 @@
 
     <div class="contents1">
       <div class="loading-container">
-        <div class="loading"></div>
-        <div id="loading-text">loading</div>
-        <h6 class="loading-script" id="loadingScript">print loading script...</h6>
+        <div class="loading-text" id="loading-text">Maestro를 이용해주셔서 감사합니다!</div>
+        <h6 class="loading-script" id="loadingScript1">결과물은 가입하신 e-mail로 전송될 예정입니다.</h6>
+        <h6 class="loading-script" id="loadingScript2">소요 시간은 대략 1시간 가량으로, 보다 정확도 높은 결과를 받아보실 수 있습니다.</h6>
+        <h6 class="loading-script" id="loadingScript3">만약 e-mail이 전송되지 않았다면 다시 시도해주세요.</h6>
       </div>
 
-      <form id="predict_model" action="/predict_model" enctype="multipart/form-data" method="get"
-        onsubmit="return false;"></form>
+      <form action="/" enctype="multipart/form-data" method="get">
+        <!-- <input name="files" type="file" multiple> -->
+        <button type="main_btn" class="main_page_btn" id="main_page_btn">go to main</button>
+      </form>
 
       </header>
 
@@ -68,24 +68,11 @@
       <script src="{{url_for('static', path='/js/custom.js')}}"></script>
 
       <script>
-
-        var loadingScript = document.getElementById('loadingScript');
-        var arr = [
-          { loadingScript: "test0" },
-          { loadingScript: "test1" },
-          { loadingScript: "test2" }
-        ];
-        var tmp = 0;
-
         window.onload = function () {
-          setInterval(function () {
-            var random = Math.floor(Math.random() * arr.length);
-            loadingScript.textContent = arr[random].loadingScript;
-          }, 5000);
-          document.getElementById("predict_model").submit();
+          document.getElementById("predict_model_hard").submit();
         }
-
       </script>
 
 </body>
+
 </html>
