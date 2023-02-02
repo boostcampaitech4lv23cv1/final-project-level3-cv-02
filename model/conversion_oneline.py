@@ -30,7 +30,7 @@ def conversion_oneline(mode, label_file, img_path, staff_line):
                 converted.append([label, x, y, w, h])
 
                 cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
-                cv2.putText(img, label, (x+15, y+10), 
+                cv2.putText(img, label, (x+10, y+10), 
                             cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
         
         cv2.imwrite('conversion_label.jpg', img)
@@ -39,9 +39,9 @@ def conversion_oneline(mode, label_file, img_path, staff_line):
 
         return converted, staff_line
 
-    ## symbol conversion 
-    else: 
-        sharp, flat, natural = [], [], [] 
+    ## SFN conversion 
+    elif mode == 'SFN': 
+        sharp, flat, natural = [], [], []
         while True: 
             line = file.readline() 
             if not line: 
@@ -62,7 +62,7 @@ def conversion_oneline(mode, label_file, img_path, staff_line):
                 continue 
         
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
-            cv2.putText(img, label, (x+15, y+10), 
+            cv2.putText(img, label, (x+10, y+10), 
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
         cv2.imwrite('conversion_symbol.jpg', img)
 
@@ -71,10 +71,53 @@ def conversion_oneline(mode, label_file, img_path, staff_line):
         if len(flat) > 0: 
             flat = check_rep(flat, key_flat, staff_line) 
         ## natural check_rep 임시 
-        if len(flat) > 0: 
+        if len(natural) > 0: 
             natural = check_rep(natural, key_natural, staff_line) 
          
         return sharp, flat, natural
+    
+    ## beat conversion 
+    elif mode == 'beat':
+        beat = [] 
+        while True: 
+            line = file.readline() 
+            if not line: 
+                break   
+            
+            label, x, y, w, h = convert(line, H, W)
+
+            # if label == '4': 
+            #     beat.append(['dot', x, y, w, h])
+            # elif label == '5' or label == '10': 
+            #     beat.append(['flag 8', x, y, w, h])
+            # elif label == '6' or label == '11': 
+            #     beat.append(['flag 16', x, y, w, h])
+            # elif label == '7' or label == '12': 
+            #     beat.append(['flag 32', x, y, w, h])
+            # elif label == '8' or label == '13': 
+            #     beat.append(['flag 64', x, y, w, h])
+            # elif label == '9' or label == '14': 
+            #     beat.append(['flag 128', x, y, w, h])
+            # else: 
+            #     continue 
+
+            ## 8분음표, 16분음표 -> 8분음표 
+            if label == '4': 
+                beat.append(['dot', x, y, w, h])
+            elif label == '5' or label == '10' or label == '6' or label == '11': 
+                beat.append(['flag 8', x, y, w, h])
+            else: 
+                continue 
+
+            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
+            cv2.putText(img, label, (x+10, y+10), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
+            
+        cv2.imwrite('conversion_beat.jpg', img)
+
+        beat = sort_head_pos(beat, staff_line)
+
+        return beat
 
 
 def convert(line, H, W): 

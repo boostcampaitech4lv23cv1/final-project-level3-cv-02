@@ -47,7 +47,7 @@ def merge_bbox(head_pos, viz, img):
             label, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
             cv2.rectangle(original_copy, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
         
-        cv2.imwrite('merged_label.jpg', original_copy)
+        cv2.imwrite('merged_beat.jpg', original_copy)
 
     return merged_bbox 
 
