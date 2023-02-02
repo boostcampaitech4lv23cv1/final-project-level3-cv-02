@@ -22,7 +22,7 @@ BUCKET_NAME = "maestro-bucket1"
 BUCKET_URL = "https://storage.googleapis.com/maestro-bucket1/"
 
 #(TODO) DB로 바꿔야함.
-MODULE_PATH = "/opt/ml/oemer"
+MODULE_PATH = "../oemer"
 
 for k,v in paths.items():
     if not os.path.exists(v):
