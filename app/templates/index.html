@@ -196,10 +196,12 @@
     </div>
   </header>
   <main>
-
     <form name="submitFrm" action="/image_bundle/upload_images" enctype="multipart/form-data" method="post" onSubmit='return false;'>
-
+      <input type="text" id="access_auth" name="access_auth" value="{{access_auth}}" hidden>
+      <input type="text" id ="user_email" name="user_email" value="{{user_email}}" hidden>
+      
       <div class="upload">
+        
         <button type="button" class="top-button" disabled id="prev_btn" onclick="prevButton()">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
             class="bi bi-caret-left-fill" viewBox="0 0 16 16">
@@ -298,7 +300,6 @@
           </div>
         </div>
       </div>
-
     </form>
   </main>
 

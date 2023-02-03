@@ -24,6 +24,9 @@ BUCKET_URL = "https://storage.googleapis.com/maestro-bucket1/"
 #(TODO) DB로 바꿔야함.
 MODULE_PATH = "../oemer"
 
+DEFAULT_EMAIL = "unkwon@unkwon.com"
+
+
 for k,v in paths.items():
     if not os.path.exists(v):
         os.makedirs(v, exist_ok = True)

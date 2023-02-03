@@ -1,25 +1,25 @@
+import sys 
+sys.path.append("..")
+from typing import List, Any
+import urllib
+
+from sqlalchemy.orm import Session
+
 from fastapi import FastAPI, Request, File, Form, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from typing import List
-
-from sqlalchemy.orm import Session
-from db.connection import get_db
-from db.routes.users import get_user_by_email
+from starlette.responses import RedirectResponse
 import uvicorn 
-import sys 
-import urllib
-from  db.routes import image_bundle, sound, users
-from sqlalchemy.orm import Session
-from db.connection import get_db
-from db.models import image as image_model
-import urllib
-
-sys.path.append("..")
 
 import __init__
-from starlette.responses import RedirectResponse
 import service
+from db.connection import get_db
+from  db.routes import image_bundle, sound, users
+from db.routes.users import get_user_by_email
+from db.service import image_bundle as image_bundle_service
+from db.models import image as image_model
+from constant import DEFAULT_EMAIL
+
 
 app = FastAPI()
 #crud router 추가
@@ -32,19 +32,24 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def file_form(request: Request): 
-    return templates.TemplateResponse('index.html', context={'request': request})
+    
+    #DEFAULT_VALUE
+    access_auth = "no"
+    user_id = DEFAULT_EMAIL
+    return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : access_auth, "user_email" : user_id})
 
 @app.post("/")
 def login_user(request: Request, db: Session = Depends(get_db), user_id : str= Form(...), user_pwd: str = Form(...)):
     response = get_user_by_email(db, user_id)    
     result = response["res"]
+    
+    # 로그인 시 가입정보가 없다면
     if result is None: 
-        return templates.TemplateResponse("error.html", context = {"request" : request})
+        return templates.TemplateResponse("error.html", context = {"request" : request}) 
+    access_auth = "yes"
     
-    
-    auth_success = True
-    
-    return templates.TemplateResponse('index.html', context={'request': request, "auth_success" : auth_success})
+    #있다면, 인증성공여부와 함께 email_id를 response에 반환
+    return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : access_auth, "user_email" : user_id})
     
 
 
@@ -63,13 +68,40 @@ def loading_form(request: Request, images: List[bytes] = File(...)) :
     return templates.TemplateResponse('loading.html', context={'request': request, "file_path": fpaths})
 
 @app.post("/hard-loading")
-def loading_form2(request: Request, images: List[bytes] = File(...)) :
-    fpaths = service.loading_form(images)
-    return templates.TemplateResponse('hard-loading.html', context={'request': request, "file_path": fpaths})
+def loading_form2(request: Request
+                  , db : Session = Depends(get_db)
+                #   , access_auth : str = Form(...)
+                  , images: List[bytes] = File(...)
+                #   , user_email: str = Form(...)
+                  ) :
+    # fpaths = service.loading_form(images)
+    # access_auth = True if access_auth =="yes" else False
+    # for _ in range(100): print("hi")
+    # paths, image_bundle_id = image_bundle_service.upload_images(db, user_email, images)
+    
+    # for _ in range(100):        
+        # print("access_auth:", access_auth)
+        # print("user_email:", user_email)
+        # print("fpath:", fpaths)
+        
+    return templates.TemplateResponse('hard-loading.html', context={'request': request})
+
+
+
+
+
+
+
+
+
+
   
 @app.post("/play/{image_bundle_id}")
 def predict_model(request: Request, image_bundle_id, db: Session = Depends(get_db)):
-
+    # for _ in range(100):
+    #     print("auth:", auth_success)
+    #     print("email_id:", email_id)
+    
     try:
         image_url = db.query(image_model.Image)\
             .filter(image_model.Image.image_bundle_id ==image_bundle_id).first().image_url
