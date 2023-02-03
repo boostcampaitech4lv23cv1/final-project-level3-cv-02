@@ -12,6 +12,7 @@ import urllib
 from  db.routes import image_bundle, sound, users
 from sqlalchemy.orm import Session
 from db.connection import get_db
+from db.models import image as image_model
 import urllib
 
 sys.path.append("..")
@@ -70,12 +71,14 @@ def loading_form2(request: Request, images: List[bytes] = File(...)) :
 def predict_model(request: Request, image_bundle_id, db: Session = Depends(get_db)):
 
     try:
+        image_url = db.query(image_model.Image)\
+            .filter(image_model.Image.image_bundle_id ==image_bundle_id).first().image_url
         mp3_url = service.predict_model(db, image_bundle_id)
     except Exception as e:
         print(e)
         return RedirectResponse("/error")
     print(mp3_url)
-    return templates.TemplateResponse('play.html', context={'request': request, "mp3_url" : mp3_url})
+    return templates.TemplateResponse('play.html', context={'request': request, "mp3_url" : mp3_url, "image_url" : image_url})
 
 #(TODO) E-mail 연결
 @app.get("/predict_model_hard")
