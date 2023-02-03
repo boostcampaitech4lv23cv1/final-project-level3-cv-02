@@ -10,7 +10,8 @@ def merge_bbox(head_pos, viz, img):
     while head < len(head_pos): 
         which1, pos1 = head_pos[head]
         label1, x1, y1, w1, h1 = pos1[0], pos1[1], pos1[2], pos1[3], pos1[4]
-        margin = ( w1 + h1 ) / 2 
+        margin_x = w1 
+        margin_y = h1 
 
         similar = True
         sim = []
@@ -19,7 +20,7 @@ def merge_bbox(head_pos, viz, img):
             which2, pos2 = head_pos[head+1]
             label2, x2, y2, w2, h2 = pos2[0], pos2[1], pos2[2], pos2[3], pos2[4]
 
-            if abs(x1-x2) <= margin and abs(y1-y2) <= margin: 
+            if abs(x1-x2) <= margin_x and abs(y1-y2) <= margin_y: 
                 sim.append([which2, [label2, x2, y2, w2, h2]])
                 head += 1
             else: 
@@ -40,6 +41,20 @@ def merge_bbox(head_pos, viz, img):
             merged_bbox.append([which, [label1, x, y, w, h]])
         
         head += 1
+    
+    avg_w = int(np.average([merged_bbox[i][1][3] for i in range(len(merged_bbox))]))
+    avg_h = int(np.average([merged_bbox[i][1][4] for i in range(len(merged_bbox))]))
+    avg_area = avg_w * avg_h 
+
+    i = 0 
+    while True: 
+        if i > len(merged_bbox) - 1: 
+            break 
+        a = merged_bbox[i][1][3] * merged_bbox[i][1][4] 
+        if a < avg_area / 2: 
+            merged_bbox.remove(merged_bbox[i]) 
+        
+        i += 1 
     
     if viz: 
         for box in merged_bbox: 
