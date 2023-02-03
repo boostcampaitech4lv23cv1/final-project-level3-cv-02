@@ -80,6 +80,10 @@
     }
 
     #modal .modal-body {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
       backdrop-filter: blur(13.5px);
       -webkit-backdrop-filter: blur(13.5px);
@@ -87,26 +91,30 @@
       border: 1px solid rgba(255, 255, 255, 0.18);
       width: 400px;
       height: 500px;
-      position: absolute;
-      top: -100px;
-      padding: 10px;
     }
 
     #modal .close-area {
+      padding: 0;
       font-size: x-large;
       display: flex;
       float: right;
-      padding-right: 5px;
+      padding-right: 10px;
       cursor: pointer;
     }
 
-    #modal .title h2 {
+    #modal .title {
       display: flex;
+      justify-content: center;
+      font-size: x-large;
+      padding-top: 20px;
+      display: flex;
+      margin-top: 20px;
     }
 
     #modal .content {
+      width: 300px;
+      padding: 15px;
       margin-top: 20px;
-      padding: 0px 10px;
       text-shadow: 1px 1px 2px gray;
       color: white;
     }
@@ -246,13 +254,14 @@
 
       <div id="modal" class="modal-window">
         <div class="modal-content rounded-4">
-          <div class="modal-body p-5">
+          <div class="modal-body">
             <div class="close-area td">x</div>
-            <h2 class="title">파일을 어떤 방식으로 변환할까요?</h2>
 
+            <div class="modal-btns p-5">
+              <h2 class="title">변환 방식을 선택해주세요.</h2>
             <ul class="d-grid gap-4 my-5 list-unstyled">
 
-              <button type="button" id="fast_btn" class="loading_btn" data-bs-dismiss="modal" onclick="submitConfirm()">
+              <button type="button" id="fast_btn" class="loading_btn rounded-4" data-bs-dismiss="modal" onclick="submitConfirm()">
 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="30px"
                     width="30px" version="1.1" id="_x32_" viewBox="0 0 512 512" xml:space="preserve">
@@ -273,7 +282,7 @@
                   </div>
               </button>
 
-              <button type="submit" formaction="/hard-loading" id="hard_btn" class="loading_btn" data-bs-dismiss="modal"
+              <button type="submit" formaction="/hard-loading" id="hard_btn" class="loading_btn rounded-4" data-bs-dismiss="modal"
                 onclick="submitConfirm('hard')">
 
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="30px"
@@ -294,7 +303,8 @@
                   실행 시간이 긴 버전입니다.
                 </div>
               </button>
-
+            </ul>
+            </div>
           </div>
         </div>
       </div>
