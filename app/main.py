@@ -1,7 +1,11 @@
-from fastapi import FastAPI, Request, File
+from fastapi import FastAPI, Request, File, Form, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from typing import List
+
+from sqlalchemy.orm import Session
+from db.connection import get_db
+from db.routes.users import get_user_by_email
 import uvicorn 
 import sys 
 import urllib
@@ -25,6 +29,20 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/")
 def file_form(request: Request): 
     return templates.TemplateResponse('index.html', context={'request': request})
+
+@app.post("/")
+def login_user(request: Request, db: Session = Depends(get_db), user_id : str= Form(...), user_pwd: str = Form(...)):
+    response = get_user_by_email(db, user_id)    
+    result = response["res"]
+    if result is None: 
+        return templates.TemplateResponse("error.html", context = {"request" : request})
+    
+    
+    auth_success = True
+    
+    return templates.TemplateResponse('index.html', context={'request': request, "auth_success" : auth_success})
+    
+
 
 #(TODO) 인증 기능 구현 후 play에 query_parameter, path_parameter해서 유저별 페이지 만들기 
 # ex. /play?user_id=sangmo

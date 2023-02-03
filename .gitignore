@@ -9,6 +9,8 @@ __pycache__
 *.png
 data/output/*
 
+results
+
 !metric/*
 !MusicXML2Audio/data/.xml
 
@@ -18,3 +20,4 @@ data/output/*
 *.musicxml
 
 app/env.sh
+app/secret.py
