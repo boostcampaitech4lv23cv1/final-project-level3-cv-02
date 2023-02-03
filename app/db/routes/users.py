@@ -1,27 +1,57 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Form, Body, Request
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from db.connection import get_db
 from db.service import users as users_service
 from db.schemas import users as users_schema
+from typing import Any
+from pydantic import BaseModel
+from fastapi.templating import Jinja2Templates
 
 router = APIRouter(
     prefix="/users", # url 앞에 고정적으로 붙는 경로추가
 )
+
+from utils import send_email
+
+templates = Jinja2Templates(directory='templates')
+
 
 '''
 유저 신규 생성
 이메일, 패스워드 필요
 생성 후 인증메일 발송
 '''
-@router.post("/")
 def create_user(db: Session = Depends(get_db), user:users_schema.UserCreate=None):
     res = users_service.create_user(db, user)
     return {"res": res}
+
+
+# (TODO) 한번에 받아오는 방법을 찾아보자!
+@router.post("/sign-check")
+def create_user(request: Request, db: Session = Depends(get_db), user_email : str= Form(...), user_password: str = Form(...)):
+    user_email = str(user_email)
+    user_password = str(user_password)
+    user = users_schema.UserCreate(user_email = user_email , user_password = user_password)
+    res = users_service.create_user(db, user)
+    
+    if res is None:
+        print("Already registered")
+        return templates.TemplateResponse('error.html', context = {"request" : request})
+    
+    print("request:", res)
+    #(TODO) user_email 중복 기능 혹시라도 할거라면....?
+    # get_user_by_email 로 Null 값 받아서 로직 처리하면 될 것 같고
+    auth_num = send_email(user_email)
+    print("Email 전송 완료")    
+    return templates.TemplateResponse('sign-check.html', context={'request': request, "auth_num" : auth_num})
+
 
 '''
 유저 이메일로 유저 단건 조회
 이메일 필요
 '''
+#(TODO) 원래는 인증여부도 확인해야할 것 같음
 @router.get("/")
 def get_user_by_email(db: Session = Depends(get_db), email='unkwon@unkwon.com'):
     res = users_service.get_user_by_email(db, email)

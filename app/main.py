@@ -2,11 +2,17 @@ from fastapi import FastAPI, Request, File, Form, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from typing import List
+
+from sqlalchemy.orm import Session
+from db.connection import get_db
+from db.routes.users import get_user_by_email
 import uvicorn 
 import sys 
+import urllib
 from  db.routes import image_bundle, sound, users
 from sqlalchemy.orm import Session
 from db.connection import get_db
+from db.models import image as image_model
 import urllib
 
 sys.path.append("..")
@@ -28,18 +34,26 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def file_form(request: Request): 
     return templates.TemplateResponse('index.html', context={'request': request})
 
-@app.get("/play")
-def file_form(request: Request): 
-    return templates.TemplateResponse('play.html', context={'request': request})
+@app.post("/")
+def login_user(request: Request, db: Session = Depends(get_db), user_id : str= Form(...), user_pwd: str = Form(...)):
+    response = get_user_by_email(db, user_id)    
+    result = response["res"]
+    if result is None: 
+        return templates.TemplateResponse("error.html", context = {"request" : request})
+    
+    
+    auth_success = True
+    
+    return templates.TemplateResponse('index.html', context={'request': request, "auth_success" : auth_success})
+    
 
-# #(TODO) 인증 기능 구현 후 play에 query_parameter, path_parameter해서 유저별 페이지 만들기 
-# # ex. /play?user_id=sangmo
-# @app.post('/play')
-# def play_form(request:Request, images: List[bytes] = File(...)):
-#     fpaths = service.loading_form(images)
-#     print(fpaths)
-#     print({"file_sizes": [len(image) for image in images]})
-#     return templates.TemplateResponse('play.html', context = {'request': request, "file_path": fpaths})
+
+#(TODO) 인증 기능 구현 후 play에 query_parameter, path_parameter해서 유저별 페이지 만들기 
+# ex. /play?user_id=sangmo
+@app.post('/play')
+def play_form(request:Request, images: List[bytes] = File(...)):
+    print({"file_sizes": [len(image) for image in images]})
+    return templates.TemplateResponse('play.html', context = {'request': request})
 
 #(TODO 1) /opt/ml/tmp/file(로컬 저장)을 전제로 하고 있는데, DB 저장 혹은 버킷 저장 시 경로를 인자로 받기
 #(TODO 2) print문 등을 logging으로 대체하기
@@ -57,12 +71,14 @@ def loading_form2(request: Request, images: List[bytes] = File(...)) :
 def predict_model(request: Request, image_bundle_id, db: Session = Depends(get_db)):
 
     try:
+        image_url = db.query(image_model.Image)\
+            .filter(image_model.Image.image_bundle_id ==image_bundle_id).first().image_url
         mp3_url = service.predict_model(db, image_bundle_id)
     except Exception as e:
         print(e)
         return RedirectResponse("/error")
     print(mp3_url)
-    return templates.TemplateResponse('play.html', context={'request': request, "mp3_url" : mp3_url})
+    return templates.TemplateResponse('play.html', context={'request': request, "mp3_url" : mp3_url, "image_url" : image_url})
 
 #(TODO) E-mail 연결
 @app.get("/predict_model_hard")
@@ -89,6 +105,7 @@ def file_form(request: Request):
 
 @app.get("/sign-check")
 def check_form(request: Request): 
+    print("request:", request)
     return templates.TemplateResponse('sign-check.html', context={'request': request})
 
 @app.get('/error')

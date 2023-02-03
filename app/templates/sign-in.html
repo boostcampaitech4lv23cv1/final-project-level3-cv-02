@@ -19,8 +19,7 @@
 <body class="text-center">
 
   <main class="standard-form w-100 m-auto">
-    <form>
-
+    <form action = "/" method = "post">
       <a href="/" class="Maestro-logo">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-music"
           viewBox="0 0 16 16">
@@ -37,13 +36,12 @@
       <h3 class="display2">Sign in</h2>
 
         <div class="form-floating">
-          <input type="email" name="top" class="form-control" id="floatingInput" placeholder="name@example.com"
-            maxlength="50">
+          <!-- (TODO) @서현 : email과 password name을 바꿨음  -->
+          <input type="email" name="user_id" class="form-control" id="floatingInput" placeholder="name@example.com">
           <label for="floatingInput">Email address</label>
         </div>
         <div class="form-floating">
-          <input type="password" name="bottom" class="form-control" id="floatingPassword" placeholder="Password"
-            maxlength="20">
+          <input type="password" name="user_pwd" class="form-control" id="floatingPassword" placeholder="Password">
           <label for="floatingPassword">Password</label>
           <div class="eyes">
             <i class="fa fa-eye fa-lg"></i>

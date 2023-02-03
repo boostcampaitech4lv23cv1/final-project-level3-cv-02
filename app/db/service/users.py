@@ -2,7 +2,6 @@ from db.crud import users
 from utils import hashpw, checkpw
 
 def create_user(db, user):
-    print("service::", user)
     user.user_password = hashpw(user.user_password)
     
     return users.create_user(db, user)
