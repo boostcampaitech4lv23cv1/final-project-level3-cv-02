@@ -9,7 +9,11 @@ from db.routes.users import get_user_by_email
 import uvicorn 
 import sys 
 import urllib
-from  db.routes import image, image_bundle, sound, users
+from  db.routes import image_bundle, sound, users
+from sqlalchemy.orm import Session
+from db.connection import get_db
+import urllib
+
 sys.path.append("..")
 
 import __init__
@@ -20,7 +24,6 @@ app = FastAPI()
 #crud router 추가
 app.include_router(users.router)
 app.include_router(image_bundle.router)
-app.include_router(image.router)
 app.include_router(sound.router)
 
 templates = Jinja2Templates(directory='templates')
@@ -62,20 +65,17 @@ def loading_form(request: Request, images: List[bytes] = File(...)) :
 def loading_form2(request: Request, images: List[bytes] = File(...)) :
     fpaths = service.loading_form(images)
     return templates.TemplateResponse('hard-loading.html', context={'request': request, "file_path": fpaths})
+  
+@app.post("/play/{image_bundle_id}")
+def predict_model(request: Request, image_bundle_id, db: Session = Depends(get_db)):
 
-#(TODO) 지금은 img_path를 함수 인자로 안 받고 있지만, REST API에서 img_path를 받을 수 있다면, 거기에 접근해서 img_path를 가져올 수 있게끔 하기]
-#(TODO 2) 에러 페이지 별도로 만들어서 띄우기... 근데 이거 나중에 해라
-@app.get("/predict_model")
-def predict_model(request: Request):
-    #(TODO) img_path를 제대로 넘길 법 고민하기
-    #(BETTER_WAY) img_path = request[...] 이런 느낌으로 가져오는 것이 좋다.
     try:
-        results = service.predict_model()
+        mp3_url = service.predict_model(db, image_bundle_id)
     except Exception as e:
         print(e)
         return RedirectResponse("/error")
-    print(results)
-    return templates.TemplateResponse('play.html', context={'request': request, "results:" : results})
+    print(mp3_url)
+    return templates.TemplateResponse('play.html', context={'request': request, "mp3_url" : mp3_url})
 
 #(TODO) E-mail 연결
 @app.get("/predict_model_hard")

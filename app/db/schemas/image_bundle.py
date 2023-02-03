@@ -6,11 +6,11 @@ class ImageBundleBase(BaseModel):
     image_bundle_id: str
 
 class ImageBundle(ImageBundleBase):
-    user_id: int
+    user_id: int = 0
     convert_time: str
     convert_yn: bool
-    images: List[Image] = []
+    image_urls: List
 
 class ImageBundleCreate(ImageBundleBase):
-    user_id: int
-    images: List[Image] = []
+    user_id: int = 0
+    image_urls: List

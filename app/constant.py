@@ -14,15 +14,16 @@ slow_only_dict = dict(thresh = 1024,step_size = 128)
 fast_dict = {**default_dict, **fast_only_dict}
 slow_dict = {**default_dict, **slow_only_dict}
 
+paths = {'img_path': '../image',
+         'xml_path': '../xml',
+         'mp3_path': '../sound'}
+
+BUCKET_NAME = "maestro-bucket1"
+BUCKET_URL = "https://storage.googleapis.com/maestro-bucket1/"
+
 #(TODO) DB로 바꿔야함.
-MODULE_PATH = "/opt/ml/oemer"
-
-paths = {'img_path': '/opt/ml/tmp',
-         'xml_path': '/opt/ml/MusicXML2Audio/data/.xml',
-         'mp3_path': '/opt/ml/MusicXML2Audio/data/output'}
-
+MODULE_PATH = "../oemer"
 
 for k,v in paths.items():
     if not os.path.exists(v):
         os.makedirs(v, exist_ok = True)
-

@@ -21,3 +21,11 @@ results
 
 app/env.sh
 app/secret.py
+
+#db, bucket 설정 관련
+app/env.sh
+app/db/core/key.json
+
+sound
+xml
+image

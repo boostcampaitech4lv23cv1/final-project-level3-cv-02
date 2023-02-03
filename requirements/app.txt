@@ -6,3 +6,4 @@ sqlalchemy
 python-dotenv
 pymysql
 bcrypt
+google-cloud-storage

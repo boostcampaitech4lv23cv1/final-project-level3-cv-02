@@ -5,7 +5,7 @@ from db.schemas import sound as sound_schemas
 from db.models import sound as sound_model
 
 #sound정보 생성
-def create_sound(db: Session, sound:sound_schemas.Sound):
+def create_sound(db: Session, sound:sound_schemas.SoundCreate):
     new_sound = sound_model.Sound(
         image_bundle_id=sound.image_bundle_id,
         midi_url=sound.midi_url,

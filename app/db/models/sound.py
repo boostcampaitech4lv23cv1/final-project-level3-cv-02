@@ -9,5 +9,3 @@ class Sound(Base):
     image_bundle_id = Column(String, ForeignKey("IMAGE_BUNDLE.image_bundle_id"))
     midi_url = Column(String)
     mp3_url = Column(String)
-
-    image_bundle = relationship("Image_bundle", back_populates="SOUND")
