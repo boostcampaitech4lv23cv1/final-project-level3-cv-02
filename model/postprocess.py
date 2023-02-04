@@ -102,7 +102,7 @@ pitches_sfn = sfn_detection(sharp, flat, natural, pitches, original)
 
 for i, p in enumerate(pitches_sfn): 
     pos_pitch, key_sign = p 
-    if pos_pitch[1] == 'rest': 
+    if pos_pitch[1] == 'quarter_rest' or pos_pitch[1] == '8th_rest': 
         continue 
     n[i].pitch = pos_pitch[1]
     if key_sign == 'sharp': 

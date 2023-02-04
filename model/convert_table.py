@@ -43,6 +43,7 @@ symbol_table = {
      'accidentalDoubleFlat': 27,
 
      'restQuarter': 31,
+     'rest8th': 32,
 }
 
 """

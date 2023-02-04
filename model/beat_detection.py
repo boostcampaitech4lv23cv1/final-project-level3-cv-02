@@ -33,8 +33,12 @@ def beat_detection(flag_dot, rest, note_pos, img):
                 beat.append(['4', '']) # 4분음표
             i += 1
 
-            if b is not False and 'rest' in b: 
-                beat.append(['rest', '']) 
+            if b is not False and 'quarter_rest' in b: 
+                beat.append(['4', '']) 
+                cnt += 1
+                rest = 1
+            elif b is not False and '8th_rest' in b: 
+                beat.append(['8', '']) 
                 cnt += 1
                 rest = 1
 
@@ -47,9 +51,13 @@ def beat_detection(flag_dot, rest, note_pos, img):
                 beat.append(['2','']) # 2분음표
             i += 1
 
-            if b is not False and 'rest' in b: 
-                beat.append(['rest', '']) 
-                cnt += 1 
+            if b is not False and 'quarter_rest' in b: 
+                beat.append(['4', '']) 
+                cnt += 1
+                rest = 1
+            elif b is not False and '8th_rest' in b: 
+                beat.append(['8', '']) 
+                cnt += 1
                 rest = 1
 
         cv2.rectangle(img_copy, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
@@ -79,7 +87,15 @@ def check_beat(symbols, h_label, h_which, h_x, h_y, h_w, h_h):
         if flag == 3: # dot도 있는지 확인하도록 함 
             break 
 
-        if f_label == 'rest':
+        ## rest 
+        if f_label == 'quarter_rest':
+            if h_label == '0' and ((f_x + f_w) - (h_x + h_w)) < margin_w * 5 :
+                b.append(f_label)
+                return b 
+            elif (h_label == '1' or h_label == '2') and ((f_x + f_w) - (h_x + h_w)) < margin_w * 15 :
+                b.append(f_label)
+                return b
+        elif f_label == '8th_rest':
             if h_label == '0' and ((f_x + f_w) - (h_x + h_w)) < margin_w * 5 :
                 b.append(f_label)
                 return b 
@@ -87,6 +103,7 @@ def check_beat(symbols, h_label, h_which, h_x, h_y, h_w, h_h):
                 b.append(f_label)
                 return b
 
+        ## flag 
         if f_label == 'flag 8': 
             if (abs((f_y + f_h) - h_y) <= margin_h and abs((h_x + h_w) - f_x) <= margin_w) or \
                 ((abs((h_y + h_h) - f_y) <= margin_h and abs(f_x - h_x) <= margin_w)) : 
@@ -95,6 +112,7 @@ def check_beat(symbols, h_label, h_which, h_x, h_y, h_w, h_h):
                 b.append(f_label.split()[1])
                 flag = 1
         
+        ## dot 
         elif f_label == 'dot' : 
             if abs(f_y - h_y) <= margin_h * 1.2 and abs((h_x + h_w) - f_x) <= margin_w * 1.2:
                 b.append(f_label)

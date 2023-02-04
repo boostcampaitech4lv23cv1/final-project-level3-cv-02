@@ -129,11 +129,15 @@ def conversion_oneline(mode, label_file, img_path, staff_line):
             label, x, y, w, h = convert(line, H, W)
 
             if label == '31':
-                rest.append(['rest', x, y, w, h])
-            
-                cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
-                cv2.putText(img, label, (x+10, y+10), 
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
+                rest.append(['quarter_rest', x, y, w, h])
+            elif label == '32': 
+                rest.append(['8th_rest', x, y, w, h])
+            else: 
+                continue 
+
+            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
+            cv2.putText(img, label, (x+10, y+10), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
             
         cv2.imwrite('conversion_rest.jpg', img)
 
