@@ -56,24 +56,24 @@
       </div>
 
       <div class="input-email-code">
-        <form class="input_form">
+        <form class="input_form" name="check">
           <div class="p-get_started_confirmation_code__input_container">
             <fieldset class="p-get_started_confirmation_code__input_fieldset">
               <div class="display_input align_items_center margin_bottom_50" data-qa="confirmation_code_input"
                 data-state="">
                 <div class="display_flex">
                   <div class="split_input_item"><input type="text" name="start" maxlength="1" aria-label="6의 숫자 1"
-                      aria-disabled="false" aria-invalid="false" value=""></div>
-                  <div class="split_input_item"><input type="text" name="continue" maxlength="1" aria-label="6의 숫자 2"
-                      aria-disabled="false" aria-invalid="false" value=""></div>
-                  <div class="split_input_item"><input type="text" name="continue" maxlength="1" aria-label="6의 숫자 3"
-                      aria-disabled="false" aria-invalid="false" value=""></div>
-                  <div class="split_input_item"><input type="text" name="continue" maxlength="1" aria-label="6의 숫자 4"
-                      aria-disabled="false" aria-invalid="false" value=""></div>
-                  <div class="split_input_item"><input type="text" name="continue" maxlength="1" aria-label="6의 숫자 5"
-                      aria-disabled="false" aria-invalid="false" value=""></div>
+                      aria-disabled="false" aria-invalid="false" value="" onlyNumber></div>
+                  <div class="split_input_item"><input type="text" name="text1" maxlength="1" aria-label="6의 숫자 2"
+                      aria-disabled="false" aria-invalid="false" value="" onlyNumber></div>
+                  <div class="split_input_item"><input type="text" name="text2" maxlength="1" aria-label="6의 숫자 3"
+                      aria-disabled="false" aria-invalid="false" value="" onlyNumber></div>
+                  <div class="split_input_item"><input type="text" name="text3" maxlength="1" aria-label="6의 숫자 4"
+                      aria-disabled="false" aria-invalid="false" value="" onlyNumber></div>
+                  <div class="split_input_item"><input type="text" name="text4" maxlength="1" aria-label="6의 숫자 5"
+                      aria-disabled="false" aria-invalid="false" value="" onlyNumber></div>
                   <div class="split_input_item"><input type="text" name="end" maxlength="1" aria-label="6의 숫자 6"
-                      aria-disabled="false" aria-invalid="false" value=""></div>
+                      aria-disabled="false" aria-invalid="false" value="" onlyNumber></div>
                 </div>
               </div>
             </fieldset>
@@ -110,6 +110,20 @@
       <script src="{{url_for('static', path='/js/custom.js')}}"></script>
 
       <script>
+        var $inputs = $('.split_input_item input[type="text"]');
+        $inputs.each(function (idx) {
+          var $input = $(this);
+          $input.on('keyup', function (e) {
+            var val = $input.val();
+            if (parseInt($input.attr('maxlength')) == val.length) {
+              if (idx + 1 < $inputs.length) {
+                $inputs[idx + 1].focus();
+              }
+            }
+          });
+        }).on('focus', function (e) {
+          $(this).val('');
+        });
 
       </script>
 

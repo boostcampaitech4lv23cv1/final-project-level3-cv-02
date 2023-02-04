@@ -31,28 +31,35 @@ templates = Jinja2Templates(directory='templates')
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
+def main_form(request: Request): 
+    return templates.TemplateResponse('main.html', context={'request': request})
+
+@app.get("/about-us")
+def main_form1(request: Request): 
+    return templates.TemplateResponse('main-1.html', context={'request': request})
+
+@app.get("/index")
 def file_form(request: Request): 
     return templates.TemplateResponse('index.html', context={'request': request})
 
-@app.post("/")
+@app.post("/index")
 def login_user(request: Request, db: Session = Depends(get_db), user_id : str= Form(...), user_pwd: str = Form(...)):
     response = get_user_by_email(db, user_id)    
     result = response["res"]
     if result is None: 
         return templates.TemplateResponse("error.html", context = {"request" : request})
-    
-    
     auth_success = True
-    
     return templates.TemplateResponse('index.html', context={'request': request, "auth_success" : auth_success})
-    
-
 
 #(TODO) 인증 기능 구현 후 play에 query_parameter, path_parameter해서 유저별 페이지 만들기 
 # ex. /play?user_id=sangmo
 @app.post('/play')
 def play_form(request:Request, images: List[bytes] = File(...)):
     print({"file_sizes": [len(image) for image in images]})
+    return templates.TemplateResponse('play.html', context = {'request': request})
+
+@app.get('/play')
+def play_form(request:Request):
     return templates.TemplateResponse('play.html', context = {'request': request})
 
 #(TODO 1) /opt/ml/tmp/file(로컬 저장)을 전제로 하고 있는데, DB 저장 혹은 버킷 저장 시 경로를 인자로 받기
