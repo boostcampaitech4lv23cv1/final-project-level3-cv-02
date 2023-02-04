@@ -20,6 +20,9 @@ data/output/*
 #db, bucket 설정 관련
 app/env.sh
 app/db/core/key.json
+app/db/core/db_login.py
+
+app/secret.py
 
 sound
 xml
