@@ -235,8 +235,7 @@ def extract(args):
     
     img = teaser()
     img.save(out_path.replace(".musicxml", "_teaser.png"))
-    
-    
+    clear_data()
     return out_path, xml
 
 

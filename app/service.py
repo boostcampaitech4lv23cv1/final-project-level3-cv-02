@@ -26,12 +26,18 @@ def predict_model(db, image_bundle_id):
     results=[]
     for fpath in os.listdir(img_path):
         fname = os.path.join(img_path, fpath)
+        for _ in range(5): print("fname:", fname)
         fast_dict["img_path"] = fname
         fast_dict["output_path"] = xml_path
         dict_args = Namespace(**fast_dict)
         result_path = extract(dict_args)  
         results.append(result_path)
 
+    for _ in range(3):
+        print("predict model 이후의 mp3_path:", mp3_path)
+        print("predict model 이후의 img_path:", img_path)
+    
+    
     xml2mp3(filename, xml_path, mp3_path, True, True, False)
     mp3_url = sound_service.upload_sound(db, image_bundle_id)
     
@@ -43,15 +49,23 @@ def predict_model_hard(img_path = paths['img_path'], img_bundle_id = ''):
     mp3_path = os.path.join(paths['mp3_path'], img_bundle_id)
     filename='result'
 
-    results=[]
+    results=[]  
+    
+    for _ in range(100):
+        print("상모야 slow_dict 일부로 fast_dict로 바꿨다! app/service.py와서 확인해라!")
     for fpath in os.listdir(img_path):
         fname = os.path.join(img_path, fpath)
         slow_dict["img_path"] = fname
         slow_dict["output_path"] = paths["xml_path"]
-        dict_args = Namespace(**slow_dict)
+        dict_args = Namespace(**fast_dict)
         result_path = extract(dict_args)  
         results.append(result_path)
 
     xml2mp3(filename, xml_path, mp3_path, True, True, False)
 
-    return os.path.join(mp3_path, f"{filename}_0.mp3")
+    mp3_path = os.path.join(mp3_path, f"{filename}_0.mp3")
+    
+    return img_path, mp3_path
+    
+    
+    

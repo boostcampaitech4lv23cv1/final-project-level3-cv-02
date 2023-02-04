@@ -8,11 +8,13 @@ from typing import Any
 from pydantic import BaseModel
 from fastapi.templating import Jinja2Templates
 
+from utils import send_email, send_mp3_email
+
+
 router = APIRouter(
     prefix="/users", # url 앞에 고정적으로 붙는 경로추가
 )
 
-from utils import send_email
 
 templates = Jinja2Templates(directory='templates')
 
@@ -39,10 +41,15 @@ def create_user(request: Request, db: Session = Depends(get_db), user_email : st
         print("Already registered")
         return templates.TemplateResponse('error.html', context = {"request" : request})
     
-    print("request:", res)
-    #(TODO) user_email 중복 기능 혹시라도 할거라면....?
-    # get_user_by_email 로 Null 값 받아서 로직 처리하면 될 것 같고
     auth_num = send_email(user_email)
+    
+    
+    # print("MP3 전송중!")
+    # send_mp3_email(user_email
+    #                ,"/opt/ml/xml/bC7YczPIJWON292a/0_ori_ring_teaser.png"
+    #                , "/opt/ml/sound/bC7YczPIJWON292a/result_0.mp3"
+    #                )
+    
     print("Email 전송 완료")    
     return templates.TemplateResponse('sign-check.html', context={'request': request, "auth_num" : auth_num})
 

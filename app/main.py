@@ -5,7 +5,9 @@ import urllib
 
 from sqlalchemy.orm import Session
 
-from fastapi import FastAPI, Request, File, Form, Depends
+from concurrent.futures import ProcessPoolExecutor
+
+from fastapi import FastAPI, Request, File, Form, Depends, UploadFile
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
@@ -16,7 +18,8 @@ import service
 from db.connection import get_db
 from  db.routes import image_bundle, sound, users
 from db.routes.users import get_user_by_email
-from db.service import image_bundle as image_bundle_service
+from db.service import image_bundle as image_bundle_service 
+from db.service import users as users_service
 from db.models import image as image_model
 from constant import DEFAULT_EMAIL
 
@@ -69,59 +72,39 @@ def loading_form(request: Request, images: List[bytes] = File(...)) :
 
 @app.post("/hard-loading")
 def loading_form2(request: Request
+                  , images: List[UploadFile] = File(...)
                   , db : Session = Depends(get_db)
-                #   , access_auth : str = Form(...)
-                  , images: List[bytes] = File(...)
-                #   , user_email: str = Form(...)
+                  , access_auth : str = Form(...)
+                  , user_email: str = Form(...)
                   ) :
-    # fpaths = service.loading_form(images)
-    # access_auth = True if access_auth =="yes" else False
-    # for _ in range(100): print("hi")
-    # paths, image_bundle_id = image_bundle_service.upload_images(db, user_email, images)
+    paths, image_bundle_id = image_bundle_service.upload_images(db, user_email, images)
+    image_url = db.query(image_model.Image).filter(image_model.Image.image_bundle_id ==image_bundle_id).first().image_url
     
-    # for _ in range(100):        
-        # print("access_auth:", access_auth)
-        # print("user_email:", user_email)
-        # print("fpath:", fpaths)
-        
+    
+    #predict_model_hard
+
+
     return templates.TemplateResponse('hard-loading.html', context={'request': request})
-
-
-
-
-
-
-
-
-
 
   
 @app.post("/play/{image_bundle_id}")
 def predict_model(request: Request, image_bundle_id, db: Session = Depends(get_db)):
-    # for _ in range(100):
-    #     print("auth:", auth_success)
-    #     print("email_id:", email_id)
-    
+    for _ in range(100):
+        print("parameter:", image_bundle_id)
     try:
         image_url = db.query(image_model.Image)\
             .filter(image_model.Image.image_bundle_id ==image_bundle_id).first().image_url
-        mp3_url = service.predict_model(db, image_bundle_id)
+        mp3_url = service.predict_model(db, image_bundle_id) 
+        
+        for _ in range(5):
+            print("predict model 떄의 image_url:", image_url)
+            print("predict model 떄의 image_url:", mp3_url)
+        
     except Exception as e:
         print(e)
         return RedirectResponse("/error")
     print(mp3_url)
     return templates.TemplateResponse('play.html', context={'request': request, "mp3_url" : mp3_url, "image_url" : image_url})
-
-#(TODO) E-mail 연결
-@app.get("/predict_model_hard")
-def predict_model(request: Request):
-    try:
-        results = service.predict_model_hard()
-    except Exception as e:
-        print(e)
-        return RedirectResponse("/error")
-    print(results)
-    return templates.TemplateResponse('hard-loading.html', context={'request': request, "results:" : results})
 
 @app.post("/error")
 def error_form(request: Request) :
