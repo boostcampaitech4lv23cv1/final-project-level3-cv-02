@@ -41,6 +41,8 @@ symbol_table = {
      'accidentalSharpSmall': 25, 
      'accidentalDoubleSharp': 26, 
      'accidentalDoubleFlat': 27,
+
+     'restQuarter': 31,
 }
 
 """

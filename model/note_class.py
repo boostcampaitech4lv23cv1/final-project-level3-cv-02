@@ -8,3 +8,4 @@ class info():
         self.flat: bool = False
         self.natural: bool = False 
         self.duration: int = None 
+        self.measure: int = None 

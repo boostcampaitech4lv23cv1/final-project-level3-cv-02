@@ -7,7 +7,7 @@ def sfn_detection(sharp, flat, natural, pitches, original):
     # sharp, flat, natural을 다 구별해서 input으로 들어온다고 가정 
 
     original_copy = copy.deepcopy(original)
-    sfn_pitch_array = []
+    sfn_pitch_array = pitches
     
     for i in range(len(pitches)): 
         pitches[i].append('') # key value 추가, default로 key 없음 

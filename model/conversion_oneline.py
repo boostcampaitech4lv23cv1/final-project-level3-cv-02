@@ -101,10 +101,10 @@ def conversion_oneline(mode, label_file, img_path, staff_line):
             # else: 
             #     continue 
 
-            ## 8분음표, 16분음표 -> 8분음표 
             if label == '4': 
                 beat.append(['dot', x, y, w, h])
             elif label == '5' or label == '10' or label == '6' or label == '11': 
+                ## 8분음표, 16분음표 -> 8분음표 
                 beat.append(['flag 8', x, y, w, h])
             else: 
                 continue 
@@ -118,6 +118,28 @@ def conversion_oneline(mode, label_file, img_path, staff_line):
         beat = sort_head_pos(beat, staff_line)
 
         return beat
+
+    elif mode == 'rest': 
+        rest = [] 
+        while True: 
+            line = file.readline() 
+            if not line: 
+                break   
+            
+            label, x, y, w, h = convert(line, H, W)
+
+            if label == '31':
+                rest.append(['rest', x, y, w, h])
+            
+            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
+            cv2.putText(img, label, (x+10, y+10), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
+            
+        cv2.imwrite('conversion_rest.jpg', img)
+
+        rest = sort_head_pos(rest, staff_line)
+
+        return rest
 
 
 def convert(line, H, W): 

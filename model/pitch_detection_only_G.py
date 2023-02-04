@@ -94,19 +94,23 @@ def choose_note(staff_line, which, head, flat=False, _margin=None):
         d1 = d
         d2 = dist[0][s2]
         dist1 = None
-        if d1 <= margin and d2 <= margin * 1.75: 
-            # dist1 = min(abs(staff_line[which*5 + s1] + margin / 2 - cen_y), \
-            #             abs(staff_line[which*5 + s2] - margin / 2 - cen_y))
+        if d1 <= margin and d2 <= margin * 1.5:
+            # 학교종 1.5 -1
+            # 나비야 1.5 -4
+            # 
             dist1 = min(d1, d2)
             dist2 = d
+            # print(dist1, dist2)
         
         if dist1 is not None and dist1 <= dist2: 
-            # print('between\n')
+            # print('between')
             p = s2 if s2 > s1 else s1
             result.append([head, G_btw[p-1]])
+            # print(G_btw[p-1])
         elif dist1 is None or dist1 > dist2: 
-            # print('on\n')
+            # print('on')
             result.append([head, G_on[closest[0][0]]])
+            # print(G_on[closest[0][0]])
 
     ## btw
     elif closest_len >= 2 and d <= margin * 1.5: 

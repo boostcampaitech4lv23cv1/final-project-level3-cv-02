@@ -3,10 +3,10 @@
 # resource path -> 연주하려는 악보의 경로 
 # save_name = source -> 전처리된 악보의 저장 경로 및 이름; 모델 input
 
-RESOURCE_PATH='/opt/ml/model/source/bear.png'
-SAVE_NAME='/opt/ml/model/source/bear_processed.jpg'
-S_NAME='bear_processed.txt'
-NAME='0202_6'
+RESOURCE_PATH='/opt/ml/model/source/school_bell.jpg'
+SAVE_NAME='/opt/ml/model/source/school_bell_processed.jpg'
+S_NAME='school_bell_processed.txt'
+NAME='0202_4'
 
 # read -p RESOURCE_PATH
 # read -p SAVE_NAME
