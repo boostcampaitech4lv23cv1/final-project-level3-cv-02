@@ -104,3 +104,5 @@ def check_beat(symbols, h_label, h_which, h_x, h_y, h_w, h_h):
                 
     if len(b) == 0:
         return False
+    else: 
+        return b 

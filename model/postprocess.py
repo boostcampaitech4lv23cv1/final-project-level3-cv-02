@@ -67,7 +67,7 @@ beats = beat_detection(merged_flag_dot, rest, noise_removed_note_pos, original)
 
 
 ## combine note heads & rest info 
-combined = note_pos + rest
+combined = noise_removed_note_pos + rest
 combined.sort(key=lambda x: (x[0], x[1][1]))
 
 n = []
@@ -92,7 +92,7 @@ for i in range(len(beats)):
 
 
 ## pitch detection 
-pitches = pitch_detection_only_G(noise_removed_note_pos, staff_line, flat=False, original=original, viz=True) 
+pitches = pitch_detection_only_G(combined, staff_line, flat=False, original=original, viz=True) 
 # pitches = [which, [label, x, y, w, h], pitch]
 
 
@@ -102,6 +102,8 @@ pitches_sfn = sfn_detection(sharp, flat, natural, pitches, original)
 
 for i, p in enumerate(pitches_sfn): 
     pos_pitch, key_sign = p 
+    if pos_pitch[1] == 'rest': 
+        continue 
     n[i].pitch = pos_pitch[1]
     if key_sign == 'sharp': 
         n[i].sharp = True 
@@ -110,13 +112,13 @@ for i, p in enumerate(pitches_sfn):
 
 
 for i in range(len(n)): 
-    print(n[i].staff)
+    # print(n[i].staff)
     print(n[i].label)
-    print(n[i].bbox)
+    # print(n[i].bbox)
     print(n[i].pitch)
-    print(n[i].sharp)
-    print(n[i].flat)
-    print(n[i].natural) 
+    # print(n[i].sharp)
+    # print(n[i].flat)
+    # print(n[i].natural) 
     print(n[i].duration)
     print(n[i].measure) 
     print('\n')

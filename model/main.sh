@@ -6,7 +6,7 @@
 RESOURCE_PATH='/opt/ml/model/source/school_bell.jpg'
 SAVE_NAME='/opt/ml/model/source/school_bell_processed.jpg'
 S_NAME='school_bell_processed.txt'
-NAME='0202_4'
+NAME='0204_2'
 
 # read -p RESOURCE_PATH
 # read -p SAVE_NAME

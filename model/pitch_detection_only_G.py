@@ -60,6 +60,10 @@ def choose_note(staff_line, which, head, flat=False, _margin=None):
     which, pos = head
     label, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
 
+    if label == 'rest': 
+        result.append([head, '']) 
+        return result 
+    
     if flat: 
         y += 5
         h -= 5 
