@@ -34,6 +34,8 @@ staves.close()
 
 
 ## conversion 
+clef_bbox, clef = conversion_oneline('clef', opt.symbol_label_file, opt.img_path, staff_line)
+time_bbox, time = conversion_oneline('time', opt.symbol_label_file, opt.img_path, staff_line)
 note_pos, staff_line = conversion('note', opt.note_label_file, opt.img_path, staff_line)
 # note pos = [which, [label, x, y, w, h]]
 merged_note_pos = merge_bbox(note_pos, 'merged_note.jpg', viz=True, img=original)
@@ -47,7 +49,6 @@ merged_flag_dot = merge_bbox(flag_dot, 'merged_beat.jpg', viz=True, img=original
 
 rest = conversion_oneline('rest', opt.symbol_label_file, opt.img_path, staff_line) 
 
-time = conversion_oneline('time', opt.symbol_label_file, opt.img_path, staff_line) 
 
 ## noise removal 
 symbols = []
@@ -58,7 +59,7 @@ if len(flat) > 0:
 if len(natural) > 0: 
     symbols.append(natural)
 # print('symbols', symbols)
-noise_removed_note_pos = noise_removal(merged_note_pos, symbols, original)
+noise_removed_note_pos = noise_removal(merged_note_pos, symbols, clef_bbox, original)
 # noise_removed_note_pos = [which, [label, x, y, w, h]]
 
 
@@ -111,8 +112,8 @@ for i, p in enumerate(pitches_sfn):
     elif key_sign == 'flat': 
         n[i].flat = True 
 
-
-# print(time)
+# print(clef, clef_bbox) 
+# print(time, time_bbox)
 # for i in range(len(n)): 
 #     # print(n[i].staff)
 #     print(n[i].label)
