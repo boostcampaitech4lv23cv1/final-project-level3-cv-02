@@ -29,6 +29,9 @@ def beat_detection(flag_dot, rest, note_pos, img):
             if b is not False and b[0] == 'dot':
                 beat.append(['4', 'dot']) 
                 cnt += 1
+            elif b is not False and b[0] == '8': 
+                beat.append(['8', ''])
+                cnt += 1
             else: 
                 beat.append(['4', '']) # 4분음표
             i += 1
@@ -72,19 +75,20 @@ def beat_detection(flag_dot, rest, note_pos, img):
     return beat 
 
 def check_beat(symbols, h_label, h_which, h_x, h_y, h_w, h_h):
-    margin_h = h_y / 1.2
-    margin_w = h_w / 1.2 
+    # 학교종 / 1.2 
+    # 나비야 
+    margin_h = h_y * 2
+    margin_w = h_w * 2
     b = []
     flag = 0 
 
     for f in symbols: 
         f_which, f_pos = f
         f_label, f_x, f_y, f_w, f_h = f_pos[0], f_pos[1], f_pos[2], f_pos[3], f_pos[4]
-
         if flag == 0 and f_which != h_which: 
             return False
         
-        if flag == 3: # dot도 있는지 확인하도록 함 
+        if flag == 3: 
             break 
 
         ## rest 

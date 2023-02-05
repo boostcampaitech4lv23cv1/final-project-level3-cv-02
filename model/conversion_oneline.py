@@ -145,6 +145,36 @@ def conversion_oneline(mode, label_file, img_path, staff_line):
 
         return rest
 
+    elif mode == 'time': 
+        time = [] 
+        while True: 
+            line = file.readline() 
+            if not line: 
+                break   
+            
+            label, x, y, w, h = convert(line, H, W)
+
+            ## 나비야에서 3을 검출하는 관계로 3은 임시로 지움 
+            if label == '9':
+                time.append(['1', x, y, w, h])
+            elif label == '10': 
+                time.append(['2', x, y, w, h])
+            # elif label == '11': 
+            #     time.append(['3', x, y, w, h])
+            elif label == '12': 
+                time.append(['4', x, y, w, h])
+            else: 
+                continue 
+
+            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
+            cv2.putText(img, label, (x+10, y+10), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
+            
+        cv2.imwrite('conversion_time.jpg', img)
+        time.sort(key=lambda x: (x[2]))
+        time = str(time[0][0]) + '/' + str(time[1][0]) 
+
+        return time 
 
 def convert(line, H, W): 
     label, cen_x, cen_y, norm_w, norm_h = line.split() 

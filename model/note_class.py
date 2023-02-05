@@ -9,3 +9,4 @@ class info():
         self.natural: bool = False 
         self.duration: int = None 
         self.measure: int = None 
+        

@@ -39,7 +39,6 @@ note_pos, staff_line = conversion('note', opt.note_label_file, opt.img_path, sta
 merged_note_pos = merge_bbox(note_pos, 'merged_note.jpg', viz=True, img=original)
 # merged_note pos = [which, [label, x, y, w, h]]
 
-
 sharp, flat, natural = conversion_oneline('SFN', opt.symbol_label_file, opt.img_path, staff_line) 
 # sharp = [note, [label, x, y, w, h]]
 
@@ -47,6 +46,8 @@ flag_dot = conversion_oneline('beat', opt.note_label_file, opt.img_path, staff_l
 merged_flag_dot = merge_bbox(flag_dot, 'merged_beat.jpg', viz=True, img=original)
 
 rest = conversion_oneline('rest', opt.symbol_label_file, opt.img_path, staff_line) 
+
+time = conversion_oneline('time', opt.symbol_label_file, opt.img_path, staff_line) 
 
 ## noise removal 
 symbols = []
@@ -84,7 +85,7 @@ for i in range(len(beats)):
 
 
 ## measure calculation  
-measure = measure_calculation(beats)
+measure = measure_calculation(beats, time, combined, original)
 # measure = [measure]
 
 for i in range(len(beats)): 
@@ -111,15 +112,16 @@ for i, p in enumerate(pitches_sfn):
         n[i].flat = True 
 
 
-for i in range(len(n)): 
-    # print(n[i].staff)
-    print(n[i].label)
-    # print(n[i].bbox)
-    print(n[i].pitch)
-    # print(n[i].sharp)
-    # print(n[i].flat)
-    # print(n[i].natural) 
-    print(n[i].duration)
-    print(n[i].measure) 
-    print('\n')
+# print(time)
+# for i in range(len(n)): 
+#     # print(n[i].staff)
+#     print(n[i].label)
+#     # print(n[i].bbox)
+#     print(n[i].pitch)
+#     # print(n[i].sharp)
+#     # print(n[i].flat)
+#     # print(n[i].natural) 
+#     print(n[i].duration)
+#     print(n[i].measure) 
+#     print('\n')
     

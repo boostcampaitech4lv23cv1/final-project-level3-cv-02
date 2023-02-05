@@ -31,6 +31,9 @@ symbol_table = {
      'clefG': 1,
      'clefF': 4,
 
+     'timeSig1': 9, 'timeSig2': 10, 
+     'timeSig3': 11, 'timeSig4': 12, 
+
      'keyFlat': 20, 
      'accidentalFlatSmall': 21, 
 
