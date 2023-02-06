@@ -42,8 +42,22 @@ def merge_bbox(head_pos, name, viz, img):
         
         head += 1
     
-    avg_w = int(np.average([merged_bbox[i][1][3] for i in range(len(merged_bbox))]))
-    avg_h = int(np.average([merged_bbox[i][1][4] for i in range(len(merged_bbox))]))
+    tmp = []
+    for i in range(len(merged_bbox)): 
+        if np.isnan(merged_bbox[i][1][3]): 
+            continue 
+        tmp.append(merged_bbox[i][1][3]) 
+    avg_w = int(np.average(tmp)) 
+
+    tmp = []
+    for i in range(len(merged_bbox)): 
+        if np.isnan(merged_bbox[i][1][4]): 
+            continue 
+        tmp.append(merged_bbox[i][1][4]) 
+    avg_h = int(np.average(tmp))
+
+    # avg_w = int(np.average([merged_bbox[i][1][3] for i in range(len(merged_bbox))]))
+    # avg_h = int(np.average([merged_bbox[i][1][4] for i in range(len(merged_bbox))]))
     avg_area = avg_w * avg_h 
 
     i = 0 
