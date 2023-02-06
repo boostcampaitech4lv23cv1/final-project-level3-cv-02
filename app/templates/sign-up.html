@@ -39,7 +39,7 @@
 
     <h3 class="display2">Create Your Account</h2>
 
-      <form name="form_ex" class="margin-top-20" action="/users/sign-check" method="post" enctype="multipart/form-data">
+      <form name="form_ex" class="margin-top-20" action="/users/sign-check" method="post" enctype="multipart/form-data" onSubmit='return false;'>
         <div name="user">
 
           <div class="form-floating">
@@ -59,7 +59,7 @@
           </div>
         </div>
 
-        <p><input type="submit" value="Create Account" onclick="location.href = '/users/sign-check'"
+        <p><input type="submit" value="Create Account" onclick="signUp();"
             class="submit-btn w-100 btn btn-lg btn-primary"></p>
         <p class="text-4 text-muted">Already have an account? <a href="/sign-in">sign in</a>.</p>
 
@@ -67,7 +67,7 @@
 
   </main>
 
-  <script src="{{url_for('static', path='/js/sign-form.js')}}"></script>
+  <script src="{{url_for('static', path='/js/sign.js')}}"></script>
 
 </body>
 

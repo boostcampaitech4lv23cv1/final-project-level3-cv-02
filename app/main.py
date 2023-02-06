@@ -5,7 +5,7 @@ from typing import List
 
 from sqlalchemy.orm import Session
 from db.connection import get_db
-from db.routes.users import get_user_by_email
+from db.routes.users import get_user_by_email, checkpassword
 import uvicorn 
 import sys 
 import urllib

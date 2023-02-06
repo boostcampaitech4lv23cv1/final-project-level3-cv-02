@@ -80,6 +80,6 @@ def delete_user_by_email(db: Session = Depends(get_db), user:users_schema.UserDe
 '''
 비밀번호 체크
 '''
-@router.post("checkpw")
+@router.post("/checkpw")
 def checkpassword(db: Session = Depends(get_db), user_email = "unkwon@unkwon.com", user_password=""):
     return users_service.checkpassword(db, user_email, user_password)
