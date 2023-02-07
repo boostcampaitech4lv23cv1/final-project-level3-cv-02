@@ -52,17 +52,24 @@ def main_form1(request: Request):
 def file_form(request: Request): 
     
     access_auth = False
-    user_id = DEFAULT_EMAIL
-    return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : access_auth, "user_email" : user_id})
+    user_email = DEFAULT_EMAIL
+    return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : access_auth, "user_email" : user_email})
 
 @app.post("/index")
-def login_user(request: Request, db: Session = Depends(get_db), user_id : str= Form(...), user_pwd: str = Form(...)):
-    response = get_user_by_email(db, user_id)    
+def login_user(request: Request, db: Session = Depends(get_db), user_email : str= Form(...), user_pwd: str = Form(...)): 
+    for _ in range(10):
+        print("구상모 보아라")
+        print("user_email:", user_email) 
+        print("user_pwd:", user_pwd) 
+        print("구상모 보아라")
+    
+    response = get_user_by_email(db, user_email)    
+    print("response:", response)
     result = response["res"]
     if result is None: 
         return templates.TemplateResponse("error.html", context = {"request" : request})
-    auth_success = True
-    return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : auth_success})
+    auth_success = True 
+    return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : auth_success, "user_email" : user_email})
 
 
 # @app.post("/loading")
@@ -81,7 +88,8 @@ async def loading_form2(request: Request
     image_url = db.query(image_model.Image).filter(image_model.Image.image_bundle_id ==image_bundle_id).first().image_url
     
     #(TODO) 고치기
-    if access_auth != "yes": 
+        
+    if not access_auth:
         print("인증되지 않은 사용자로, 이메일을 보낼 수 없습니다.")
         return RedirectResponse("/error")
     
