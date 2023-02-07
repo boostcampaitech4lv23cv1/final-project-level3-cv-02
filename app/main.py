@@ -1,11 +1,9 @@
 import sys 
 sys.path.append("..")
 from typing import List, Any
-import urllib
-
 from sqlalchemy.orm import Session
 
-from concurrent.futures import ProcessPoolExecutor
+import subprocess
 
 from fastapi import FastAPI, Request, File, Form, Depends, UploadFile
 from fastapi.templating import Jinja2Templates
@@ -23,8 +21,8 @@ from db.service import users as users_service
 from db.models import image as image_model
 from constant import DEFAULT_EMAIL
 
-
 app = FastAPI()
+
 #crud router 추가
 app.include_router(users.router)
 app.include_router(image_bundle.router)
@@ -54,8 +52,6 @@ def login_user(request: Request, db: Session = Depends(get_db), user_id : str= F
     #있다면, 인증성공여부와 함께 email_id를 response에 반환
     return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : access_auth, "user_email" : user_id})
     
-
-
 #(TODO) 인증 기능 구현 후 play에 query_parameter, path_parameter해서 유저별 페이지 만들기 
 # ex. /play?user_id=sangmo
 @app.post('/play')
@@ -71,7 +67,7 @@ def loading_form(request: Request, images: List[bytes] = File(...)) :
     return templates.TemplateResponse('loading.html', context={'request': request, "file_path": fpaths})
 
 @app.post("/hard-loading")
-def loading_form2(request: Request
+async def loading_form2(request: Request
                   , images: List[UploadFile] = File(...)
                   , db : Session = Depends(get_db)
                   , access_auth : str = Form(...)
@@ -80,26 +76,31 @@ def loading_form2(request: Request
     paths, image_bundle_id = image_bundle_service.upload_images(db, user_email, images)
     image_url = db.query(image_model.Image).filter(image_model.Image.image_bundle_id ==image_bundle_id).first().image_url
     
+    #(TODO) 고치기
+    if access_auth != "yes": 
+        print("인증되지 않은 사용자로, 이메일을 보낼 수 없습니다.")
+        return RedirectResponse("/error")
     
-    #predict_model_hard
-
-
+    #(TODO) predict-model-hard 고치기     
+    subprocess.Popen([
+        "nohup",
+        "python" , 
+        "service.py", 
+        "--address", 
+        user_email, 
+        "--bundle_id",
+        image_bundle_id])
+    
     return templates.TemplateResponse('hard-loading.html', context={'request': request})
 
-  
 @app.post("/play/{image_bundle_id}")
 def predict_model(request: Request, image_bundle_id, db: Session = Depends(get_db)):
-    for _ in range(100):
-        print("parameter:", image_bundle_id)
     try:
         image_url = db.query(image_model.Image)\
             .filter(image_model.Image.image_bundle_id ==image_bundle_id).first().image_url
+        
         mp3_url = service.predict_model(db, image_bundle_id) 
-        
-        for _ in range(5):
-            print("predict model 떄의 image_url:", image_url)
-            print("predict model 떄의 image_url:", mp3_url)
-        
+                
     except Exception as e:
         print(e)
         return RedirectResponse("/error")
@@ -129,3 +130,4 @@ def error_form(request: Request) :
 
 if __name__ == '__main__':
     uvicorn.run("main:app", host="0.0.0.0", port=80, reload=True)
+        

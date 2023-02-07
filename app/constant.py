@@ -9,7 +9,8 @@ default_dict = dict(
 )
 
 fast_only_dict = dict(thresh = 768, step_size = 256)
-slow_only_dict = dict(thresh = 1024,step_size = 128)
+# slow_only_dict = dict(thresh = 1024,step_size = 128)
+slow_only_dict = dict(thresh = 768,step_size = 256)
 
 fast_dict = {**default_dict, **fast_only_dict}
 slow_dict = {**default_dict, **slow_only_dict}
