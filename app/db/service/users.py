@@ -21,3 +21,9 @@ def delete_user_by_email(db, user):
         raise Exception('비밀번호가 다릅니다.')
 
     users.delete_user_by_email(db, db_user)
+
+def checkpassword(db, email, pw):
+    db_user = get_user_by_email(db, email)
+    if db_user is None:
+        return False
+    return checkpw(pw, db_user.user_password)

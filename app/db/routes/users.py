@@ -59,7 +59,7 @@ def create_user(request: Request, db: Session = Depends(get_db), user_email : st
 이메일 필요
 '''
 #(TODO) 원래는 인증여부도 확인해야할 것 같음
-@router.get("/")
+@router.get("/index")
 def get_user_by_email(db: Session = Depends(get_db), email='unkwon@unkwon.com'):
     res = users_service.get_user_by_email(db, email)
     return {"res": res}
@@ -69,7 +69,7 @@ def get_user_by_email(db: Session = Depends(get_db), email='unkwon@unkwon.com'):
 이메일, 패스워드, 새 패스워드 필요.
 기존 패스워드 틀릴 시 error 발생.
 '''
-@router.put("/")
+@router.put("/index")
 def update_passwd(db: Session = Depends(get_db), user:users_schema.UserPasswdUpdate=None):
     users_service.update_passwd(db, user)
 
@@ -79,6 +79,14 @@ def update_passwd(db: Session = Depends(get_db), user:users_schema.UserPasswdUpd
 이메일, 패스워드 필요.
 패스워드 틀릴 시 error 발생
 '''
-@router.delete("/")
+@router.delete("/index")
 def delete_user_by_email(db: Session = Depends(get_db), user:users_schema.UserDelete=None):
     users_service.delete_user_by_email(db, user)
+
+
+'''
+비밀번호 체크
+'''
+@router.post("/checkpw")
+def checkpassword(db: Session = Depends(get_db), user_email = "unkwon@unkwon.com", user_password=""):
+    return users_service.checkpassword(db, user_email, user_password)

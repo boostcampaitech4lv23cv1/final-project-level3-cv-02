@@ -1,3 +1,12 @@
+from fastapi import FastAPI, Request, File, Form, Depends
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from typing import List
+
+from sqlalchemy.orm import Session
+from db.connection import get_db
+from db.routes.users import get_user_by_email, checkpassword
+import uvicorn 
 import sys 
 sys.path.append("..")
 from typing import List, Any
@@ -32,39 +41,34 @@ templates = Jinja2Templates(directory='templates')
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
+def main_form(request: Request): 
+    return templates.TemplateResponse('main.html', context={'request': request})
+
+@app.get("/about-us")
+def main_form1(request: Request): 
+    return templates.TemplateResponse('main-1.html', context={'request': request})
+
+@app.get("/index")
 def file_form(request: Request): 
     
-    #DEFAULT_VALUE
-    access_auth = "no"
+    access_auth = False
     user_id = DEFAULT_EMAIL
     return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : access_auth, "user_email" : user_id})
 
-@app.post("/")
+@app.post("/index")
 def login_user(request: Request, db: Session = Depends(get_db), user_id : str= Form(...), user_pwd: str = Form(...)):
     response = get_user_by_email(db, user_id)    
     result = response["res"]
-    
-    # 로그인 시 가입정보가 없다면
     if result is None: 
-        return templates.TemplateResponse("error.html", context = {"request" : request}) 
-    access_auth = "yes"
-    
-    #있다면, 인증성공여부와 함께 email_id를 response에 반환
-    return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : access_auth, "user_email" : user_id})
-    
-#(TODO) 인증 기능 구현 후 play에 query_parameter, path_parameter해서 유저별 페이지 만들기 
-# ex. /play?user_id=sangmo
-@app.post('/play')
-def play_form(request:Request, images: List[bytes] = File(...)):
-    print({"file_sizes": [len(image) for image in images]})
-    return templates.TemplateResponse('play.html', context = {'request': request})
+        return templates.TemplateResponse("error.html", context = {"request" : request})
+    auth_success = True
+    return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : auth_success})
 
-#(TODO 1) /opt/ml/tmp/file(로컬 저장)을 전제로 하고 있는데, DB 저장 혹은 버킷 저장 시 경로를 인자로 받기
-#(TODO 2) print문 등을 logging으로 대체하기
-@app.post("/loading")
-def loading_form(request: Request, images: List[bytes] = File(...)) :
-    fpaths = service.loading_form(images)
-    return templates.TemplateResponse('loading.html', context={'request': request, "file_path": fpaths})
+
+# @app.post("/loading")
+# def loading_form(request: Request, images: List[bytes] = File(...)) :
+#     fpaths = service.loading_form(images)
+#     return templates.TemplateResponse('loading.html', context={'request': request, "file_path": fpaths})
 
 @app.post("/hard-loading")
 async def loading_form2(request: Request
