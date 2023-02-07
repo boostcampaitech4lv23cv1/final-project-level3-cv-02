@@ -85,9 +85,7 @@ def send_mp3_email(address: str, img_path:str = None , mp3_path: str = None) -> 
     #Attach files
     files = []
     if img_path is not None:
-        for file in os.listdir(img_path):
-            fname = os.path.join(img_path, file)
-            files.append(fname)
+        files.append(img_path)
     if mp3_path is not None:
         files.append(mp3_path)
     

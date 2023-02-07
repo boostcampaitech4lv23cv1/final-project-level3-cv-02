@@ -68,7 +68,7 @@ class Key(enum.Enum):
 
 
 class Voice:
-    def __init__(self, notes = None):
+    def __init__(self):
         self.id: int = None
         self.note_ids: list[int] = []
         self.stem_up: bool = None
@@ -80,10 +80,9 @@ class Voice:
         self.track: int = None
         self.duration: int = None
         self.rhythm_name: str = None
-        self.notes = notes
 
     def init(self):
-        notes = self.notes
+        notes = layers.get_layer('notes')
 
         # Determine the label
         labels = [notes[nid].label for nid in self.note_ids]
@@ -117,7 +116,7 @@ class Voice:
 
 
 class Measure:
-    def __init__(self, staffs = None):
+    def __init__(self):
         self.symbols = []  # List of symbols
         self.double_barline: bool = None
         self.has_clef: bool = False
@@ -131,7 +130,6 @@ class Measure:
 
         self.time_slots: list[object] = []
         self.slot_duras: np.ndarray = None
-        self.staffs = staffs
 
     def add_symbols(self, symbols):
         self.symbols.extend(symbols)
@@ -154,7 +152,7 @@ class Measure:
         self.rests = sorted(self.rests, key=lambda s: s.x_center)
 
     def has_key(self):
-        total_tracks = get_total_track_nums(staffs = self.staffs)
+        total_tracks = get_total_track_nums()
         start_idx = total_tracks if self.at_beginning else 0
         syms =  self.symbols[start_idx:start_idx+total_tracks]
         return all(isinstance(sym, Sfn) for sym in syms)
@@ -163,7 +161,7 @@ class Measure:
         if len(self.sfns) == 0:
             return Key(0)
 
-        track_nums = get_total_track_nums(staffs = self.staffs)
+        track_nums = get_total_track_nums()
 
         if self.has_key():
             if self.at_beginning:
@@ -233,7 +231,7 @@ class Measure:
         return Key(count)
 
     def get_track_clef(self):
-        track_nums = get_total_track_nums(staffs = self.staffs)
+        track_nums = get_total_track_nums()
         if self.at_beginning or self.double_barline:
             clefs = []
             for track in range(track_nums):
@@ -250,8 +248,8 @@ class Measure:
         return [None for _ in range(track_nums)]
 
     def align_symbols(self):
-        track_nums = get_total_track_nums(staffs = self.staffs)
-        unit_size = get_global_unit_size(staffs = self.staffs)
+        track_nums = get_total_track_nums()
+        unit_size = get_global_unit_size()
         time_slots = []
         corr_sidx = []
         last_x = None
@@ -405,8 +403,7 @@ class Action:
 
     ctx = Context()
 
-    def __init__(self, staffs = None):
-        self.staffs= staffs
+    def __init__(self):
         pass
 
     def perform(self, **kwargs) -> Element:
@@ -530,11 +527,10 @@ class AddMeasure(Action):
 
 
 class AddInit(Action):
-    def __init__(self, measure: Measure, staffs = None, **kwargs):
+    def __init__(self, measure: Measure, **kwargs):
         super().__init__(**kwargs)
         assert measure.at_beginning
         self.measure = measure
-        self.staffs = staffs
 
     def perform(self, parent_elem=None):
         self.ctx.key = self.measure.get_key()
@@ -549,7 +545,7 @@ class AddInit(Action):
         key = list(key)[0]
         attr.append(key)
         staves = SubElement(attr, 'staves')
-        staves.text = str(get_total_track_nums(staffs = self.staffs))
+        staves.text = str(get_total_track_nums())
 
         track_clefs = self.measure.get_track_clef()
         for clef in track_clefs:
@@ -563,45 +559,22 @@ class AddInit(Action):
 
 
 class MusicXMLBuilder:
-    def __init__(self, title=None, 
-                 notes = None, 
-                 note_groups = None,
-                 barlines = None, 
-                 rests = None, 
-                 clefs = None, 
-                 sfns = None, 
-                 staffs = None
-                 ):
+    def __init__(self, title=None):
         self.measures: dict[int, list[Measure]] = {}
         self.actions: list[Action] = []
         self.title: str = title
-        self.notes = notes
-        self.note_groups = note_groups
-        self.barlines = barlines 
-        self.rests = rests 
-        self.clefs = clefs
-        self.sfns = sfns 
-        self.staffs = staffs
 
     def build(self):
         # Fetch parameters
-        notes = self.notes
+        notes = layers.get_layer('notes')
 
-        voices = get_voices(
-            groups = self.note_groups, 
-            notes = self.notes            
-        )
-        group_container = sort_symbols(voices, 
-                                       barlines = self.barlines , 
-                                       rests = self.rests, 
-                                       clefs= self.clefs, 
-                                       sfns = self.sfns 
-                                       )
-        self.gen_measures(group_container, staffs = self.staffs)
+        voices = get_voices()
+        group_container = sort_symbols(voices)
+        self.gen_measures(group_container)
 
         Action.clear()
         first_measure = self.measures[0][0]
-        self.actions.append(AddInit(first_measure, staffs = self.staffs))
+        self.actions.append(AddInit(first_measure))
 
         cur_key = first_measure.get_key()
         cur_clefs = first_measure.get_track_clef()
@@ -690,7 +663,7 @@ class MusicXMLBuilder:
                                 elif diff < 0:
                                     self.actions.append(AddBackup(int(-diff)))
 
-    def gen_measures(self, group_container, staffs = None):
+    def gen_measures(self, group_container):
         num = 1  # Measure count starts from 1 for MusicXML
         for grp, insts in group_container.items():
             self.measures[grp] = []
@@ -703,7 +676,7 @@ class MusicXMLBuilder:
                         # Double barline
                         double_barline = True
                     else:
-                        mm = gen_measure(buffer, grp, num, at_beginning, double_barline, staffs = staffs)
+                        mm = gen_measure(buffer, grp, num, at_beginning, double_barline)
                         self.measures[grp].append(mm)
 
                         num += 1
@@ -715,7 +688,7 @@ class MusicXMLBuilder:
 
             if buffer:
                 # Clear out buffer
-                mm = gen_measure(buffer, grp, num, at_beginning, double_barline, staffs = staffs)
+                mm = gen_measure(buffer, grp, num, at_beginning, double_barline)
                 self.measures[grp].append(mm)
 
     def to_musicxml(self, tempo=90):
@@ -750,8 +723,8 @@ class MusicXMLBuilder:
         return mxl_str
 
 
-def gen_measure(buffer, grp, num, at_beginning=False, double_barline=False, staffs =None):
-    mm = Measure(staffs = staffs)
+def gen_measure(buffer, grp, num, at_beginning=False, double_barline=False):
+    mm = Measure()
     mm.add_symbols(buffer)
     mm.double_barline = double_barline
     mm.number = num
@@ -762,18 +735,17 @@ def gen_measure(buffer, grp, num, at_beginning=False, double_barline=False, staf
     return mm
 
 
-def get_voices(groups = None, 
-               notes = None):
+def get_voices():
     # Fetch parameters
-    # groups = layers.get_layer('note_groups')
-    # notes = layers.get_layer('notes')
+    groups = layers.get_layer('note_groups')
+    notes = layers.get_layer('notes')
 
     voices = []
     def add_voice(grp, nids, stem_up):
         nids = [nid for nid in nids if not notes[nid].invalid]
         if len(nids) == 0:
             return
-        vc = Voice(notes = notes)
+        vc = Voice()
         vc.group = grp.group
         vc.group_id = grp.id
         vc.track = grp.track
@@ -807,16 +779,11 @@ def get_duration(sym):
     return dura
 
 
-def sort_symbols(voices, 
-                 barlines = None, 
-                 rests = None, 
-                 clefs = None, 
-                 sfns = None 
-                 ):
-    # barlines = layers.get_layer('barlines')
-    # rests = layers.get_layer('rests')
-    # clefs = layers.get_layer('clefs')
-    # sfns = layers.get_layer('sfns')
+def sort_symbols(voices):
+    barlines = layers.get_layer('barlines')
+    rests = layers.get_layer('rests')
+    clefs = layers.get_layer('clefs')
+    sfns = layers.get_layer('sfns')
 
     # Assign symbols to the coressponding group
     group_container = {}
@@ -874,10 +841,8 @@ def get_chroma_pitch(pos, clef_type):
     return order[pos%7] if pos >= 0 else order[pos%-7]
 
 
-def extend_symbol_length(symbol, duration, 
-                         notes = None
-                         ):
-    # notes = layers.get_layer('notes')
+def extend_symbol_length(symbol, duration):
+    notes = layers.get_layer('notes')
     if isinstance(symbol, Voice):
         mapping = {k: v['duration'] for k, v in NOTE_TYPE_TO_RHYTHM.items()}
         tar_label, has_dot = get_label_by_dura(duration, mapping)
@@ -894,7 +859,7 @@ def extend_symbol_length(symbol, duration,
         symbol.has_dot = has_dot
 
 
-def gen_measures(group_container, staffs = None):
+def gen_measures(group_container):
     measures = {}
     num = 1  # Measure count starts from 1 for MusicXML
     for grp, insts in group_container.items():
@@ -908,7 +873,7 @@ def gen_measures(group_container, staffs = None):
                     # Double barline
                     double_barline = True
                 else:
-                    mm = Measure(staffs = staffs)
+                    mm = Measure()
                     mm.add_symbols(buffer)
                     mm.double_barline = double_barline
                     mm.number = num
@@ -1044,7 +1009,7 @@ def decode_key(key) -> Element:
     return elem
 
 
-def decode_measure(measure, key=None, key_change=False, staffs = None):
+def decode_measure(measure, key=None, key_change=False):
     elem = Element('measure', attrib={'number': str(measure.number)})
 
     if key_change:
@@ -1057,7 +1022,7 @@ def decode_measure(measure, key=None, key_change=False, staffs = None):
         mode = SubElement(k, 'mode')
         mode.text = 'major'
         staves = SubElement(attribute, 'staves')
-        staves.text = str(get_total_track_nums(staffs = staffs))
+        staves.text = str(get_total_track_nums())
         if measure.has_clef:
             clefs = [sym for sym in measure.symbols if isinstance(sym, Clef)]
             for clef in clefs:

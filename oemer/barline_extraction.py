@@ -46,7 +46,7 @@ def get_barline_map(symbols, bboxes):
     return img
 
 
-def get_barline_box(bmap, staffs = None):
+def get_barline_box(bmap):
     ker = np.ones((5, 2), dtype=np.uint8)
     ext_bmap = cv2.erode(cv2.dilate(bmap.astype(np.uint8), ker), ker)
     bboxes = get_bbox(ext_bmap)
@@ -54,7 +54,7 @@ def get_barline_box(bmap, staffs = None):
     valid_box = []
     heights = []
     for box in bboxes:
-        unit_size = get_unit_size(*get_center(box), staffs = staffs)
+        unit_size = get_unit_size(*get_center(box))
         h = box[3] - box[1]
         if h > unit_size:
             heights.append(h)
