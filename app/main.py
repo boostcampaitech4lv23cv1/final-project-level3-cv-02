@@ -28,6 +28,22 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def file_form(request: Request): 
     return templates.TemplateResponse('index.html', context={'request': request})
 
+#(TODO) 인증 기능 구현 후 play에 query_parameter, path_parameter해서 유저별 페이지 만들기 
+# ex. /play?user_id=sangmo
+@app.post('/play')
+def play_form(request:Request, images: List[bytes] = File(...)):
+    fpaths = service.loading_form(images)
+    print(fpaths)
+    print({"file_sizes": [len(image) for image in images]})
+    return templates.TemplateResponse('play.html', context = {'request': request, "file_path": fpaths})
+
+#(TODO 1) /opt/ml/tmp/file(로컬 저장)을 전제로 하고 있는데, DB 저장 혹은 버킷 저장 시 경로를 인자로 받기
+#(TODO 2) print문 등을 logging으로 대체하기
+@app.post("/loading")
+def loading_form(request: Request, images: List[bytes] = File(...)) :
+    fpaths = service.loading_form(images)
+    return templates.TemplateResponse('loading.html', context={'request': request, "file_path": fpaths})
+
 @app.post("/hard-loading")
 def loading_form2(request: Request, images: List[bytes] = File(...)) :
     fpaths = service.loading_form(images)
