@@ -79,7 +79,9 @@ python main.py
 
 # **🔑 Modeling**
 
+<div align=center>
 <img src="https://i.ibb.co/vkDJhww/Untitled-1.png">
+</div>
 
 ## **1. Data**
 - dataset이야기
