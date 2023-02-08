@@ -27,7 +27,6 @@ def predict_model(db, image_bundle_id):
     results=[]
     for fpath in os.listdir(img_path):
         fname = os.path.join(img_path, fpath)
-        for _ in range(5): print("fname:", fname)
         fast_dict["img_path"] = fname
         fast_dict["output_path"] = xml_path
         dict_args = Namespace(**fast_dict)

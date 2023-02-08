@@ -323,6 +323,7 @@ def extract(splits=8, line_threshold=0.8, horizontal_diff_th=0.1, unit_size_diff
             , stems = None
             , notehead = None
             , clefs = None
+            , global_flag = False
             ):
     # Fetch parameters from layers
     # staff_pred = layers.get_layer('staff_pred')

@@ -56,15 +56,8 @@ def file_form(request: Request):
     return templates.TemplateResponse('index.html', context={'request': request, "access_auth" : access_auth, "user_email" : user_email})
 
 @app.post("/index")
-def login_user(request: Request, db: Session = Depends(get_db), user_email : str= Form(...), user_pwd: str = Form(...)): 
-    for _ in range(10):
-        print("구상모 보아라")
-        print("user_email:", user_email) 
-        print("user_pwd:", user_pwd) 
-        print("구상모 보아라")
-    
+def login_user(request: Request, db: Session = Depends(get_db), user_email : str= Form(...), user_pwd: str = Form(...)):     
     response = get_user_by_email(db, user_email)    
-    print("response:", response)
     result = response["res"]
     if result is None: 
         return templates.TemplateResponse("error.html", context = {"request" : request})
