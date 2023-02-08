@@ -110,20 +110,6 @@
       <script src="{{url_for('static', path='/js/custom.js')}}"></script>
 
       <script>
-        var $inputs = $('.split_input_item input[type="text"]');
-        $inputs.each(function (idx) {
-          var $input = $(this);
-          $input.on('keyup', function (e) {
-            var val = $input.val();
-            if (parseInt($input.attr('maxlength')) == val.length) {
-              if (idx + 1 < $inputs.length) {
-                $inputs[idx + 1].focus();
-              }
-            }
-          });
-        }).on('focus', function (e) {
-          $(this).val('');
-        });
 
       </script>
 
