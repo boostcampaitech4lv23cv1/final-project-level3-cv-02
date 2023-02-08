@@ -89,48 +89,25 @@ https://tuggeluk.github.io/deepscores/
 
 ```
 # Example code
-
-{
-    "info": {
-        "description": (str) description,
-        "version": (str) version number,
-        "year": (int) year released,
-        "contributor": (str) contributor,
-        "date_created": (str) "YYYY/MM/DD",
-        "url": (Optional str) URL where dataset can be found
-    },
-    "annotation_sets": (list[str]) ["deepscores", "muscima", ...]
-    "categories": {
-        "cat_id": {
-            "name": (str) category_name,
-            "annotation_set": (str) "deepscores",
-            "color": (int or tuple[int]) color value of cat in segmentation file
-        },
-        ...
-    },
-    "images": [
-        {
-            "id": (str) n,
-            "file_name": (str) "file_name.jpg",
-            "width": (int) x,
-            "height": (int) y,
-            "ann_ids": (list[str]) ann_ids
-        },
-        ...
-    ],
-    "annotations": {
-        "ann_id": {
-            "a_bbox": (list of floats) [x0, y0, x1, y1],
-            "o_bbox": (list of floats) [x0, y0, x1, y1, x2, y2, x3, y3],
-            "cat_id": (list[str]) cat_id,
-            "area": (float) area in pixels,
-            "img_id": (str) img_id,
-            "comments": (str) any additional comments about the annotation.
-        },
-        ...
-    }
-}
+.
+|-- deepscores_test.json
+|-- deepscores_train.json
+|-- images
+|   |-- image1.png
+|   |-- image2.png
+|   `-- ...
+|-- instance
+|   |-- image1.png
+|   |-- image2.png
+|   `-- ...
+|-- segmentation
+|   |-- image1.png
+|   |-- image2.png
+|   `-- ...
+|-- deepscores_test.json
+`-- deepscores_train.json
 ```
+
 <br></br>
 
 # **🔑Modeling**
