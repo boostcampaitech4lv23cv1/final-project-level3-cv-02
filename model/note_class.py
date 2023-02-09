@@ -3,7 +3,7 @@ class info():
         self.label: str = '' 
         self.bbox: list[int] = [] 
         self.staff: int = None 
-        self.pitch: str = ''
+        self.pitch: int = 0
         self.sharp: bool = False 
         self.flat: bool = False
         self.natural: bool = False 

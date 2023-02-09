@@ -27,44 +27,44 @@ def beat_detection(flag_dot, rest, note_pos, img):
 
         if label == '0':   
             if b is not False and b[0] == 'dot':
-                beat.append(['4', 'dot']) 
+                beat.append(6) 
                 cnt += 1
             elif b is not False and b[0] == '8': 
-                beat.append(['8', ''])
+                beat.append(8)
                 cnt += 1
             else: 
-                beat.append(['4', '']) # 4분음표
+                beat.append(4) # 4분음표
             i += 1
 
             if b is not False and 'quarter_rest' in b: 
-                beat.append(['4', '']) 
+                beat.append(4) 
                 cnt += 1
                 rest = 1
             elif b is not False and '8th_rest' in b: 
-                beat.append(['8', '']) 
+                beat.append(8) 
                 cnt += 1
                 rest = 1
 
         elif label == '1' or label == '2': 
             ## 학교종이 땡땡땡에서 2분음표를 다른 음표로 착각해서 임시로 처치 
             if b is not False and 'dot' in b: 
-                beat.append(['2', 'dot']) # 점 2분음표 
+                beat.append(3) # 점 2분음표 
                 cnt += 1
             else: 
-                beat.append(['2','']) # 2분음표
+                beat.append(2) # 2분음표
             i += 1
 
             if b is not False and 'quarter_rest' in b: 
-                beat.append(['4', '']) 
+                beat.append(4) 
                 cnt += 1
                 rest = 1
             elif b is not False and '8th_rest' in b: 
-                beat.append(['8', '']) 
+                beat.append(8) 
                 cnt += 1
                 rest = 1
 
         cv2.rectangle(img_copy, (x, y), (x+w, y+h), (255, 0, 0), 1, cv2.LINE_AA)
-        cv2.putText(img_copy, beat[i][0], (x+10, y+10), 
+        cv2.putText(img_copy, str(beat[i]), (x+10, y+10), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 255), 1)
         
         if rest: 

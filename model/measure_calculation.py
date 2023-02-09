@@ -17,18 +17,13 @@ def measure_calculation(beats, time, combined, original):
     for i, (b, c) in enumerate(zip(beats, combined)): 
         if curr_measure == 4: 
             curr_measure = 0 
-        
-        bb = int(b[0])
-    
-        if bb == 2: 
-            tmp = four * 2
-            curr_beat += cal_beat(b, tmp)
-        elif bb == 4:
-            tmp = four 
-            curr_beat += cal_beat(b, tmp)
-        elif bb == 8:
-            tmp = int(four / 2)
-            curr_beat += cal_beat(b, tmp)
+            
+        if b == 2: 
+            curr_beat += four * 2
+        elif b == 4:
+            curr_beat += four 
+        elif b == 8:
+            curr_beat += int(four / 2)
         
         # print(b, curr_beat, curr_measure)
         measure_pos.append(curr_measure) 
@@ -46,9 +41,4 @@ def measure_calculation(beats, time, combined, original):
 
     return measure_pos 
 
-
-def cal_beat(b, bb): 
-    if b[1] == 'dot': 
-        bb += int(bb/2)
-    return bb
 

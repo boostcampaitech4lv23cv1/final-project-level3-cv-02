@@ -9,6 +9,7 @@ G_on = [pitch.F2, pitch.D2, pitch.B1, pitch.G1, pitch.E1]
 G_btw = [pitch.E2, pitch.C1, pitch.A1, pitch.F1]
 G_below = [pitch.D1, pitch.C1, pitch.B0, pitch.A0, pitch.G0]
 
+
 def pitch_detection_only_G(head_pos, staff_line, flat=False, original=None, viz=False):
     # head pos 순서대로 주어졌다고 가정 
     # staff line만 주어졌다고 가정 
@@ -61,7 +62,7 @@ def choose_note(staff_line, which, head, flat=False, _margin=None):
     label, x, y, w, h = pos[0], pos[1], pos[2], pos[3], pos[4]
 
     if label == 'quarter_rest' or label == '8th_rest': 
-        result.append([head, '']) 
+        result.append([head, 0]) 
         return result 
     
     if flat: 
