@@ -19,10 +19,11 @@ except:
     print("예외가 발생했습니다. secret.py를 만들어 Gmail ID, PWD를 명시하세요.")
 
 def hashpw(pw: str):
-    return bcrypt.hashpw(password=pw.encode('iso-8859-1'), salt=bcrypt.gensalt())
+    return bcrypt.hashpw(password=pw.encode('utf-8'), salt=bcrypt.gensalt())
 
-def checkpw(inputpw: str, dbpw: str):
-    return bcrypt.checkpw(inputpw.encode('utf-8'), dbpw.encode('utf-8'))
+def checkpw(password: str, hashed_password: str):
+    return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
+
 
 def randChar(num: int):
     return ''.join(random.choice(string.ascii_letters+string.digits) for _ in range(num))
