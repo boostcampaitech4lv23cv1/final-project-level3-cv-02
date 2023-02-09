@@ -33,8 +33,6 @@ function checkpw(){
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_email: userEmail, user_password: userPassword }),
-        user_email : userEmail,
-        user_password: userPassword
       })
         .then((response) => response.json())
         .then((data) => {
