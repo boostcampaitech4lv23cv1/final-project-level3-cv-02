@@ -1,6 +1,6 @@
 <div align=center>
 
-![header](https://capsule-render.vercel.app/api?type=waving&text=Mastro%20-%20악보를%20음악으로&color=7F7FD5&fontColor=FFFFFF&fontSize=50&height=200)
+![header](https://capsule-render.vercel.app/api?type=waving&text=Maestro%20-%20악보를%20음악으로&color=7F7FD5&fontColor=FFFFFF&fontSize=50&height=200)
 
 </div> 
 
