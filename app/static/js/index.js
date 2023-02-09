@@ -124,16 +124,19 @@ function createElement(e, file) {
   }
 
   /* 파일 제출 시 확인 코드 */
-  function submitConfirm(e){
+  function submitConfirm(str){
+    debugger;
     let fileCnt = images.files.length;
     if(fileCnt==0){
         alert('한 개 이상의 파일을 업로드 해주세요.');
         return false;
     }
-    if(confirm(`이미지를 변환하시겠습니까?`)){
-        document.submitFrm.submit();
+    if(confirm(`${fileCnt}개의 이미지를 변환하시겠습니까?`)){
+        if (str=='hard') {
+            submitFrm.action="/hard-loading";
+            document.submitFrm.submit();
+        } else {
+            document.submitFrm.submit();
+        }
     }
-    // if(confirm(`${fileCnt}개의 이미지를 변환하시겠습니까?`)){
-    //     document.submitFrm.submit();
-    // }
   }
